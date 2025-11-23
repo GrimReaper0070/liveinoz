@@ -1,0 +1,289 @@
+/* ========== AUTH PAGE STYLES ========== */
+@keyframes neonPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 0, 204, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 0, 204, 0.8), 0 0 35px rgba(255, 0, 204, 0.6);
+  }
+}
+.auth-page {
+  /* Removed min-height: 120vh — causes overflow */
+  background: linear-gradient(135deg, #000014 0%, #001122 50%, #000014 100%);
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures full height without overflow */
+}
+
+.auth-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Prevents centering into navbar */
+  padding: 20px;
+  padding-top: 80px; /* Compensate for fixed navbar (60px) + extra space */
+  width: 100%;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.auth-card {
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid #00ffff;
+  border-radius: 15px;
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.auth-title {
+  font-size: 2.5em;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #00ffff;
+  text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+  font-weight: 700;
+}
+
+.auth-subtitle {
+  text-align: center;
+  color: #cccccc;
+  margin-bottom: 30px;
+  font-size: 1.1em;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  color: #00ffff;
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-size: 1em;
+  text-align: left;
+}
+
+.form-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #00ffff;
+  border-radius: 8px;
+  padding: 10px;
+  color: #ffffff;
+  font-size: 1em;
+  font-family: "Orbitron", sans-serif;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #ff00cc;
+  box-shadow: 0 0 15px rgba(255, 0, 204, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+  animation: neonPulse 2s ease-in-out infinite;
+}
+
+.form-input::placeholder {
+  color: #888888;
+}
+
+.form-hint {
+  color: #888888;
+  font-size: 0.85em;
+  margin-top: 5px;
+}
+
+.checkbox-group {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  accent-color: #00ffff;
+}
+
+.checkbox-label {
+  color: #cccccc;
+  font-size: 0.9em;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  color: #cccccc;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.radio-label input[type="radio"] {
+  width: auto;
+  margin: 0;
+  margin-top: 2px;
+  accent-color: #00ffff;
+}
+
+.radio-text {
+  margin: 0;
+  flex: 1;
+}
+
+.auth-button {
+  background: linear-gradient(45deg, #00ffff, #ff00cc);
+  border: none;
+  border-radius: 8px;
+  padding: 15px 30px;
+  color: #000000;
+  font-size: 1.2em;
+  font-weight: 700;
+  font-family: "Orbitron", sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 255, 255, 0.4);
+}
+
+.auth-button:active {
+  transform: translateY(0);
+}
+
+.auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button-text {
+  position: relative;
+  z-index: 1;
+}
+
+.auth-links {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.auth-links p {
+  margin: 10px 0;
+  color: #cccccc;
+}
+
+.auth-link {
+  color: #00ffff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.auth-link:hover {
+  color: #ff00cc;
+  text-decoration: underline;
+}
+
+.message {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  min-height: 20px;
+}
+
+.message.success {
+  background: rgba(0, 255, 0, 0.2);
+  border: 1px solid #00ff00;
+  color: #00ff00;
+}
+
+.message.error {
+  background: rgba(255, 0, 0, 0.2);
+  border: 1px solid #ff0000;
+  color: #ff0000;
+}
+
+.message.info {
+  background: rgba(0, 255, 255, 0.2);
+  border: 1px solid #00ffff;
+  color: #00ffff;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 30px 20px;
+    margin: 20px;
+  }
+
+  .auth-title {
+    font-size: 2em;
+  }
+
+  .auth-form {
+    gap: 15px;
+  }
+
+  .form-input {
+    padding: 10px 12px;
+  }
+
+  .auth-button {
+    padding: 12px 25px;
+    font-size: 1.1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 25px 15px;
+  }
+
+  .auth-title {
+    font-size: 1.8em;
+  }
+
+  .auth-subtitle {
+    font-size: 1em;
+  }
+
+  .form-label {
+    font-size: 0.9em;
+  }
+
+  .form-input {
+    padding: 8px 10px;
+    font-size: 0.9em;
+  }
+
+  .auth-button {
+    padding: 10px 20px;
+    font-size: 1em;
+  }
+}

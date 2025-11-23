@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "live-in-oz-accommodation",
+  "private_key_id": "f16574e659a8ce2acd4bb1c9eb8c97d941ddc929",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDa6crd/s0Ev9h0\nJLAU+yNB2tsE1fxL0Ze09jydHYul1oSZKKp0ltLjb/O6/J5HjLn5Ui9V9NeMhHwR\ncQpnpBQzckiImKTonfC7uFS/hR7/QZvEo+4fMzrtOMhyZ4lUwwm5Dwjoek2mR3eT\nBbrOuJiyfxmLVHrD1yB3Qe52Dq6p1Gyi4c+ctq/OQmSJx0spuUS+nEONDUcSVK3m\no0NVjq2zy3pgqXO/zuqdSZzD0aeuK37uWpXdCyl9pJbSttP2vAJNoX2GD1ftm7rB\nB5MkUQiM6sou+XzHIxq4gRFQOVzytgDQms2UkgUQq1psAnMkZKXo1hVf8ZABkXZq\naXU9Z3TDAgMBAAECggEAEmj5+hxtEnqt0eqp8kHCj82/gJMcYiXwu7O/mjj7XwmA\n4j6Ew0RR3PWzyiRnjT3dAAY02+Y44GTd6DuY8+ldF4yDZBVuPO/XaHoSin7AAhh6\n6Jkes/oDeSK+3LwvVPUIEsucZKywbgzxlegz8yGcGdrNg6Wpo2GqpcziKISIlNiU\nF87MCwaqCkSBCBvUReFpJ/cAEtu6yqpIuKOmufkAviUHuSZop5gQjE5YBJ2WZwjr\nLJOTsREgotoLxKPUhnfL3Rg0+/xPqwEYEHgqQvptHLfTk9e9l9KW1QBTtIEjEvvl\nlNdyd0ifL9FGDz3lUTLOghUj6sc489DBSqydXgSLVQKBgQD9O8BKIflULZRvmW/W\nH7DxCiR1Q5YyBa/B8Y3R8a9GArU3wjfPfKQftjm2D/cohsKj4CgW0EAAtT82mzZg\nlceIEWnl6OMFe7tJch/dQB0DSItGsc+xRwPZGYQPKPQrjEbJ4tY/B9n6RmnVVxX7\nt3uTCfhFRtdDZCdoy54FZ50PpQKBgQDdTg3PnoS7/OaQO82sdy118XKIOeoC/GJA\nGiHZ0s3KhuYxPSbYfk8V2l0PXrV0DA9RGqgvFR3CHBZih9RgCtkaoFtCylSV62t7\nhh8c1mY6HlulCjw85rHdAn8Zwcm6yeem7YjDd4LcNIgUoS0whIYPOsHxozXbDAV2\n4CDsT31GRwKBgFj4z1y8hw9uXELBlCuVQuPNfnW841575P6tUfi7g6uDdAw9LsK1\ntix2J9yxy1Lv1h8huLQbQwF8rNMQwZA5z7sc8yoWIv1gNbNeZ5ei2Q64REb4XlKY\n8t8qOd3hs7hBNvXjvwaySYHHj5OnX0/rbX2B+TrN4wAIhlgpgkG/380JAoGBAM0i\nKNMmkMrgJafUh1UyM0V8RTnY1P1njHr2viH2sSLl4EIL+RH8IrqS6mfw1il3dEst\ndnAOFsNy3Zz/YvCTnaJ8uZsziSxeSAb7z6MfaSq+MRzOW//npz7BrabmZmNp+/xT\nec4V3YrYdrsIm6a5cLp1MIkXTDh68CW8o0fodqrJAoGBANjwbV47r/hkibhy65N9\n1f7r1Mk0ZRf11LMhqvZdsV2nEAE0V/O+MeqzH+mUp/xiWZNg2TT/ffYggru4Tr1c\nB/Zpz/R81Qii6ztITc38rqI7ObsIaUCi9smyhwtnCnmUGLJTe+CZWDo9tod6Ho0Q\n4JZ2j3T9Ysr9jK1cyx6ntr2P\n-----END PRIVATE KEY-----\n",
+  "client_email": "uploader@live-in-oz-accommodation.iam.gserviceaccount.com",
+  "client_id": "107473580096252805693",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/uploader%40live-in-oz-accommodation.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

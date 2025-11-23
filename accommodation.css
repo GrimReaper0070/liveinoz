@@ -1,0 +1,1250 @@
+/* === ACCOMMODATION PAGE STYLES === */
+
+header {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 15px 0;
+  text-align: center;
+  box-shadow: 0 0 10px #ff00cc;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 25px;
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2f 50%, #0a0a1f 100%);
+  border: 2px solid #ff00cc;
+  border-radius: 12px;
+  box-shadow: 0 0 25px #00f0ff;
+  backdrop-filter: blur(10px);
+}
+
+/* City-based layout for room listings */
+.city-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.city-section {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 0 25px rgba(0, 238, 255, 0.3);
+}
+
+.city-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid;
+}
+
+.city-title {
+  font-size: 1.8rem;
+  margin: 0;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.city-stats {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.stat {
+  font-size: 0.9rem;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.stat.boosted {
+  background: rgba(255, 255, 0, 0.1);
+  border-color: #ffff00;
+  color: #ffff00;
+}
+
+.boost-availability {
+  font-size: 0.8rem;
+  color: #888;
+  font-style: italic;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  margin: 25px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid;
+  text-shadow: 0 0 5px currentColor;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ensure city-rooms container doesn't interfere with grid */
+.city-rooms {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.room-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 20px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Ensure both boosted and regular grids use 3 columns */
+[id^="boosted-"],
+[id^="regular-"] {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 20px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Specific city grids - just in case */
+#boosted-sydney,
+#regular-sydney,
+#boosted-Melbourne,
+#regular-Melbourne,
+#boosted-Brisbane,
+#regular-Brisbane,
+#boosted-Perth,
+#regular-Perth,
+#boosted-Adelaide,
+#regular-Adelaide,
+#boosted-Darwin,
+#regular-Darwin,
+#boosted-Hobart,
+#regular-Hobart,
+#boosted-Canberra,
+#regular-Canberra {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 20px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Enhanced room item styles */
+.room-item {
+  position: relative;
+  background: linear-gradient(145deg, #0f0f23, #0a0a1f) !important;
+  border: 2px solid transparent !important;
+  border-radius: 12px !important;
+  padding: 15px !important;
+  margin-bottom: 0 !important;
+  transition: all 0.3s ease !important;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+/* Room image */
+.room-image {
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.room-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-image {
+  width: 100%;
+  height: 100%;
+  background: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+/* Room info */
+.room-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.room-location {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffff00;
+  text-shadow: 0 0 5px #ffff00;
+}
+
+.room-desc {
+  color: #fff;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.room-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #00eeff;
+  text-shadow: 0 0 5px #00eeff;
+}
+
+.view-room-btn {
+    padding: 14px 24px;
+   margin: 0 20px 20px ;
+    background: transparent;
+    color: #00eeff;
+    border: 2px solid #00eeff;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-family: "Orbitron", sans-serif;
+    transition: all 0.3s 
+ease;
+    box-shadow: 0 0 20px rgba(0, 238, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 10px !important;
+}
+
+.view-room-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #00eeff;
+}
+
+.delete-btn, .boost-button {
+    padding: 14px 24px;
+    margin: 0 20px 20px;
+    background: transparent;
+    color: #00eeff;
+    border: 2px solid #00eeff;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-family: "Orbitron", sans-serif;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 238, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 10px !important;
+}
+
+.delete-btn:hover, .boost-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #00eeff;
+}
+
+/* Boost and plan badges */
+.boost-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(45deg, #ffff00, #ffaa00);
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(255, 255, 0, 0.5);
+}
+
+.plan-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: linear-gradient(45deg, #ff33cc, #ff0080);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(255, 51, 204, 0.5);
+}
+
+/* Boosted room special styling */
+.boosted-room {
+  position: relative;
+  background: linear-gradient(145deg, #1a1a2f, #0f0f1f) !important;
+  /* border: 2px solid #ffff00 !important; */
+  box-shadow: 0 0 20px rgba(255, 255, 0, 0.3) !important;
+  animation: scrollGlow 3s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.boosted-room::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: conic-gradient(from 0deg, transparent 270deg, #ffff00 0deg, #ffff00 90deg, transparent 90deg);
+  border-radius: 16px;
+  z-index: -1;
+  animation: rotateGlow 3s linear infinite;
+}
+
+.boosted-room .boost-badge {
+  background: linear-gradient(45deg, #ffff00, #ffaa00);
+  animation: boostPulse 2s ease-in-out infinite;
+}
+
+@keyframes boostPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes scrollGlow {
+  0% {
+    border-color: #ffff00;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.3);
+  }
+  50% {
+    border-color: #ffaa00;
+    box-shadow: 0 0 30px rgba(255, 170, 0, 0.5);
+  }
+  100% {
+    border-color: #ffff00;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.3);
+  }
+}
+
+@keyframes rotateGlow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Random neon glow colors for regular rooms */
+.room-item:nth-child(6n + 1) {
+  background: linear-gradient(145deg, #0f0f23, #0a0a1f) !important;
+ 
+  border: 2px solid #00eeff !important;
+}
+
+.room-item:nth-child(6n + 2) {
+  background: linear-gradient(145deg, #0f0f23, #0a0a1f) !important;
+
+  border: 2px solid #00eeff !important;
+}
+
+.room-item:nth-child(6n + 3) {
+  background: linear-gradient(145deg, #0f0f23, #0a0a1f) !important;
+ 
+ border: 2px solid #00eeff !important;
+}
+
+.room-item:nth-child(6n + 4) {
+  background: linear-gradient(145deg, #0f0f23, #0a0a1f) !important;
+
+  border: 2px solid #00eeff !important;
+}
+
+.room-item:nth-child(6n + 5) {
+  background: linear-gradient(145deg, #0f0f23, #0a0a1f) !important;
+ 
+ border: 2px solid #00eeff !important;
+}
+
+.room-item:nth-child(6n + 6) {
+  background: linear-gradient(145deg, #0f0f23, #0a0a1f) !important;
+
+  border: 2px solid #00eeff !important;
+}
+
+/* Enhanced hover effects */
+.room-item:hover {
+  transform: translateY(-5px) scale(1.02);
+  transition: all 0.3s ease;
+}
+
+/* Pulsing animation for neon effect */
+@keyframes neonPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 15px currentColor, 0 0 30px currentColor,
+      0 0 45px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 20px currentColor, 0 0 40px currentColor,
+      0 0 60px currentColor, 0 0 80px currentColor;
+  }
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: linear-gradient(145deg, #0f0f23, #0a0a1f);
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: none;
+  animation: none;
+}
+
+@keyframes modalGlow {
+  0% {
+    box-shadow: 0 0 30px #00eeff, 0 0 60px #00eeff, 0 0 90px #00eeff;
+  }
+  100% {
+    box-shadow: 0 0 40px #ff33cc, 0 0 80px #ff33cc, 0 0 120px #ff33cc;
+  }
+}
+
+.close-modal {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  color: #ff33cc;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1001;
+}
+
+.close-modal:hover {
+  color: #ff66ff;
+  transform: scale(1.2);
+  text-shadow: 0 0 10px #ff33cc;
+}
+
+#modalBody {
+  padding: 30px;
+  color: #fff;
+}
+
+#modalBody h2 {
+  color: #00eeff;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  text-shadow: 0 0 15px #00eeff;
+}
+
+#modalBody h3 {
+  color: #ffea00;
+  margin: 20px 0 10px 0;
+  font-size: 1.4rem;
+}
+
+#modalBody p {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+#modalBody .photo-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+#modalBody .photo-gallery img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid #00eeff;
+  box-shadow: 0 0 10px #00eeff;
+  max-height: 200px;
+  object-fit: cover;
+}
+
+#modalBody .contact-info {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ff33cc;
+  margin-top: 20px;
+}
+
+#modalBody .contact-info p {
+  margin: 8px 0;
+}
+
+#modalBody .contact-info a {
+  color: #00eeff;
+  text-decoration: none;
+}
+
+#modalBody .contact-info a:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 5px #00eeff;
+}
+
+h1 {
+  text-align: center;
+  color: #ffea00;
+  margin-bottom: 10px;
+}
+
+.intro {
+  font-size: 0.9rem;
+  text-align: center;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+form label {
+  color: #00f0ff;
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 12px;
+  text-align: left;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 6px;
+  font-family: "Orbitron", sans-serif;
+}
+
+form input[type="file"] {
+  background: #111;
+  color: #fff;
+  padding: 6px;
+}
+
+textarea {
+  resize: vertical;
+  height: 70px;
+}
+
+.submit-button {
+  background-color: #ff00cc;
+  color: #fff;
+  font-size: 1rem;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 20px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #ff0070;
+}
+
+/* Delete Modal Styles */
+.delete-modal,
+.success-modal {
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(5px);
+}
+
+.delete-modal-content {
+  background: linear-gradient(145deg, #0f0f23, #0a0a1f);
+  margin: 15% auto;
+  padding: 30px;
+  border: 3px solid #ff33cc;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 40px #ff33cc, 0 0 80px #ff33cc, 0 0 120px #ff33cc;
+  animation: deleteModalGlow 2s ease-in-out infinite alternate;
+  text-align: center;
+}
+
+@keyframes deleteModalGlow {
+  0% {
+    box-shadow: 0 0 40px #ff33cc, 0 0 80px #ff33cc, 0 0 120px #ff33cc;
+  }
+  100% {
+    box-shadow: 0 0 50px #ff6600, 0 0 100px #ff6600, 0 0 150px #ff6600;
+  }
+}
+
+#deleteModalTitle {
+  color: #ff33cc;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-shadow: 0 0 15px #ff33cc;
+  font-family: "Orbitron", sans-serif;
+}
+
+.delete-modal p {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  font-family: "Orbitron", sans-serif;
+}
+
+.delete-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.delete-btn {
+  padding: 12px 25px;
+
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: "Orbitron", sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.delete-btn.confirm {
+  background: #ff33cc;
+  color: #fff;
+  box-shadow: 0 0 10px #ff33cc;
+}
+
+.delete-btn.confirm:hover {
+  background: #ff66ff;
+  box-shadow: 0 0 20px #ff66ff;
+  transform: translateY(-2px);
+}
+
+.delete-btn.cancel {
+  background: #333;
+  color: #ccc;
+  box-shadow: 0 0 10px #666;
+}
+
+.delete-btn.cancel:hover {
+  background: #666;
+  color: #fff;
+  box-shadow: 0 0 20px #999;
+  transform: translateY(-2px);
+}
+
+/* Success Modal Styles */
+.success-modal .delete-modal-content {
+  border: 3px solid #00ff66;
+  box-shadow: 0 0 40px #00ff66, 0 0 80px #00ff66, 0 0 120px #00ff66;
+  animation: successModalGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes successModalGlow {
+  0% {
+    box-shadow: 0 0 40px #00ff66, 0 0 80px #00ff66, 0 0 120px #00ff66;
+  }
+  100% {
+    box-shadow: 0 0 50px #33ff99, 0 0 100px #33ff99, 0 0 150px #33ff99;
+  }
+}
+
+#successModalTitle {
+  color: #00ff66;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-shadow: 0 0 15px #00ff66;
+  font-family: "Orbitron", sans-serif;
+}
+
+/* === TABLET AND MOBILE RESPONSIVE STYLES === */
+
+/* Tablets / large mobile */
+@media (max-width: 768px) {
+  /* Force 2 columns on tablets */
+  .room-grid,
+  [id^="boosted-"],
+  [id^="regular-"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  body {
+    padding: 60px 15px 0 15px;
+  }
+
+  header {
+    padding: 12px 0;
+    font-size: 0.9rem;
+  }
+
+  .container {
+    width: 95%;
+    padding: 20px;
+    margin-top: 115px;
+  }
+
+  .city-title {
+    font-size: 1.3rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+    padding-left: 10px;
+  }
+
+  .room-item {
+    padding: 20px !important;
+  }
+  .boost-availability {
+    font-size: 0.4rem;
+    color: #888;
+    font-style: italic;
+  }
+  .boost-badge,
+  .plan-badge {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .intro {
+    font-size: 0.8rem;
+  }
+
+  form input,
+  form textarea {
+    font-size: 0.85rem;
+  }
+
+  .submit-button {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  /* Modal adjustments */
+  .modal-content {
+    width: 95%;
+    max-height: 75vh;
+    padding: 20px;
+  }
+
+  #modalBody h2 {
+    font-size: 1.6rem;
+  }
+
+  #modalBody h3 {
+    font-size: 1.2rem;
+  }
+
+  #modalBody .photo-gallery img {
+    max-height: 150px;
+  }
+}
+
+/* Small mobile phones */
+@media (max-width: 480px) {
+  /* Force 2 columns on small phones - APPLY FIRST */
+  .room-grid,
+  [id^="boosted-"],
+  [id^="regular-"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  body {
+    padding: 50px 10px 0 10px;
+  }
+
+  .city-title {
+    font-size: 0.9rem;
+  }
+
+  .section-title {
+    font-size: 0.85rem;
+    padding-left: 8px;
+  }
+
+  .room-item {
+    padding: 12px !important;
+    font-size: 0.75rem;
+  }
+
+  .room-item h3 {
+    font-size: 0.5rem !important;
+    padding: 15px;
+  }
+
+  .room-item p {
+    font-size: 0.7rem !important;
+    margin: 4px 0 !important;
+  }
+
+  .boost-badge,
+  .plan-badge {
+    font-size: 6px;
+    padding: 2px 4px;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  .intro {
+    font-size: 0.7rem;
+  }
+
+  #modalBody h2 {
+    font-size: 1.2rem;
+  }
+
+  #modalBody h3 {
+    font-size: 0.9rem;
+  }
+
+  #modalBody p {
+    font-size: 0.75rem;
+  }
+
+  #modalBody .photo-gallery img {
+    max-height: 80px;
+  }
+
+  .submit-button {
+    font-size: 0.75rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+    min-height: 35px;
+  }
+
+  /* Mobile button styles for room cards */
+  .room-item button {
+    font-size: 0.7rem !important;
+    padding: 15px 20px !important;
+    border-radius: 8px !important;
+    min-height: 10px !important;
+    margin: 8px 0 !important;
+  }
+
+  .view-room-btn  {
+    padding: 15px 20px !important;
+    font-size: 0.7rem !important;
+    min-height: 10px !important;
+  }
+
+  .delete-btn, .boost-button {
+    padding: 15px 20px !important;
+    font-size: 0.7rem !important;
+    min-height: 10px !important;
+    margin: 8px 0 !important;
+  }
+
+  .room-image {
+    height: 150px !important;
+  }
+
+  .room-location {
+    font-size: 1rem !important;
+  }
+
+  .room-price {
+    font-size: 0.8rem !important;
+  }
+}
+/* ===== CRITICAL FOOTER FIX - ADD TO END OF accommodation.css ===== */
+
+/* Override any conflicting footer styles */
+
+/* Force footer columns to use flex layout */
+.footer-section .footer-columns {
+  display: flex !important;
+  justify-content: space-around !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 30px !important;
+  gap: unset !important;
+  grid-template-columns: unset !important;
+  align-items: unset !important;
+}
+
+.footer-section .footer-column {
+  flex: 1 1 200px !important;
+  margin: 10px !important;
+  min-width: unset !important;
+  text-align: unset !important;
+}
+
+.footer-section .footer-column h4 {
+  font-size: 1.2em !important;
+  margin-bottom: 15px !important;
+  color: #ffff00 !important;
+  text-shadow: 0 0 8px #ffff00, 0 0 15px rgba(255, 255, 0, 0.5) !important;
+  transition: all 0.3s ease !important;
+  line-height: 1.8 !important;
+}
+
+.footer-section .footer-column h4:hover {
+  text-shadow: 0 0 12px #ffff00, 0 0 25px #ffff00,
+    0 0 40px rgba(255, 255, 0, 0.8) !important;
+  color: #ffffff !important;
+}
+
+.footer-section .footer-column ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.footer-section .footer-column li {
+  color: #ffffff !important;
+  font-size: 0.95em !important;
+  margin: 8px 0 !important;
+  line-height: 1.6 !important;
+  transition: all 0.3s ease !important;
+}
+
+.footer-section .footer-column li a {
+  color: #ffffff !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  transition: all 0.3s ease !important;
+}
+
+.footer-section .footer-column li a:hover {
+  color: #00eaff !important;
+  text-shadow: 0 0 8px rgba(0, 234, 255, 0.5) !important;
+}
+
+.footer-section .footer-column li:hover {
+  color: #00eaff !important;
+  text-shadow: 0 0 8px rgba(0, 234, 255, 0.5) !important;
+}
+
+/* Connect column flex layout */
+.footer-section .connect-column {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  gap: 15px !important;
+}
+
+.footer-section .connect-column .app-download-section {
+  position: static !important;
+  transform: none !important;
+  margin-top: 12px !important;
+}
+
+/* App download panel */
+.footer-section .app-download-panel {
+  max-width: 220px !important;
+}
+
+/* Footer bottom alignment */
+.footer-section .footer-bottom {
+  text-align: center !important;
+  font-size: 0.85em !important;
+  color: white !important;
+  border-top: 1px solid #444 !important;
+  padding-top: 15px !important;
+}
+
+.footer-section .footer-links {
+  margin-top: 10px !important;
+  text-align: center !important;
+  font-size: 0.85em !important;
+}
+
+/* Responsive footer for tablets */
+@media (max-width: 768px) {
+  .footer-section .footer-columns {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: 1 1 100% !important;
+    margin: 15px 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    font-size: 1.1em !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.9em !important;
+  }
+
+  .footer-section .social-media {
+    justify-content: center !important;
+    gap: 20px !important;
+  }
+
+  .footer-section .app-download-panel {
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Responsive footer for mobile */
+@media (max-width: 480px) {
+  .footer-section .footer-columns {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 15px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: 1 1 100% !important;
+    margin: 10px 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    text-align: center !important;
+    font-size: 1em !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.85em !important;
+  }
+
+  .footer-section .social-media {
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .footer-section .social-icon {
+    font-size: 1.2em !important;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 10px !important;
+  }
+
+  .footer-section .footer-links {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 15px !important;
+  }
+
+  .footer-section .footer-links a {
+    margin: 2px 0 !important;
+    font-size: 0.8em !important;
+  }
+
+  .footer-section .app-download-panel {
+    padding: 12px !important;
+  }
+
+  .footer-section .app-download-panel h5 {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
+}
+
+/* Mobile view - 2 columns (480px and below) */
+@media (max-width: 480px) {
+  .footer-section .footer-columns {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px 15px !important;
+    align-items: start !important;
+    flex-direction: unset !important;
+    flex-wrap: unset !important;
+    margin-bottom: 30px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: unset !important;
+    margin: 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    text-align: center !important;
+    font-size: 0.95em !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .footer-column ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.8em !important;
+    margin: 4px 0 !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Connect column spans both columns */
+  .footer-section .connect-column {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 15px !important;
+    margin-top: 10px !important;
+  }
+
+  .footer-section .connect-column h4 {
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    color: #ffff33 !important;
+    text-shadow: 0 0 8px #ffff33 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .footer-section .social-media {
+    justify-content: center !important;
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .footer-section .social-icon {
+    font-size: 1.2em !important;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 10px !important;
+  }
+
+  .footer-section .contact-info {
+    text-align: center !important;
+    font-size: 0.85em !important;
+  }
+
+  .footer-section .app-download-panel {
+    max-width: 100% !important;
+    width: 240px !important;
+    padding: 12px !important;
+    margin: 0 auto !important;
+  }
+
+  .footer-section .app-download-panel h5 {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .badge-text {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* Tablets (481px - 768px) - 3 columns */
+@media (min-width: 481px) and (max-width: 768px) {
+  .footer-section .footer-columns {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 20px 15px !important;
+    align-items: start !important;
+    margin-bottom: 30px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: unset !important;
+    margin: 0 !important;
+    text-align: start !important;
+  }
+
+  .footer-section .connect-column {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: left !important;
+    gap: 15px !important;
+    margin-top: 15px !important;
+  }
+}
+
+
+.view-room-btn, .delete-btn, .boost-button {
+    padding: 14px 24px;
+    margin: 2px 0 !important;
+    background: transparent;
+    color: #00eeff;
+    border: 2px solid #00eeff;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-family: "Orbitron", sans-serif;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 238, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    width: 100%;
+    text-align: center;
+}
+
+.view-room-btn:hover, .delete-btn:hover, .boost-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #00eeff;
+}

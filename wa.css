@@ -1,0 +1,9 @@
+/* === WA CHAT PAGE BACKGROUND === */
+html, body {
+    background: url('https://www.transparenttextures.com/patterns/dark-brick-wall.png');
+    background-color: #000014;
+    font-family: 'Courier New', monospace;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}

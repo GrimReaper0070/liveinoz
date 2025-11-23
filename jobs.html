@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jobs - Live in Oz</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="jobs.css" />
+  </head>
+  <body>
+    <!-- Navigation bar -->
+    <div id="navbar-placeholder"></div>
+
+    <div id="jobsContent" class="jobs-content" style="display: block">
+      <h1>💼 Browse Jobs</h1>
+      <p class="intro">
+        Find your next opportunity — or post a job to help others live their
+        Aussie dream 🇦🇺
+      </p>
+
+      <!-- Category Filters -->
+      <div class="category-filters">
+        <button class="filter-btn active" onclick="filterByCategory('all')">
+          All
+        </button>
+        <button class="filter-btn" onclick="filterByCategory('hospitality')">
+          Hospitality
+        </button>
+        <button class="filter-btn" onclick="filterByCategory('construction')">
+          Construction
+        </button>
+        <button class="filter-btn" onclick="filterByCategory('it')">IT</button>
+        <button class="filter-btn" onclick="filterByCategory('cleaning')">
+          Cleaning
+        </button>
+        <button class="filter-btn" onclick="filterByCategory('retail')">
+          Retail
+        </button>
+        <button class="filter-btn" onclick="filterByCategory('other')">
+          Other
+        </button>
+      </div>
+
+      <!-- Jobs Container -->
+      <div class="jobs-container">
+        <div id="jobListMessage" class="no-jobs-message">
+          No jobs found. Be the first to post one!
+        </div>
+
+        <div id="jobList" class="job-cards-grid"></div>
+
+        <!-- Post Job Button -->
+        <div class="post-job-section">
+          <button class="post-job-btn" onclick="redirectToPostJob()">
+            ✚ Post a Job
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for job details -->
+    <div id="jobModal" class="modal" style="display: none">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modalBody">
+          <!-- Job details will be populated here -->
+        </div>
+        <div id="modalFooter" class="modal-footer">
+          <!-- Delete button will be added here if user can delete -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete confirmation modal -->
+    <div id="deleteModal" class="modal" style="display: none">
+      <div class="modal-content delete-modal-content">
+        <div id="deleteModalBody">
+          <h2>⚠️ Confirm Deletion</h2>
+          <p style="font-size: 1.1rem; margin: 20px 0; color: #ffcccc">
+            Are you sure you want to delete this job posting?
+          </p>
+          <p style="color: #888; font-size: 0.9rem">
+            This action cannot be undone.
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: 15px;
+              justify-content: center;
+              margin-top: 30px;
+            "
+          >
+            <button id="cancelDeleteBtn" class="delete-modal-btn cancel-btn">
+              Cancel
+            </button>
+            <button id="confirmDeleteBtn" class="delete-modal-btn confirm-btn">
+              Delete Job
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Include authentication script -->
+    <script src="auth-php.js"></script>
+
+    <!-- Footer will be loaded here -->
+    <div id="footer-placeholder"></div>
+
+    <script src="nav-loader.js"></script>
+
+    <!-- Load the footer -->
+    <script src="footer-loader.js"></script>
+
+    <script>
+      // Global variables
+      let currentUser = null;
+      let allJobs = [];
+
+      function getJobCategory(jobTitle) {
+        const titleLower = jobTitle.toLowerCase();
+
+        // Software/IT keywords
+        if (
+          titleLower.match(
+            /software|developer|engineer|programmer|coder|it |tech|web|app|system|database|code/i
+          )
+        ) {
+          return "it";
+        }
+        // Construction/Trades keywords
+        if (
+          titleLower.match(
+            /construction|builder|carpenter|plumber|electrician|trades|mechanic|welder|crane|operator/i
+          )
+        ) {
+          return "construction";
+        }
+        // Hospitality keywords
+        if (
+          titleLower.match(
+            /chef|cook|waiter|bartender|hotel|restaurant|hospitality|server|dishwasher|host|hostess/i
+          )
+        ) {
+          return "hospitality";
+        }
+        // Cleaning keywords
+        if (
+          titleLower.match(
+            /cleaner|cleaning|janitor|housekeeper|maid|sanitizer/i
+          )
+        ) {
+          return "cleaning";
+        }
+        // Office keywords
+        if (
+          titleLower.match(
+            /office|secretary|receptionist|admin|manager|assistant|accountant|coordinator|clerk|data entry/i
+          )
+        ) {
+          return "office";
+        }
+       // Retail
+if (
+  titleLower.match(
+    /(retail|store|cashier|sales\s*associate|shop\s*assistant|merchandiser|customer\s*service|supermarket|boutique|store\s*manager|shopkeeper|sales\s*rep|salesperson|retail\s*staff|sales\s*executive|counter\s*staff|checkout|fashion\s*advisor)/
+  )
+) {
+  return "retail";
+}
+        
+
+        return "other";
+      }
+
+      // Check if user is logged in
+      async function checkAuthForDelete() {
+        try {
+          const res = await fetch("check_auth.php");
+          const data = await res.json();
+          if (data.loggedIn) {
+            currentUser = data.user;
+          }
+        } catch (error) {
+          console.error("Auth check failed:", error);
+        }
+      }
+
+      // Load jobs from server
+      async function loadJobs() {
+        try {
+          const res = await fetch("fetch_jobs.php");
+          const data = await res.json();
+          const jobList = document.getElementById("jobList");
+          const jobListMessage = document.getElementById("jobListMessage");
+
+          jobList.innerHTML = "";
+
+          if (!data.success || data.jobs.length === 0) {
+            jobListMessage.style.display = "block";
+            return;
+          }
+
+          jobListMessage.style.display = "none";
+          allJobs = data.jobs;
+
+          data.jobs.forEach((job, index) => {
+            const jobDiv = document.createElement("div");
+            jobDiv.className = "job-card";
+
+            // Add neon color class based on index
+            const colorClasses = [
+              "neon-cyan",
+              "neon-pink",
+              "neon-yellow",
+              "neon-orange",
+              "neon-purple",
+              "neon-green",
+            ];
+            jobDiv.classList.add(colorClasses[index % colorClasses.length]);
+
+            const jobIcon = getJobIcon(getJobCategory(job.title));
+
+            // Set click handler on card
+            jobDiv.onclick = (e) => openJobModal(e, job.id);
+
+            // Header row with icon and title
+            const headerRow = document.createElement("div");
+            headerRow.className = "job-header-row";
+
+            const iconDiv = document.createElement("div");
+            iconDiv.className = "job-icon";
+            iconDiv.textContent = jobIcon;
+
+            const titleH3 = document.createElement("h3");
+            titleH3.className = "job-title";
+            titleH3.textContent = escapeHtml(job.title);
+
+            headerRow.appendChild(iconDiv);
+            headerRow.appendChild(titleH3);
+
+            // Details section
+            const detailsDiv = document.createElement("div");
+            detailsDiv.className = "job-details";
+
+            const companyP = document.createElement("p");
+            companyP.className = "job-company";
+            companyP.textContent = escapeHtml(job.company);
+
+            const locationP = document.createElement("p");
+            locationP.className = "job-location";
+            locationP.textContent = escapeHtml(job.location);
+
+            const dateP = document.createElement("p");
+            dateP.className = "job-date";
+            dateP.textContent =
+              "Posted: " + new Date(job.created_at).toLocaleDateString();
+
+            detailsDiv.appendChild(companyP);
+            detailsDiv.appendChild(locationP);
+            detailsDiv.appendChild(dateP);
+
+            // View Job button
+            const viewBtn = document.createElement("button");
+            viewBtn.className = "view-job-btn";
+            viewBtn.textContent = "View Job";
+            viewBtn.onclick = (e) => openJobModal(e, job.id);
+
+            jobDiv.appendChild(headerRow);
+            jobDiv.appendChild(detailsDiv);
+            jobDiv.appendChild(viewBtn);
+
+            jobList.appendChild(jobDiv);
+          });
+        } catch (err) {
+          console.error("Failed to load jobs:", err);
+        }
+      }
+
+      // Get job category icon
+      function getJobIcon(category) {
+        const icons = {
+          it: "💻",
+          construction: "💼",
+          hospitality: "🍽️",
+          cleaning: "🧹",
+          office: "🏢",
+          other: "📌",
+        };
+        return icons[category] || "💼";
+      }
+
+      // Get category badge for title
+      function getCategoryBadge(category) {
+        const badges = {
+          it: "💙",
+          construction: "🧳",
+          hospitality: "🏨",
+          cleaning: "✨",
+          retail: "🛒",
+          other: "📌",
+        };
+        return badges[category] || "💼";
+      }
+
+      // Delete job function
+      function deleteJob(event, jobId) {
+        if (event) event.stopPropagation();
+
+        if (!currentUser) {
+          alert("You must be logged in to delete listings.");
+          return;
+        }
+
+        showDeleteModal(jobId);
+      }
+
+      // Show delete confirmation modal
+      function showDeleteModal(jobId) {
+        const modal = document.getElementById("deleteModal");
+        modal.style.display = "block";
+        modal.dataset.jobId = jobId;
+      }
+
+      // Execute delete job action
+      async function executeDeleteJob(jobId) {
+        try {
+          const formData = new FormData();
+          formData.append("id", jobId);
+
+          const res = await fetch("delete_job.php", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await res.json();
+
+          if (data.success) {
+            alert(data.message);
+            closeJobModal();
+            loadJobs();
+          } else {
+            alert(data.message);
+          }
+        } catch (error) {
+          console.error("Delete job error:", error);
+          alert("Failed to delete job. Please try again.");
+        }
+      }
+
+      // Open job modal
+      function openJobModal(event, jobId) {
+        if (event) event.stopPropagation();
+
+        const job = allJobs.find((j) => j.id == jobId);
+        if (!job) return;
+
+        const modal = document.getElementById("jobModal");
+        const modalBody = document.getElementById("modalBody");
+        const modalFooter = document.getElementById("modalFooter");
+
+        const postedBy =
+          job.first_name && job.last_name
+            ? ` (Posted by: ${job.first_name} ${job.last_name})`
+            : "";
+
+        const canDelete = currentUser && currentUser.id == job.posted_by;
+
+        modalBody.innerHTML = `
+          <h2>💼 ${escapeHtml(job.title)}</h2>
+
+          <h3>🏢 Company Information</h3>
+          <p><strong>Company:</strong> ${escapeHtml(job.company)}</p>
+          <p><strong>Location:</strong> ${escapeHtml(job.location)}</p>
+
+          <h3>📝 Job Description</h3>
+          <p style="line-height: 1.6;">${escapeHtml(job.description).replace(
+            /\n/g,
+            "<br>"
+          )}</p>
+
+          <div class="contact-info">
+            <h3>📞 Contact Information</h3>
+            <p><strong>Email:</strong> <a href="mailto:${escapeHtml(
+              job.email
+            )}">${escapeHtml(job.email)}</a></p>
+            <p><strong>Phone:</strong> <a href="tel:${escapeHtml(
+              job.phone
+            )}">${escapeHtml(job.phone)}</a></p>
+            <p><strong>Posted:</strong> ${new Date(
+              job.created_at
+            ).toLocaleDateString()}${postedBy}</p>
+          </div>
+        `;
+
+        modalFooter.innerHTML = canDelete
+          ? `<button class="delete-btn-modal" onclick="deleteJob(null, ${job.id})">🗑️ Delete Posting</button>`
+          : "";
+
+        modal.style.display = "block";
+      }
+
+      function closeJobModal() {
+        document.getElementById("jobModal").style.display = "none";
+      }
+
+      function closeDeleteModal() {
+        document.getElementById("deleteModal").style.display = "none";
+      }
+
+      function redirectToPostJob() {
+        if (!currentUser) {
+          window.location.href = "login.html";
+        } else {
+          window.location.href = "dashboard.html";
+        }
+      }
+
+      // Close modal event listeners
+      document.addEventListener("click", (e) => {
+        const jobModal = document.getElementById("jobModal");
+        const deleteModal = document.getElementById("deleteModal");
+        const closeBtn = document.querySelector(".close-modal");
+
+        if (e.target === jobModal || e.target === closeBtn) {
+          closeJobModal();
+        }
+
+        if (e.target === deleteModal) {
+          closeDeleteModal();
+        }
+      });
+
+      // Delete modal buttons
+      document.addEventListener("click", (e) => {
+        const modal = document.getElementById("deleteModal");
+        const cancelBtn = document.getElementById("cancelDeleteBtn");
+        const confirmBtn = document.getElementById("confirmDeleteBtn");
+
+        if (e.target === cancelBtn || e.target === modal) {
+          closeDeleteModal();
+        }
+
+        if (e.target === confirmBtn) {
+          const jobId = modal.dataset.jobId;
+          closeDeleteModal();
+          executeDeleteJob(jobId);
+        }
+      });
+
+      // Escape key to close modals
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeJobModal();
+          closeDeleteModal();
+        }
+      });
+
+      // Escape HTML to prevent XSS
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // Filter by category
+      function filterByCategory(category) {
+        const filterBtns = document.querySelectorAll(".filter-btn");
+        filterBtns.forEach((btn) => btn.classList.remove("active"));
+        event.target.classList.add("active");
+
+        const jobCards = document.querySelectorAll(".job-card");
+
+        jobCards.forEach((card) => {
+          if (category === "all") {
+            card.style.display = "block";
+          } else {
+            const jobData =
+              allJobs[
+                Array.from(document.querySelectorAll(".job-card")).indexOf(card)
+              ];
+            if (jobData && getJobCategory(jobData.title) === category) {
+              card.style.display = "block";
+            } else {
+              card.style.display = "none";
+            }
+          }
+        });
+      }
+
+      // Initialize
+      checkAuthForDelete().then(() => {
+        loadJobs();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salon List</title>
+  <link rel="stylesheet" href="salon-list.css">
+</head>
+<body>
+  <div class="background">
+    <div class="overlay"></div>
+    <div class="container">
+      <header>
+        <h1 class="title">Elige tu salón</h1>
+        <div class="chips">
+          <div class="chip chip-city">
+            <span>Sydney</span>
+          </div>
+          <div class="chip chip-lang">
+            <span>ES | EN</span>
+          </div>
+          <div class="chip chip-back">
+            <span>← Volver</span>
+          </div>
+        </div>
+        <div class="search-wrap">
+          <input type="text" class="search-input" placeholder="Buscar">
+        </div>
+        <div class="tabs">
+          <div class="tab active" data-cat="social">Social</div>
+          <div class="tab" data-cat="daily">Vida diaria</div>
+          <div class="tab" data-cat="work">Trabajo y dinero</div>
+          <div class="tab" data-cat="fitness">Fitness</div>
+          <div class="tab" data-cat="hobbies">Hobbies</div>
+        </div>
+      </header>
+      <main class="grid" id="grid">
+        <!-- Cards will be inserted here by JS -->
+      </main>
+    </div>
+  </div>
+  <script src="salon-list.js"></script>
+</body>
+</html>

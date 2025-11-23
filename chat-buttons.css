@@ -1,0 +1,50 @@
+.page-header h1 {
+  color: cyan;
+  text-shadow: 0 0 15px cyan;
+  margin-top: 30px;
+  font-size: 2.5rem;
+}
+
+.page-header p {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  color: #dff;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 500px;
+  margin: 60px auto;
+}
+
+.neon-btn {
+  padding: 15px;
+  font-size: 1.1rem;
+  text-align: center;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  background-color: #000;
+  display: block;
+  box-shadow: 0 0 10px white;
+  color: white;
+  transition: transform 0.2s ease;
+  border: 2px solid white;
+}
+
+.neon-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Neon Color Variants - Boosted Glow */
+.neon-btn.blue { border-color: cyan; box-shadow: 0 0 10px cyan, 0 0 20px cyan, 0 0 40px cyan; }
+.neon-btn.pink { border-color: hotpink; box-shadow: 0 0 10px hotpink, 0 0 20px hotpink, 0 0 40px hotpink; }
+.neon-btn.green { border-color: lime; box-shadow: 0 0 10px lime, 0 0 20px lime, 0 0 40px lime; }
+.neon-btn.yellow { border-color: yellow; box-shadow: 0 0 10px yellow, 0 0 20px yellow, 0 0 40px yellow; }
+.neon-btn.purple { border-color: violet; box-shadow: 0 0 10px violet, 0 0 20px violet, 0 0 40px violet; }
+.neon-btn.orange { border-color: orange; box-shadow: 0 0 10px orange, 0 0 20px orange, 0 0 40px orange; }
+.neon-btn.red { border-color: red; box-shadow: 0 0 10px red, 0 0 20px red, 0 0 40px red; }
+.neon-btn.white { border-color: white; box-shadow: 0 0 10px white, 0 0 20px white, 0 0 40px white; }

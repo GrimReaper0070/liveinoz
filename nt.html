@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Northern Territory Chat Room</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="chat-state-bg.css">
+    <link rel="stylesheet" href="chat-buttons.css">
+    <script src="auth-php.js"></script>
+</head>
+<body>
+    <!-- Navigation bar will be loaded here -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Login required message -->
+    <div id="loginRequired" style="display: none; text-align: center; padding: 20px; background: #1a1a2e; border: 1px solid #ff4d4d; border-radius: 10px; margin: 20px; max-width: 600px; margin: 20px auto;">
+        <h2>🔐 Login Required</h2>
+        <p>You need to be logged in to access the chat room.</p>
+        <a href="login.html" class="neon-btn" style="margin: 10px; background: #00eeff; color: #000;">Login</a>
+        <a href="signup.html" class="neon-btn" style="margin: 10px; background: #0088ff; color: #fff;">Sign Up</a>
+    </div>
+
+    <!-- Chat content (hidden by default) -->
+    <div class="container" id="chatContainer" style="display: none;">
+        <div class="page-header">
+            <h1>Welcome to Northern Territory Chat Room</h1>
+            <p>Bienvenido al chat room del Northern Territory. Por favor elige el salón de chat que más te interese y ¡diviértete!</p>
+        </div>
+
+        <div class="button-grid">
+            <button onclick="enterRoom('Males')" class="neon-btn blue">🧔‍♂️ Males</button>
+            <button onclick="enterRoom('Females')" class="neon-btn pink">👩 Females</button>
+            <button onclick="enterRoom('Everyone')" class="neon-btn green">🌈 Everyone</button>
+            <button onclick="enterRoom('Fútbol')" class="neon-btn yellow">⚽ Fútbol</button>
+            <button onclick="enterRoom('Marihuana')" class="neon-btn purple">🌿 Marihuana</button>
+            <button onclick="enterRoom('Meetups')" class="neon-btn orange">🤝 Meetups</button>
+            <button onclick="enterRoom('New Arrivals')" class="neon-btn red">🎒 New Arrivals</button>
+            <button onclick="enterRoom('Mateamos?')" class="neon-btn white">🧉 Mateamos?</button>
+        </div>
+
+        <!-- Chat Room Interface (hidden by default) -->
+        <div id="chatRoom" style="display: none; margin-top: 20px;">
+            <div class="chat-header">
+                <button onclick="leaveRoom()" class="leave-room-btn">← Back to Rooms</button>
+                <h2 id="roomTitle"></h2>
+            </div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Type your message..." maxlength="1000">
+                <button onclick="sendMessage()" class="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentRoom = null;
+        let lastMessageId = 0;
+        let pollInterval = null;
+
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+        });
+
+        async function checkAuthentication() {
+            try {
+                const authenticated = await isAuthenticated();
+
+                if (authenticated) {
+                    // Show the chat container
+                    document.getElementById('chatContainer').style.display = 'block';
+                } else {
+                    // Show login required message
+                    document.getElementById('loginRequired').style.display = 'block';
+
+                    // Store current page for redirect after login
+                    localStorage.setItem('redirectAfterLogin', window.location.href);
+                }
+            } catch (error) {
+                console.error('Authentication check error:', error);
+                // Show login required message as fallback
+                document.getElementById('loginRequired').style.display = 'block';
+            }
+        }
+
+        function enterRoom(roomName) {
+            currentRoom = roomName;
+            document.getElementById('roomTitle').textContent = roomName;
+            document.getElementById('chatRoom').style.display = 'block';
+            document.querySelector('.button-grid').style.display = 'none';
+            document.getElementById('chatMessages').innerHTML = '';
+            lastMessageId = 0;
+
+            // Load existing messages
+            loadMessages();
+
+            // Start polling for new messages
+            pollInterval = setInterval(loadNewMessages, 3000);
+        }
+
+        function leaveRoom() {
+            currentRoom = null;
+            document.getElementById('chatRoom').style.display = 'none';
+            document.querySelector('.button-grid').style.display = 'grid';
+            if (pollInterval) {
+                clearInterval(pollInterval);
+                pollInterval = null;
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+
+            if (!message || !currentRoom) return;
+
+            try {
+                const response = await fetch('send_message.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        'room': currentRoom,
+                        'state': 'NT',
+                        'message': message
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    input.value = '';
+                    // Load the latest messages to show the new one immediately
+                    loadMessages();
+                } else {
+                    alert('Failed to send message: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Send message error:', error);
+                alert('Failed to send message');
+            }
+        }
+
+        async function loadMessages() {
+            if (!currentRoom) return;
+
+            try {
+                const response = await fetch(`get_messages.php?room=${encodeURIComponent(currentRoom)}&state=NT`);
+                const data = await response.json();
+
+                if (data.success) {
+                    displayMessages(data.messages);
+                }
+            } catch (error) {
+                console.error('Load messages error:', error);
+            }
+        }
+
+        async function loadNewMessages() {
+            if (!currentRoom || lastMessageId === 0) return;
+
+            try {
+                const response = await fetch(`get_messages.php?room=${encodeURIComponent(currentRoom)}&state=NT&last_id=${lastMessageId}`);
+                const data = await response.json();
+
+                if (data.success && data.messages.length > 0) {
+                    displayMessages(data.messages, true); // Append new messages
+                }
+            } catch (error) {
+                console.error('Load new messages error:', error);
+            }
+        }
+
+        function displayMessages(messages, append = false) {
+            const container = document.getElementById('chatMessages');
+
+            if (!append) {
+                container.innerHTML = ''; // Clear existing messages only when not appending
+            }
+
+            messages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.innerHTML = `
+                    <strong>${msg.first_name} ${msg.last_name}</strong>
+                    <span class="timestamp">${new Date(msg.created_at).toLocaleString()}</span><br>
+                    ${msg.message}
+                `;
+                container.appendChild(messageDiv);
+                lastMessageId = Math.max(lastMessageId, msg.id);
+            });
+
+            // Scroll to bottom
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Allow sending message with Enter key
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('messageInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+
+    <!-- Load the navigation bar -->
+    <script src="nav-loader.js"></script>
+</body>
+</html>

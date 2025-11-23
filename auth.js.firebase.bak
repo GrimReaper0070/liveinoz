@@ -1,0 +1,362 @@
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDpOp2RGs1HvB3I1GCiT9JfeitBHeIxgfI",
+    authDomain: "live-oz.firebaseapp.com",
+    projectId: "live-oz",
+    storageBucket: "live-oz.firebasestorage.app",
+    messagingSenderId: "293542942500",
+    appId: "1:293542942500:web:3baad5ada833a9d58985b1",
+    measurementId: "G-KBBBMTXTQ2"
+};
+
+// Initialize Firebase with error handling
+let app, auth, db;
+
+try {
+    app = firebase.initializeApp(firebaseConfig);
+    auth = firebase.auth();
+    db = firebase.firestore(app);
+    console.log('Firebase initialized successfully');
+} catch (error) {
+    console.error('Firebase initialization error:', error);
+    // Create mock objects for development/demo
+    auth = {
+        currentUser: null,
+        onAuthStateChanged: (callback) => {
+            callback(null);
+            console.log('Firebase not configured - running in demo mode');
+        },
+        signInWithEmailAndPassword: () => Promise.reject(new Error('Firebase not configured')),
+        createUserWithEmailAndPassword: () => Promise.reject(new Error('Firebase not configured')),
+        sendPasswordResetEmail: () => Promise.reject(new Error('Firebase not configured')),
+        signOut: () => Promise.resolve()
+    };
+    db = {
+        collection: () => ({
+            doc: () => ({
+                set: () => Promise.reject(new Error('Firebase not configured')),
+                get: () => Promise.reject(new Error('Firebase not configured'))
+            }),
+            add: () => Promise.reject(new Error('Firebase not configured'))
+        })
+    };
+}
+
+// DOM elements
+let loginForm, signupForm, loginBtn, signupBtn, message;
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if we're on login page
+    if (document.getElementById('loginForm')) {
+        loginForm = document.getElementById('loginForm');
+        loginBtn = document.getElementById('loginBtn');
+        message = document.getElementById('message');
+
+        loginForm.addEventListener('submit', handleLogin);
+        document.getElementById('forgotPassword').addEventListener('click', handleForgotPassword);
+    }
+
+    // Check if we're on signup page
+    if (document.getElementById('signupForm')) {
+        signupForm = document.getElementById('signupForm');
+        signupBtn = document.getElementById('signupBtn');
+        message = document.getElementById('message');
+
+        signupForm.addEventListener('submit', handleSignup);
+    }
+
+
+});
+
+// Handle login
+async function handleLogin(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    if (!email || !password) {
+        showMessage('Please fill in all fields', 'error');
+        return;
+    }
+
+    try {
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<span class="button-text">🔄 Logging in...</span>';
+
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+
+        showMessage('Login successful! Redirecting...', 'success');
+
+        // Redirect after short delay
+        setTimeout(() => {
+            const redirectUrl = localStorage.getItem('redirectAfterLogin') || 'dashboard.html';
+            localStorage.removeItem('redirectAfterLogin');
+            window.location.href = redirectUrl;
+        }, 1500);
+
+    } catch (error) {
+        console.error('Login error:', error);
+        let errorMessage = 'Login failed. Please try again.';
+
+        switch (error.code) {
+            case 'auth/user-not-found':
+                errorMessage = 'No account found with this email address.';
+                break;
+            case 'auth/wrong-password':
+                errorMessage = 'Incorrect password.';
+                break;
+            case 'auth/invalid-email':
+                errorMessage = 'Invalid email address.';
+                break;
+            case 'auth/user-disabled':
+                errorMessage = 'This account has been disabled.';
+                break;
+            case 'auth/too-many-requests':
+                errorMessage = 'Too many failed attempts. Please try again later.';
+                break;
+        }
+
+        showMessage(errorMessage, 'error');
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<span class="button-text">🚀 Login</span>';
+    }
+}
+
+// Handle signup
+async function handleSignup(e) {
+    e.preventDefault();
+
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const termsAccepted = document.getElementById('terms').checked;
+
+    // Validation
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+        showMessage('Please fill in all fields', 'error');
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        showMessage('Passwords do not match', 'error');
+        return;
+    }
+
+    if (password.length < 6) {
+        showMessage('Password must be at least 6 characters long', 'error');
+        return;
+    }
+
+    if (!termsAccepted) {
+        showMessage('Please accept the Terms of Use and Privacy Policy', 'error');
+        return;
+    }
+
+    try {
+        signupBtn.disabled = true;
+        signupBtn.innerHTML = '<span class="button-text">🔄 Creating Account...</span>';
+
+        // Create user account
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+
+        // Update display name
+        await user.updateProfile({
+            displayName: `${firstName} ${lastName}`
+        });
+
+        // Create user profile in Firestore
+        await db.collection('users').doc(user.uid).set({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            isActive: true,
+            role: 'user'
+        });
+
+        showMessage('Account created successfully! Redirecting...', 'success');
+
+        // Redirect after short delay
+        setTimeout(() => {
+            const redirectUrl = localStorage.getItem('redirectAfterLogin') || 'dashboard.html';
+            localStorage.removeItem('redirectAfterLogin');
+            window.location.href = redirectUrl;
+        }, 1500);
+
+    } catch (error) {
+        console.error('Signup error:', error);
+        let errorMessage = 'Account creation failed. Please try again.';
+
+        switch (error.code) {
+            case 'auth/email-already-in-use':
+                errorMessage = 'An account with this email already exists.';
+                break;
+            case 'auth/invalid-email':
+                errorMessage = 'Invalid email address.';
+                break;
+            case 'auth/weak-password':
+                errorMessage = 'Password is too weak.';
+                break;
+            case 'auth/operation-not-allowed':
+                errorMessage = 'Email/password accounts are not enabled.';
+                break;
+        }
+
+        showMessage(errorMessage, 'error');
+        signupBtn.disabled = false;
+        signupBtn.innerHTML = '<span class="button-text">🚀 Create Account</span>';
+    }
+}
+
+// Handle forgot password
+async function handleForgotPassword(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value;
+
+    if (!email) {
+        showMessage('Please enter your email address', 'error');
+        return;
+    }
+
+    try {
+        await auth.sendPasswordResetEmail(email);
+        showMessage('Password reset email sent! Check your inbox.', 'success');
+    } catch (error) {
+        console.error('Password reset error:', error);
+        let errorMessage = 'Failed to send password reset email.';
+
+        if (error.code === 'auth/user-not-found') {
+            errorMessage = 'No account found with this email address.';
+        }
+
+        showMessage(errorMessage, 'error');
+    }
+}
+
+// Show message function
+function showMessage(text, type) {
+    if (message) {
+        message.textContent = text;
+        message.className = `message ${type}`;
+
+        // Clear message after 5 seconds for success/error
+        if (type !== 'info') {
+            setTimeout(() => {
+                message.textContent = '';
+                message.className = 'message';
+            }, 5000);
+        }
+    }
+}
+
+// Logout function (can be called from other pages)
+function logout() {
+    auth.signOut().then(() => {
+        localStorage.removeItem('user');
+        window.location.href = 'index.html';
+    }).catch((error) => {
+        console.error('Logout error:', error);
+    });
+}
+
+// Check if user is logged in (utility function for other pages)
+function isUserLoggedIn() {
+    return auth.currentUser !== null;
+}
+
+// Get current user data
+function getCurrentUser() {
+    const user = auth.currentUser;
+    if (user) {
+        return {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName
+        };
+    }
+    return null;
+}
+
+// Update navigation based on auth state
+function updateNavigation() {
+    const nav = document.querySelector('.main-menu');
+    if (!nav) return;
+
+    // Find existing auth links and remove them
+    const existingAuthLinks = nav.querySelectorAll('.auth-link');
+    existingAuthLinks.forEach(link => link.remove());
+
+    // Find the last nav item to insert auth links before it
+    const navItems = nav.querySelectorAll('a');
+    const lastItem = navItems[navItems.length - 1];
+
+    if (auth.currentUser) {
+        // User is logged in - show dashboard and logout
+        const dashboardLink = document.createElement('a');
+        dashboardLink.href = 'dashboard.html';
+        dashboardLink.className = 'auth-link';
+        dashboardLink.textContent = '👤 Dashboard';
+
+        const logoutLink = document.createElement('a');
+        logoutLink.href = '#';
+        logoutLink.className = 'auth-link';
+        logoutLink.textContent = '🚪 Logout';
+        logoutLink.onclick = (e) => {
+            e.preventDefault();
+            logout();
+        };
+
+        nav.insertBefore(logoutLink, lastItem);
+        nav.insertBefore(dashboardLink, logoutLink);
+    } else {
+        // User is not logged in - show login and signup
+        const loginLink = document.createElement('a');
+        loginLink.href = 'login.html';
+        loginLink.className = 'auth-link';
+        loginLink.textContent = '🔐 Login';
+
+        const signupLink = document.createElement('a');
+        signupLink.href = 'signup.html';
+        signupLink.className = 'auth-link';
+        signupLink.textContent = '✨ Sign Up';
+
+        nav.insertBefore(signupLink, lastItem);
+        nav.insertBefore(loginLink, signupLink);
+    }
+}
+
+// Call updateNavigation when auth state changes
+auth.onAuthStateChanged(function(user) {
+    updateNavigation();
+    if (user) {
+        console.log('User is signed in:', user.email);
+        // Store user info in localStorage for other pages
+        localStorage.setItem('user', JSON.stringify({
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName
+        }));
+
+        // Redirect to dashboard if on auth pages
+        if (window.location.pathname.includes('login.html') ||
+            window.location.pathname.includes('signup.html')) {
+            window.location.href = 'dashboard.html';
+        }
+    } else {
+        console.log('User is signed out');
+        localStorage.removeItem('user');
+    }
+});
+
+// Export functions for use in other scripts
+window.logout = logout;
+window.isUserLoggedIn = isUserLoggedIn;
+window.getCurrentUser = getCurrentUser;
+window.updateNavigation = updateNavigation;

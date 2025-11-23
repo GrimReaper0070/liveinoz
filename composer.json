@@ -1,0 +1,12 @@
+{
+  "name": "oznew/payment-migration",
+  "description": "PHP payment system for Live in Oz",
+  "require": {
+    "stripe/stripe-php": "^13.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  }
+}

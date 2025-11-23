@@ -1,0 +1,425 @@
+/* === MARKETPLACE PAGE STYLES === */
+
+/* Ensure the body has a dark background and correct font */
+body.marketplace-page {
+  background: url("images/retro-background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  font-family: "Orbitron", sans-serif;
+  color: #fff;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Hero section with the main title and tagline */
+.hero {
+  text-align: center;
+  padding: 60px 20px 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-bottom: 2px solid #ff00cc;
+}
+
+.hero .main-title {
+  font-size: 3rem;
+  color: #00f0ff;
+  text-shadow: 0 0 10px #00f0ff, 0 0 20px #ff00cc;
+  margin: 0;
+}
+
+.hero .tagline {
+  font-size: 1.1rem;
+  color: #b3f0ff;
+  text-shadow: 0 0 8px #00f0ff;
+  margin: 10px auto 0;
+  max-width: 600px;
+}
+
+/* Marketplace grid container */
+.marketplace-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.marketplace-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  justify-content: center;
+}
+
+/* Individual marketplace item card */
+.marketplace-item {
+  background-color: rgba(26, 26, 26, 0.9);
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.marketplace-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 240, 255, 0.8);
+}
+
+.marketplace-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.marketplace-item h3 {
+  color: #ffcc00;
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+.marketplace-item .price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #00f0ff;
+  text-shadow: 0 0 5px #00f0ff;
+  margin: 5px 0;
+}
+
+.marketplace-item .description {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-top: 5px;
+}
+
+/* === ALERT MODAL STYLES === */
+
+.alert-modal {
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: none;
+}
+
+.alert-modal-content {
+  background: linear-gradient(145deg, #0f0f23, #0a0a1f);
+  margin: 15% auto;
+  padding: 30px;
+  border: 3px solid #00f0ff;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 40px #00f0ff, 0 0 80px #00f0ff, 0 0 120px #00f0ff;
+  animation: alertModalGlow 2s ease-in-out infinite alternate;
+  text-align: center;
+}
+
+@keyframes alertModalGlow {
+  0% {
+    box-shadow: 0 0 40px #00f0ff, 0 0 80px #00f0ff, 0 0 120px #00f0ff;
+  }
+  100% {
+    box-shadow: 0 0 50px #33ffcc, 0 0 100px #33ffcc, 0 0 150px #33ffcc;
+  }
+}
+
+.alert-modal.success .alert-modal-content {
+  border: 3px solid #00ff66;
+  box-shadow: 0 0 40px #00ff66, 0 0 80px #00ff66, 0 0 120px #00ff66;
+  animation: alertSuccessGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes alertSuccessGlow {
+  0% {
+    box-shadow: 0 0 40px #00ff66, 0 0 80px #00ff66, 0 0 120px #00ff66;
+  }
+  100% {
+    box-shadow: 0 0 50px #33ff99, 0 0 100px #33ff99, 0 0 150px #33ff99;
+  }
+}
+
+.alert-modal.error .alert-modal-content {
+  border: 3px solid #ff33cc;
+  box-shadow: 0 0 40px #ff33cc, 0 0 80px #ff33cc, 0 0 120px #ff33cc;
+  animation: alertErrorGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes alertErrorGlow {
+  0% {
+    box-shadow: 0 0 40px #ff33cc, 0 0 80px #ff33cc, 0 0 120px #ff33cc;
+  }
+  100% {
+    box-shadow: 0 0 50px #ff6600, 0 0 100px #ff6600, 0 0 150px #ff6600;
+  }
+}
+
+.alert-close {
+  color: #ff33cc;
+  float: right;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.alert-close:hover {
+  color: #ff66ff;
+  transform: scale(1.2);
+  text-shadow: 0 0 10px #ff33cc;
+}
+
+#alertTitle {
+  color: #00f0ff;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-shadow: 0 0 15px #00f0ff;
+  font-family: "Orbitron", sans-serif;
+}
+
+.alert-modal.success #alertTitle {
+  color: #00ff66;
+  text-shadow: 0 0 15px #00ff66;
+}
+
+.alert-modal.error #alertTitle {
+  color: #ff33cc;
+  text-shadow: 0 0 15px #ff33cc;
+}
+
+#alertMessage {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  font-family: "Orbitron", sans-serif;
+}
+
+.alert-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.alert-btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: "Orbitron", sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.alert-btn.close {
+  background: linear-gradient(45deg, #666, #999);
+  color: #fff;
+  box-shadow: 0 0 10px #666;
+}
+
+.alert-btn.close:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px #999;
+}
+/* ===== CRITICAL FOOTER FIX - ADD TO END OF accommodation.css ===== */
+
+/* Override any conflicting footer styles */
+
+/* Force footer columns to use flex layout */
+.footer-section .footer-columns {
+  display: flex !important;
+  justify-content: space-around !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 30px !important;
+  gap: unset !important;
+  grid-template-columns: unset !important;
+  align-items: unset !important;
+}
+
+.footer-section .footer-column {
+  flex: 1 1 200px !important;
+  margin: 10px !important;
+  min-width: unset !important;
+  text-align: unset !important;
+}
+
+.footer-section .footer-column h4 {
+  font-size: 1.2em !important;
+  margin-bottom: 15px !important;
+  color: #ffff00 !important;
+  text-shadow: 0 0 8px #ffff00, 0 0 15px rgba(255, 255, 0, 0.5) !important;
+  transition: all 0.3s ease !important;
+  line-height: 1.8 !important;
+}
+
+.footer-section .footer-column h4:hover {
+  text-shadow: 0 0 12px #ffff00, 0 0 25px #ffff00,
+    0 0 40px rgba(255, 255, 0, 0.8) !important;
+  color: #ffffff !important;
+}
+
+.footer-section .footer-column ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.footer-section .footer-column li {
+  color: #ffffff !important;
+  font-size: 0.95em !important;
+  margin: 8px 0 !important;
+  line-height: 1.6 !important;
+  transition: all 0.3s ease !important;
+}
+
+.footer-section .footer-column li a {
+  color: #ffffff !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  transition: all 0.3s ease !important;
+}
+
+.footer-section .footer-column li a:hover {
+  color: #00eaff !important;
+  text-shadow: 0 0 8px rgba(0, 234, 255, 0.5) !important;
+}
+
+.footer-section .footer-column li:hover {
+  color: #00eaff !important;
+  text-shadow: 0 0 8px rgba(0, 234, 255, 0.5) !important;
+}
+
+/* Connect column flex layout */
+.footer-section .connect-column {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  gap: 15px !important;
+}
+
+.footer-section .connect-column .app-download-section {
+  position: static !important;
+  transform: none !important;
+  margin-top: 12px !important;
+}
+
+/* App download panel */
+.footer-section .app-download-panel {
+  max-width: 220px !important;
+}
+
+/* Footer bottom alignment */
+.footer-section .footer-bottom {
+  text-align: center !important;
+  font-size: 0.85em !important;
+  color: white !important;
+  border-top: 1px solid #444 !important;
+  padding-top: 15px !important;
+}
+
+.footer-section .footer-links {
+  margin-top: 10px !important;
+  text-align: center !important;
+  font-size: 0.85em !important;
+}
+
+/* Responsive footer for tablets */
+@media (max-width: 768px) {
+  .footer-section .footer-columns {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: 1 1 100% !important;
+    margin: 15px 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    font-size: 1.1em !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.9em !important;
+  }
+
+  .footer-section .social-media {
+    justify-content: center !important;
+    gap: 20px !important;
+  }
+
+  .footer-section .app-download-panel {
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Responsive footer for mobile */
+@media (max-width: 480px) {
+  .footer-section .footer-columns {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 15px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: 1 1 100% !important;
+    margin: 10px 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    text-align: center !important;
+    font-size: 1em !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.85em !important;
+  }
+
+  .footer-section .social-media {
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .footer-section .social-icon {
+    font-size: 1.2em !important;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 10px !important;
+  }
+
+  .footer-section .footer-links {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 15px !important;
+  }
+
+  .footer-section .footer-links a {
+    margin: 2px 0 !important;
+    font-size: 0.8em !important;
+  }
+
+  .footer-section .app-download-panel {
+    padding: 12px !important;
+  }
+
+  .footer-section .app-download-panel h5 {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
+}

@@ -1,0 +1,712 @@
+/* === CHAT LANDING PAGE BACKGROUND === */
+html,
+body {
+  background: url("images/brick.png") no-repeat center center fixed;
+  background-size: cover;
+  background-color: #000014;
+  font-family: "Courier New", monospace;
+  color: white;
+  text-align: center;
+  min-height: 100vh;
+  background-position: center;
+}
+
+img.neon-logo {
+  margin-top: 60px;
+  width: 450px;
+  filter: drop-shadow(0 0 20px #00ffff) drop-shadow(0 0 40px #00ffff);
+  animation: flicker 1.4s infinite alternate;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.95;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.chat-title {
+  font-size: 32px;
+  margin: 40px auto 20px;
+  color: #ffffff;
+  text-shadow: 0 0 8px #00ffff, 0 0 14px #00ffff;
+}
+
+.rules-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto 40px;
+}
+
+.rule-box {
+  flex: 1;
+  min-width: 300px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid #00ffff;
+  box-shadow: 0 0 15px #00ffff;
+  text-align: left;
+  color: #fff;
+}
+
+.rule-box ul {
+  padding-left: 20px;
+  list-style-type: square;
+  font-size: 14px;
+}
+
+.button-group {
+  margin-bottom: 60px;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.button-group a {
+  font-size: 20px;
+  padding: 14px 30px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  border: 2px solid;
+  box-shadow: 0 0 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.enter-btn {
+  margin-left: 15px;
+  transform: translateY(1px);
+  font-size: 18px;
+  color: #00ff99;
+  padding: 14px 30px;
+  border-color: #00ff99;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+  background-color: black;
+}
+
+.enter-btn:hover {
+  background-color: #00ff99;
+  color: black;
+}
+
+.leave-btn {
+  margin-left: 65px;
+  color: #ff0040;
+  border-color: #ff0040;
+  box-shadow: 0 0 10px #ff0040, 0 0 20px #ff0040;
+  background-color: black;
+}
+
+.leave-btn:hover {
+  background-color: #ff0040;
+  color: black;
+}
+
+/* Footer alignment fixes for chat landing page */
+.footer-section {
+  margin-top: 800px;
+  text-align: center !important;
+  /* background: rgba(0, 0, 0, 0.7); */
+}
+
+.footer-columns {
+  justify-content: center !important;
+}
+
+.footer-column {
+  text-align: left !important;
+}
+
+.footer-column h4 {
+  text-align: left !important;
+}
+/* ===== CRITICAL FOOTER FIX - ADD TO END OF accommodation.css ===== */
+
+/* Override any conflicting footer styles */
+
+/* Force footer columns to use flex layout */
+.footer-section .footer-columns {
+  display: flex !important;
+  justify-content: space-around !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 30px !important;
+  gap: unset !important;
+  grid-template-columns: unset !important;
+  align-items: unset !important;
+}
+
+.footer-section .footer-column {
+  flex: 1 1 200px !important;
+  margin: 10px !important;
+  min-width: unset !important;
+  text-align: unset !important;
+}
+
+.footer-section .footer-column h4 {
+  font-size: 1.2em !important;
+  margin-bottom: 15px !important;
+  color: #ffff00 !important;
+  text-shadow: 0 0 8px #ffff00, 0 0 15px rgba(255, 255, 0, 0.5) !important;
+  transition: all 0.3s ease !important;
+  line-height: 1.8 !important;
+}
+
+.footer-section .footer-column h4:hover {
+  text-shadow: 0 0 12px #ffff00, 0 0 25px #ffff00,
+    0 0 40px rgba(255, 255, 0, 0.8) !important;
+  color: #ffffff !important;
+}
+
+.footer-section .footer-column ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.footer-section .footer-column li {
+  color: #ffffff !important;
+  font-size: 0.95em !important;
+  margin: 8px 0 !important;
+  line-height: 1.6 !important;
+  transition: all 0.3s ease !important;
+}
+
+.footer-section .footer-column li a {
+  color: #ffffff !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  transition: all 0.3s ease !important;
+}
+
+.footer-section .footer-column li a:hover {
+  color: #00eaff !important;
+  text-shadow: 0 0 8px rgba(0, 234, 255, 0.5) !important;
+}
+
+.footer-section .footer-column li:hover {
+  color: #00eaff !important;
+  text-shadow: 0 0 8px rgba(0, 234, 255, 0.5) !important;
+}
+
+/* Connect column flex layout */
+.footer-section .connect-column {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  gap: 15px !important;
+}
+
+.footer-section .connect-column .app-download-section {
+  position: static !important;
+  transform: none !important;
+  margin-top: 12px !important;
+}
+
+/* App download panel */
+.footer-section .app-download-panel {
+  max-width: 220px !important;
+}
+
+/* Footer bottom alignment */
+.footer-section .footer-bottom {
+  text-align: center !important;
+  font-size: 0.85em !important;
+  color: white !important;
+  border-top: 1px solid #444 !important;
+  padding-top: 15px !important;
+}
+
+.footer-section .footer-links {
+  margin-top: 10px !important;
+  text-align: center !important;
+  font-size: 0.85em !important;
+}
+
+/* Responsive footer for tablets */
+@media (max-width: 768px) {
+  .footer-section .footer-columns {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: 1 1 100% !important;
+    margin: 15px 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    font-size: 1.1em !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.9em !important;
+  }
+
+  .footer-section .social-media {
+    justify-content: center !important;
+    gap: 20px !important;
+  }
+
+  .footer-section .app-download-panel {
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Responsive footer for mobile */
+@media (max-width: 480px) {
+  .footer-section .footer-columns {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 15px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: 1 1 100% !important;
+    margin: 10px 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    text-align: center !important;
+    font-size: 1em !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.85em !important;
+  }
+
+  .footer-section .social-media {
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .footer-section .social-icon {
+    font-size: 1.2em !important;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 10px !important;
+  }
+
+  .footer-section .footer-links {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 15px !important;
+  }
+
+  .footer-section .footer-links a {
+    margin: 2px 0 !important;
+    font-size: 0.8em !important;
+  }
+
+  .footer-section .app-download-panel {
+    padding: 12px !important;
+  }
+
+  .footer-section .app-download-panel h5 {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
+}
+/* Mobile view - 2 columns (480px and below) */
+@media (max-width: 480px) {
+  .footer-section .footer-columns {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px 15px !important;
+    align-items: start !important;
+    flex-direction: unset !important;
+    flex-wrap: unset !important;
+    margin-bottom: 30px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: unset !important;
+    margin: 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    text-align: center !important;
+    font-size: 0.95em !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .footer-column ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.8em !important;
+    margin: 4px 0 !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Connect column spans both columns */
+  .footer-section .connect-column {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 15px !important;
+    margin-top: 10px !important;
+  }
+
+  .footer-section .connect-column h4 {
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    color: #ffff33 !important;
+    text-shadow: 0 0 8px #ffff33 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .footer-section .social-media {
+    justify-content: center !important;
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .footer-section .social-icon {
+    font-size: 1.2em !important;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 10px !important;
+  }
+
+  .footer-section .contact-info {
+    text-align: center !important;
+    font-size: 0.85em !important;
+  }
+
+  .footer-section .app-download-panel {
+    max-width: 100% !important;
+    width: 240px !important;
+    padding: 12px !important;
+    margin: 0 auto !important;
+  }
+
+  .footer-section .app-download-panel h5 {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .badge-text {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* Tablets (481px - 768px) - 3 columns */
+@media (min-width: 481px) and (max-width: 768px) {
+  .footer-section .footer-columns {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 20px 15px !important;
+    align-items: start !important;
+    margin-bottom: 30px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: unset !important;
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+  .footer-section .connect-column {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 15px !important;
+    margin-top: 15px !important;
+  }
+}
+/* === HERO OVERLAY (rules/login) === */
+.chat-hero {
+  position: absolute;
+  top: 12%;
+  left: 60%;
+  transform: translateX(-10%);
+  width: 620px;
+  max-width: 40%;
+  min-width: 360px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  pointer-events: auto;
+  margin-bottom: 150px;
+}
+
+/* Make sure the page container allows absolute positioning */
+html,
+body {
+  min-height: 100%;
+  position: relative;
+}
+
+/* Slightly override original chat-title margins so it fits inside overlay */
+.chat-hero .chat-title {
+  margin: 0;
+  padding: 0;
+}
+
+/* Rules container remains flex but will respect the overlay width */
+.chat-hero .rules-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  align-items: stretch;
+}
+
+/* rule-box looks like before but tighter for the overlay */
+.chat-hero .rule-box {
+  flex: 1 1 48%;
+  min-width: 200px;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 18px;
+  border-radius: 12px;
+  border: 3px solid rgba(0, 255, 255, 0.85);
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  color: #fff;
+  text-align: left;
+}
+
+/* Login required panel moved to CSS for consistent placement */
+#loginRequired {
+  width: 100%;
+  max-width: 480px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.65));
+  border-radius: 14px;
+  padding: 22px;
+  border: 2px solid rgba(255, 77, 77, 0.85);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6), 0 0 24px rgba(255, 77, 77, 0.12),
+    0 0 40px rgba(0, 255, 255, 0.06);
+  color: #fff;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Heading inside panel */
+#loginRequired h2 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+}
+
+/* Action buttons inside the login panel */
+#loginRequired .login-actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+/* Reuse your .enter-btn styles but ensure they look right inside panel */
+#loginRequired .enter-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: #fff;
+  background: transparent;
+  border: 1px solid #ff4d4d;
+  text-decoration: none;
+  transition: all 0.18s ease;
+}
+#loginRequired .enter-btn:hover {
+  background: #ff4d4d;
+  color: #000;
+}
+
+/* make sure the main chat buttons keep their styling */
+.button-group {
+  margin-top: 6px;
+}
+
+/* RESPONSIVE: bring overlay to center on smaller screens */
+@media (max-width: 1200px) {
+  .chat-hero {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10%;
+    width: 88%;
+    max-width: 900px;
+  }
+  .chat-hero .rules-container {
+    gap: 14px;
+  }
+}
+
+/* MOBILE: stack rule boxes and shrink spacing */
+@media (max-width: 640px) {
+  .chat-hero {
+    top: 6%;
+    width: 94%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 0;
+  }
+
+  .chat-hero .rules-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chat-hero .rule-box {
+    min-width: auto;
+    width: 100%;
+  }
+
+  #loginRequired {
+    max-width: 100%;
+    padding: 16px;
+  }
+}
+
+
+/* Add these fixes to your chat-landing.css */
+
+/* 1. Fix the body to allow proper scrolling */
+html,
+body {
+  background: url("images/brick.png") no-repeat center center fixed;
+  background-size: cover;
+  background-color: #000014;
+  font-family: "Courier New", monospace;
+  color: white;
+  text-align: center;
+  min-height: 100vh;
+  background-position: center;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  position: relative;
+}
+
+/* 2. Reduce footer margin on mobile */
+.footer-section {
+  margin-top: 800px;
+  text-align: center !important;
+}
+
+/* 3. Fix chat hero for mobile - ADD THIS NEW SECTION */
+@media (max-width: 640px) {
+  /* Adjust chat hero to prevent cutoff */
+  .chat-hero {
+    position: relative !important; /* Change from absolute to relative */
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 94%;
+    max-width: 100%;
+    margin: 80px auto 40px auto; /* Add proper margins */
+    padding: 10px;
+  }
+
+  /* Reduce footer margin on mobile */
+  .footer-section {
+    margin-top: 100px !important; /* Much smaller on mobile */
+  }
+
+  /* Ensure buttons are visible */
+  .button-group {
+    margin-bottom: 30px;
+    width: 100%;
+  }
+
+  .enter-btn,
+  .leave-btn {
+    font-size: 16px !important;
+    padding: 12px 24px !important;
+    margin: 5px !important;
+  }
+
+  /* Fix login panel */
+  #loginRequired {
+    max-width: 100%;
+    padding: 20px 16px;
+    margin: 0 auto 30px auto;
+  }
+
+  /* Smaller rule boxes text */
+  .rule-box ul {
+    font-size: 12px !important;
+    padding-left: 15px;
+  }
+
+  .rule-box {
+    padding: 15px !important;
+  }
+
+  .chat-title {
+    font-size: 24px !important;
+    margin: 10px auto !important;
+  }
+}
+
+/* 4. For very small screens (less than 400px) */
+@media (max-width: 400px) {
+  .chat-hero {
+    width: 96%;
+    padding: 5px;
+  }
+
+  .rule-box ul {
+    font-size: 11px !important;
+  }
+
+  .enter-btn,
+  .leave-btn {
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+    margin-left: 0 !important;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .button-group a {
+    width: 80%;
+    text-align: center;
+  }
+}

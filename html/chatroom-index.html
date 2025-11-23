@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="chatroom-styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-row">
+                <div class="side">
+                    <button class="back-btn">←</button>
+                </div>
+                <div class="center">
+                    <h1 class="header-title">🏠 Salon Name</h1>
+                </div>
+                <div class="side right">
+                    <div class="avatar" id="my-avatar">U</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- DM Dock -->
+        <div class="dm-dock" id="dm-dock">
+            <!-- DM bubbles will be added here -->
+        </div>
+
+        <!-- Messages -->
+        <div class="messages" id="messages">
+            <!-- Messages will be added here -->
+        </div>
+
+        <!-- Input Bar -->
+        <div class="input-bar">
+            <input type="text" id="message-input" placeholder="Escribe un mensaje…" />
+            <button id="send-btn" disabled>Enviar</button>
+        </div>
+
+        <!-- Toast -->
+        <div class="toast" id="toast" style="display: none;">
+            <span id="toast-text"></span>
+        </div>
+
+        <!-- Report Modal -->
+        <div class="modal" id="report-modal" style="display: none;">
+            <div class="modal-content">
+                <h2>Report User</h2>
+                <p>Why are you reporting this message?</p>
+                <button class="report-option" data-reason="Bullying/Harassment">Bullying/Harassment</button>
+                <button class="report-option" data-reason="Spam">Spam</button>
+                <button class="report-option" data-reason="Inappropriate Content">Inappropriate Content</button>
+                <button class="report-option" data-reason="Hate Speech">Hate Speech</button>
+                <button class="report-option" data-reason="Other">Other</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="chatroom-script.js"></script>
+</body>
+</html>

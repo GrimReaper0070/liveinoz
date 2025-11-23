@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live in Oz - Map</title>
+     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="chat-map.css" />
+    <script src="auth-php.js"></script>
+  </head>
+  <body>
+    <!-- Navigation bar will be loaded here -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Login required message -->
+    <div id="loginRequired" class="login-required hidden">
+      <h2>🔐 Login Required</h2>
+      <p>You need to be logged in to access the chat room.</p>
+      <a href="login.html" class="enter-btn">Login</a>
+      <a href="signup.html" class="enter-btn signup">Sign Up</a>
+    </div>
+
+    <!-- Main Container (hidden by default) -->
+    <div class="container hidden" id="mapContainer">
+      <!-- Map Header -->
+      <div class="map-header">
+        <h1 class="page-title">Choose Your State</h1>
+        <p class="page-subtitle">
+          Select your state or territory to join local chat rooms
+        </p>
+      </div>
+
+      <!-- State Selection Grid -->
+      <div class="state-grid">
+        <a href="nsw.html" class="state-button nsw">
+          <span class="state-name">New South Wales</span>
+          <span class="state-capital">Sydney</span>
+        </a>
+
+        <a href="vic.html" class="state-button vic">
+          <span class="state-name">Victoria</span>
+          <span class="state-capital">Melbourne</span>
+        </a>
+
+        <a href="qld.html" class="state-button qld">
+          <span class="state-name">Queensland</span>
+          <span class="state-capital">Brisbane</span>
+        </a>
+
+        <a href="wa.html" class="state-button wa">
+          <span class="state-name">Western Australia</span>
+          <span class="state-capital">Perth</span>
+        </a>
+
+        <a href="sa.html" class="state-button sa">
+          <span class="state-name">South Australia</span>
+          <span class="state-capital">Adelaide</span>
+        </a>
+
+        <a href="tas.html" class="state-button tas">
+          <span class="state-name">Tasmania</span>
+          <span class="state-capital">Hobart</span>
+        </a>
+
+        <a href="nt.html" class="state-button nt">
+          <span class="state-name">Northern Territory</span>
+          <span class="state-capital">Darwin</span>
+        </a>
+
+        <a href="act.html" class="state-button act">
+          <span class="state-name">Australian Capital Territory</span>
+          <span class="state-capital">Canberra</span>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      // Check authentication on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        checkAuthentication();
+      });
+
+      async function checkAuthentication() {
+        try {
+          const authenticated = await isAuthenticated();
+
+          if (authenticated) {
+            // Show the map container
+            document.getElementById("mapContainer").classList.remove("hidden");
+          } else {
+            // Show login required message
+            document.getElementById("loginRequired").classList.remove("hidden");
+
+            // Store current page for redirect after login
+            localStorage.setItem("redirectAfterLogin", window.location.href);
+          }
+        } catch (error) {
+          console.error("Authentication check error:", error);
+          // Show login required message as fallback
+          document.getElementById("loginRequired").classList.remove("hidden");
+        }
+      }
+    </script>
+  </body>
+</html>

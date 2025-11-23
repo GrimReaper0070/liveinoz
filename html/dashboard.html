@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard - Live in Oz</title>
+    <link rel="stylesheet" href="global.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.cdnfonts.com/css/astroz" rel="stylesheet">
+    <style>
+      body {
+        margin: 0;
+        font-family: "Orbitron", sans-serif;
+        background: radial-gradient(
+          circle at top left,
+          #0d0d1a,
+          #111132,
+          #0a0a1f
+        );
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        color: #fff;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .welcome-card {
+        background: rgba(10, 10, 30, 0.9);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 0 25px rgba(0, 238, 255, 0.5),
+          inset 0 0 15px rgba(0, 238, 255, 0.2);
+        border: 2px solid #00eeff;
+        text-align: center;
+      }
+
+      .welcome-title {
+        font-size: 2.5rem;
+        color: #00eeff;
+font-family: 'Astroz', sans-serif;
+        margin-bottom: 15px;
+      }
+
+      .user-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        font-family: 'Astroz', sans-serif;
+      }
+
+      .user-name {
+        font-size: 1.8rem;
+        color: #ff33cc;
+font-family: 'Astroz', sans-serif;
+        margin-bottom: 10px;
+      }
+
+      .user-email {
+        display: none;
+      }
+
+      .logout-button {
+        background: linear-gradient(45deg, #ff1a75, #ff4d4d);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+              font-family: "Orbitron", sans-serif;
+      }
+      .logout-button:hover {
+        transform: scale(1.1);
+        border:2px solid linear-gradient(45deg, #ff1a75, #ff4d4d,white);
+    
+      }
+
+      .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+      }
+
+      .action-card {
+        background: rgba(20, 20, 50, 0.8);
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        border: 2px solid #00eeff;
+        box-shadow: 0 0 15px rgba(0, 238, 255, 0.5),
+          inset 0 0 10px rgba(0, 238, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+      .action-card:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 0 25px #00eeff, 0 0 50px #0088ff;
+      }
+
+      .action-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: #00eeff;
+        text-shadow: 0 0 12px #00eeff, 0 0 25px #0088ff;
+      }
+
+      .action-title {
+        font-size: 1.5rem;
+        color: #fff;
+        margin-bottom: 10px;
+        text-shadow: 0 0 8px #00eeff;
+      }
+
+      .action-desc {
+        color: #aaa;
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+      }
+
+    
+
+      /* Chatroom bottom card */
+      .chatroom-card {
+        margin-top: 40px;
+        background: rgba(20, 20, 50, 0.85);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        border: 2px solid #ff33cc;
+        box-shadow: 0 0 10px #ff33cc, 0 0 10px #ff66ff;
+      }
+      .chatroom-card h2 {
+        color: #ff33cc;
+        font-size: 1.6rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+      }
+      .welcome-card {
+        background: rgba(10, 10, 30, 0.9);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 3px solid transparent;
+        background-image: linear-gradient(145deg, #1a1a2e, #16213e),
+          linear-gradient(90deg, #00eeff, #ff33cc);
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+        box-shadow: 0 0 25px rgba(0, 238, 255, 0.6),
+          0 0 25px rgba(255, 51, 204, 0.6);
+        text-align: center;
+      }
+
+      .action-card {
+        background: rgba(20, 20, 50, 0.85);
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        border: 3px solid transparent;
+        background-image: linear-gradient(145deg, #141432, #0f0f2a),
+          linear-gradient(90deg, #00eeff, #ff33cc);
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+        box-shadow: 0 0 20px rgba(0, 238, 255, 0.5),
+          0 0 20px rgba(255, 51, 204, 0.5);
+        transition: all 0.3s ease;
+      }
+      .action-card:hover {
+        transform: translateY(-6px) scale(1.01);
+        box-shadow: 0 0 30px rgba(0, 238, 255, 0.8),
+          0 0 30px rgba(255, 51, 204, 0.8);
+      }
+
+      .chatroom-card {
+        margin-top: 40px;
+        background: rgba(20, 20, 50, 0.85);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        border: 3px solid transparent;
+        background-image: linear-gradient(145deg, #141432, #0f0f2a),
+          linear-gradient(90deg, #00eeff, #ff33cc);
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+        box-shadow: 0 0 20px #00eeff, 0 0 20px #ff33cc;
+      }
+      .chatroom-link {
+  text-decoration: none;
+  display: block;
+}
+
+.chatroom-card {
+  cursor: pointer;
+  /* keep your neon border and glow styles */
+}
+
+
+
+.action-card {
+  background: rgba(20, 20, 50, 0.85);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  border: 3px solid transparent;
+  background-image: linear-gradient(145deg, #141432, #0f0f2a),
+    linear-gradient(90deg, #00eeff, #ff33cc);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: 0 0 20px rgba(0, 238, 255, 0.5),
+    0 0 20px rgba(255, 51, 204, 0.5);
+  transition: all 0.3s ease;
+
+  /* Make it a flex container */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 300px; /* Optional: set a fixed height if needed */
+}
+
+/* Ensure icon, title, desc don't grow but stay together */
+.action-card > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  flex-grow: 1;
+}
+
+.action-icon {
+  font-size: 3rem;
+  color: #00eeff;
+  text-shadow: 0 0 12px #00eeff, 0 0 25px #0088ff;
+}
+
+.action-title {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 0;
+  text-shadow: 0 0 8px #00eeff;
+}
+
+.action-desc {
+  color: #aaa;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Keep button at bottom */
+.action-button {
+  background: linear-gradient(45deg, #00eeff, #0088ff);
+  color: black;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+
+  margin-top: 20px; /* Space from content above */
+}
+
+.action-button:hover{
+  transform: scale(1.05);
+}
+
+
+/* Add these styles AFTER the existing button styles */
+
+/* Logout button glow effect */
+.logout-button {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.logout-button::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  background: linear-gradient(45deg, #ff9999, #ff6666, #ff3333, #ff6666, #ff9999);
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 18px;
+  animation: glow-red 20s linear infinite;
+}
+
+.logout-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+}
+
+.logout-button:hover::before {
+  opacity: 1;
+}
+
+@keyframes glow-red {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+/* Action button glow effect */
+.action-button {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.action-button::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  background: linear-gradient(45deg, #99ccff, #66ccff, #44ccff, #66ccff, #99ccff);
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 32px;
+  animation: glow-blue 20s linear infinite;
+}
+
+.action-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 132, 255, 0.7);
+}
+
+.action-button:hover::before {
+  opacity: 1;
+}
+
+@keyframes glow-blue {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+    </style>
+  </head>
+  <body>
+    <!-- Navigation bar will be loaded here -->
+    <div id="navbar-placeholder"></div>
+
+    <div class="dashboard-container">
+      <div class="welcome-card">
+        <h1 class="welcome-title">Welcome to Your Dashboard</h1>
+        <div class="user-info">
+          <div class="user-details">
+            <h2 class="user-name" id="userName">User Name</h2>
+            <p class="user-stats" id="userStats" style="font-size: 0.9rem; color: #00eeff; margin-top: 10px;">
+              Checking posting limits...
+            </p>
+            <p class="user-email" id="userEmail">user@example.com</p>
+            <p>You're successfully logged in to Live in Oz!</p>
+          </div>
+          <a href="logout.php" class="logout-button">🚪 Logout</a>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <div class="action-card" onclick="togglePostRoomForm()">
+          <div class="action-icon">🛏️</div>
+          <h3 class="action-title">Post Accommodation</h3>
+          <p class="action-desc">List your room, house or property for rent</p>
+          <div class="action-button" style="cursor: pointer;">Post Now</div>
+        </div>
+
+        <div class="action-card" id="postJobCard">
+          <div class="action-icon">💼</div>
+          <h3 class="action-title">Post Job</h3>
+          <p class="action-desc">Create job listings for employers</p>
+          <div class="action-button" style="cursor: pointer;">Post Now</div>
+        </div>
+
+        <div class="action-card">
+          <div class="action-icon">🛒</div>
+          <h3 class="action-title">Marketplace</h3>
+          <p class="action-desc">Buy or sell items in our community</p>
+          <a href="marketplace.html" class="action-button">View Items</a>
+        </div>
+
+        <div class="action-card">
+          <div class="action-icon">🎉</div>
+          <h3 class="action-title">Events</h3>
+          <p class="action-desc">Create or join community events</p>
+          <a href="partyandevents.html" class="action-button">See Events</a>
+        </div>
+      </div>
+
+      <!-- Post Room Section (hidden by default) -->
+      <div id="postRoomSection" style="display: none; text-align: left; background: rgba(10, 10, 30, 0.9); border-radius: 20px; padding: 30px; margin: 30px 0; border: 3px solid transparent; background-image: linear-gradient(145deg, #1a1a2e, #16213e), linear-gradient(90deg, #00eeff, #ff33cc); background-origin: border-box; background-clip: padding-box, border-box; box-shadow: 0 0 25px rgba(0, 238, 255, 0.6), 0 0 25px rgba(255, 51, 204, 0.6);">
+        <h2 style="color: #00eeff; text-align: center; margin-bottom: 20px;">🛏️ Post a Bedroom for Rent</h2>
+
+        <div id="message" class="message" style="margin-bottom: 15px; text-align: center;"></div>
+
+        <form id="roomForm" enctype="multipart/form-data" method="post">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+            <div>
+              <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Upload Photos (Max 5)</label>
+              <input type="file" id="photos" name="photos[]" accept="image/*" multiple style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+            </div>
+
+            <div>
+              <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Full Address</label>
+              <input type="text" id="address" name="address" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+            </div>
+
+            <div>
+              <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Suburb</label>
+              <input type="text" id="suburb" name="suburb" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+            </div>
+
+            <div>
+              <label style="color: #00f0ff; display: block; margin-bottom: 5px;">City</label>
+              <input type="text" id="city" name="city" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+            </div>
+
+            <div>
+              <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Rent Amount (AUD per week)</label>
+              <input type="number" id="rent" name="rent" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+            </div>
+
+            <div>
+              <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Bond (weeks)</label>
+              <input type="number" id="bond" name="bond" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+            </div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Contact Name</label>
+            <input type="text" id="contactName" name="contactName" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Contact Number</label>
+            <input type="text" id="contactNumber" name="contactNumber" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Description</label>
+            <textarea id="description" name="description" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px; resize: vertical; min-height: 80px;"></textarea>
+          </div>
+
+          <div style="text-align: center;">
+            <button type="submit" class="submit-button" style="background: linear-gradient(45deg, #00eeff, #0088ff); color: black; border: none; padding: 12px 30px; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 1rem;">✨ Submit Room Listing</button>
+            <button type="button" onclick="togglePostRoomForm()" style="background: linear-gradient(45deg, #ff33cc, #ff4d4d); color: white; border: none; padding: 12px 30px; border-radius: 30px; font-weight: bold; cursor: pointer; margin-left: 10px;">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Post Job Section (hidden by default) -->
+      <div id="postJobSection" style="display:  none; background: rgba(10, 10, 30, 0.9); text-align: left; border-radius: 20px; padding: 30px; margin: 30px 0; border: 3px solid transparent; background-image: linear-gradient(145deg, #1a1a2e, #16213e), linear-gradient(90deg, #00eeff, #ff33cc); background-origin: border-box; background-clip: padding-box, border-box; box-shadow: 0 0 25px rgba(0, 238, 255, 0.6), 0 0 25px rgba(255, 51, 204, 0.6);">
+        <h2 style="color: #00eeff; text-align: center; margin-bottom: 20px;">💼 Post a Job</h2>
+
+        <div id="jobMessage" class="message" style="margin-bottom: 15px; text-align: center;"></div>
+
+        <form id="jobForm">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+            <div>
+              <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Job Title *</label>
+              <input type="text" name="jobTitle" placeholder="e.g. Software Developer" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+            </div>
+
+            <div>
+              <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Company / Your Name *</label>
+              <input type="text" name="company" placeholder="Company Name or Your Name" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+            </div>
+
+            <div>
+              <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Location *</label>
+              <input type="text" name="jobLocation" placeholder="City, State" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+            </div>
+
+            <div>
+              <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Contact Email *</label>
+              <input type="email" name="contactEmail" placeholder="your@email.com" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+            </div>
+
+            <div>
+              <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Contact Phone *</label>
+              <input type="tel" name="contactPhone" placeholder="+61 XXX XXX XXX" required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px;">
+            </div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="color: #00f0ff; display: block; margin-bottom: 5px;">Job Description *</label>
+            <textarea name="jobDescription" rows="4" placeholder="Describe the job role, requirements, salary range, etc." required style="width: 100%; background: #111; color: #fff; border: 1px solid #00eeff; border-radius: 6px; padding: 8px; resize: vertical; min-height: 80px;"></textarea>
+          </div>
+
+          <div style="text-align: center;">
+            <button type="submit" class="submit-button" style="background: linear-gradient(45deg, #ffff00, #ff6600); color: black; border: none; padding: 12px 30px; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 1rem;">📝 Post Job</button>
+            <button type="button" onclick="togglePostJobForm()" style="background: linear-gradient(45deg, #ff33cc, #ff4d4d); color: white; border: none; padding: 12px 30px; border-radius: 30px; font-weight: bold; cursor: pointer; margin-left: 10px;">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Chatroom card at bottom -->
+<a href="chat-directory.html" class="chatroom-link">
+  <div class="chatroom-card">
+    <h2>💬 Chatroom</h2>
+  </div>
+</a>
+
+    <script>
+      // Toggle post room form visibility with plan-based limit checking
+      async function togglePostRoomForm() {
+        try {
+          // Check user's posting eligibility
+          const eligibility = await checkPostingEligibility();
+
+          if (eligibility.canPost) {
+            console.log("Dashboard - User can post, showing form");
+            // User can post - show the form
+            const formSection = document.getElementById("postRoomSection");
+            formSection.style.display = formSection.style.display === "none" || formSection.style.display === "" ? "block" : "none";
+
+            // Scroll to form if showing
+            if (formSection.style.display === "block") {
+              formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          } else if (eligibility.needsUpgrade) {
+            console.log("Dashboard - User needs upgrade, showing prompt");
+            // User needs to upgrade - show upgrade prompt
+            showUpgradeRequiredPrompt(eligibility.stats);
+          } else {
+            console.log("Dashboard - Error checking eligibility, showing form anyway");
+            // Error checking - show form anyway as fallback
+            const formSection = document.getElementById("postRoomSection");
+            formSection.style.display = formSection.style.display === "none" || formSection.style.display === "" ? "block" : "none";
+          }
+        } catch (error) {
+          console.error("Error checking posting eligibility:", error);
+          // Fallback - show form anyway
+          const formSection = document.getElementById("postRoomSection");
+          formSection.style.display = formSection.style.display === "none" || formSection.style.display === "" ? "block" : "none";
+        }
+
+        // Handle subscription success/cancel URLs
+        handleSubscriptionReturn();
+
+      // Handle subscription payment returns
+      function handleSubscriptionReturn() {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        if (urlParams.get('subscription') === 'success') {
+          console.log("Subscription success detected");
+
+          // Show success banner
+          const existingBanner = document.getElementById("subscriptionSuccessBanner");
+          if (existingBanner) {
+            existingBanner.remove();
+          }
+
+          const bannerDiv = document.createElement("div");
+          bannerDiv.id = "subscriptionSuccessBanner";
+          bannerDiv.style.cssText = `
+            background: linear-gradient(45deg, #00ff88, #00aa55);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+            border: 2px solid #00ff88;
+            color: black;
+            font-weight: bold;
+          `;
+
+          bannerDiv.innerHTML = `
+            <h3 style="margin: 0 0 10px 0; color: black;">🎉 Subscription Activated!</h3>
+            <p style="margin: 0; color: black;">Your plan has been upgraded successfully. You now have more posting capacity!</p>
+          `;
+
+          // Insert after the welcome card
+          const welcomeCard = document.querySelector(".welcome-card");
+          welcomeCard.insertAdjacentElement('afterend', bannerDiv);
+
+          // Refresh user stats
+          loadUserStats();
+
+          // Remove URL parameters after processing
+          window.history.replaceState({}, document.title, window.location.pathname);
+
+          // Auto-remove banner after 10 seconds
+          setTimeout(() => {
+            const banner = document.getElementById("subscriptionSuccessBanner");
+            if (banner) {
+              banner.remove();
+            }
+          }, 10000);
+
+        } else if (urlParams.get('subscription') === 'cancelled') {
+          // Subscription was cancelled - show message
+          showMessage("Subscription was cancelled. You can try again anytime.", "error");
+          // Remove URL parameters
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+      }
+
+      // Show plan upgrade prompt instead of payment for posting
+      function showUpgradeRequiredPrompt(stats) {
+        const existingPrompt = document.getElementById("upgradePrompt");
+        if (existingPrompt) {
+          existingPrompt.remove();
+        }
+
+        let message = "";
+        let buttonText = "";
+        let buttonAction = "";
+
+        if (stats.plan_expired) {
+          message = `<p style="color: #fff; margin-bottom: 15px;">Your ${stats.plan_type} plan has expired. Renew to continue posting.</p>`;
+          buttonText = `🔄 Renew ${stats.plan_type.charAt(0).toUpperCase() + stats.plan_type.slice(1)} Plan`;
+          buttonAction = `initiatePlanPayment('${stats.plan_type}')`;
+        } else {
+          message = `<p style="color: #fff; margin-bottom: 15px;">You've reached your ${stats.plan_type} plan limit of ${stats.listings_limit} active listings.</p>`;
+          buttonText = "⬆️ Upgrade Plan";
+          buttonAction = "showPlanSelection()";
+        }
+
+        const promptDiv = document.createElement("div");
+        promptDiv.id = "upgradePrompt";
+        promptDiv.style.cssText = `
+          background: rgba(10, 10, 30, 0.9);
+          border-radius: 20px;
+          padding: 30px;
+          margin: 20px 0;
+          border: 3px solid transparent;
+          background-image: linear-gradient(145deg, #1a1a2e, #16213e),
+            linear-gradient(90deg, #00eeff, #ff33cc);
+          background-origin: border-box;
+          background-clip: padding-box, border-box;
+          box-shadow: 0 0 25px rgba(0, 238, 255, 0.6),
+            0 0 25px rgba(255, 51, 204, 0.6);
+          text-align: center;
+        `;
+
+        promptDiv.innerHTML = `
+          <h2 style="color: #00eeff; margin-bottom: 20px;">📋 Accommodation Posting</h2>
+          <div style="background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+            <p style="color: #fff; margin: 10px 0; font-size: 1.1rem;">
+              Active listings: <strong style="color: #ffea00;">${stats.active_rooms}/${stats.listings_limit}</strong>
+            </p>
+            <p style="color: #ccc; margin: 10px 0;">
+              Current plan: ${stats.plan_type.charAt(0).toUpperCase() + stats.plan_type.slice(1)}
+            </p>
+          </div>
+          ${message}
+          <button onclick="${buttonAction}" class="upgrade-button" style="
+            background: linear-gradient(45deg, #ffea00, #ff6600);
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-right: 10px;
+          ">${buttonText}</button>
+          <button onclick="hideUpgradePrompt()" style="
+            background: linear-gradient(45deg, #666, #999);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1rem;
+          ">Cancel</button>
+        `;
+
+        // Insert after the quick-actions div
+        const quickActions = document.querySelector(".quick-actions");
+        quickActions.insertAdjacentElement('afterend', promptDiv);
+
+        // Scroll to prompt
+        promptDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      // Hide upgrade prompt
+      function hideUpgradePrompt() {
+        const prompt = document.getElementById("upgradePrompt");
+        if (prompt) {
+          prompt.remove();
+        }
+      }
+
+      // Show plan selection modal
+      function showPlanSelection() {
+        hideUpgradePrompt();
+
+        const modal = document.createElement("div");
+        modal.id = "planSelectionModal";
+        modal.style.cssText = `
+          position: fixed;
+          z-index: 1000;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.8);
+          backdrop-filter: blur(5px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        `;
+
+        modal.innerHTML = `
+          <div style="
+            background: linear-gradient(145deg, #0f0f23, #0a0a1f);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 0 30px #00eeff;
+            text-align: center;
+          ">
+            <h2 style="color: #00eeff; margin-bottom: 25px;">⬆️ Upgrade Your Plan</h2>
+
+            <div style="display: flex; gap: 20px; margin-bottom: 30px;">
+              <div style="
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                padding: 20px;
+                flex: 1;
+                border: 2px solid #ff33cc;
+              ">
+                <h3 style="color: #ff33cc; margin: 0 0 10px 0;">⭐ Basic Plan</h3>
+                <p style="color: #fff; margin: 10px 0;">$25/month</p>
+                <p style="color: #ccc; font-size: 0.9rem; margin: 10px 0;">Up to 3 active listings</p>
+                <p style="color: #ccc; font-size: 0.9rem; margin: 10px 0;">30-day expiration</p>
+                <button onclick="initiatePlanPayment('basic')" style="
+                  background: linear-gradient(45deg, #ff33cc, #ff0080);
+                  color: white;
+                  border: none;
+                  padding: 10px 20px;
+                  border-radius: 20px;
+                  cursor: pointer;
+                  font-weight: bold;
+                  margin-top: 15px;
+                ">Select Basic</button>
+              </div>
+
+              <div style="
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                padding: 20px;
+                flex: 1;
+                border: 2px solid #ffff00;
+              ">
+                <h3 style="color: #ffff00; margin: 0 0 10px 0;">👑 Premium Plan</h3>
+                <p style="color: #fff; margin: 10px 0;">$50/month</p>
+                <p style="color: #ccc; font-size: 0.9rem; margin: 10px 0;">Up to 10 active listings</p>
+                <p style="color: #ccc; font-size: 0.9rem; margin: 10px 0;">60-day expiration</p>
+                <button onclick="initiatePlanPayment('premium')" style="
+                  background: linear-gradient(45deg, #ffff00, #ffaa00);
+                  color: black;
+                  border: none;
+                  padding: 10px 20px;
+                  border-radius: 20px;
+                  cursor: pointer;
+                  font-weight: bold;
+                  margin-top: 15px;
+                ">Select Premium</button>
+              </div>
+            </div>
+
+            <button onclick="closePlanModal()" style="
+              background: linear-gradient(45deg, #666, #999);
+              color: white;
+              border: none;
+              padding: 10px 20px;
+              border-radius: 20px;
+              cursor: pointer;
+            ">Cancel</button>
+          </div>
+        `;
+
+        document.body.appendChild(modal);
+      }
+
+      // Close plan selection modal
+      function closePlanModal() {
+        const modal = document.getElementById("planSelectionModal");
+        if (modal) {
+          modal.remove();
+        }
+      }
+
+      // Initiate plan payment
+      async function initiatePlanPayment(planType) {
+        try {
+          const authResponse = await fetch("check_auth.php");
+          const authData = await authResponse.json();
+
+          if (!authData.authenticated) {
+            alert("Please log in again to continue");
+            window.location.href = "login.html";
+            return;
+          }
+
+          closePlanModal();
+          hideUpgradePrompt();
+
+          console.log("Creating subscription for user", authData.user.id, "plan:", planType);
+
+          // Call Node.js payment server to create subscription
+          const paymentResponse = await fetch("create_subscription.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${authData.user.token || ''}`
+            },
+            body: JSON.stringify({
+              userId: authData.user.id,
+              planType: planType
+            })
+          });
+
+          console.log("Subscription creation response status:", paymentResponse.status);
+
+          const paymentData = await paymentResponse.json();
+
+          if (paymentData.success && paymentData.url) {
+            // Redirect to Stripe Checkout
+            window.location.href = paymentData.url;
+          } else {
+            alert("Failed to start subscription process. Please try again.");
+          }
+        } catch (error) {
+          console.error("Subscription initiation error:", error);
+          alert("Subscription service unavailable. Please try again later.");
+        }
+      }
+
+      // Show old payment required prompt (legacy support)
+      function showPaymentRequiredPrompt(postsCount, freeLimit) {
+        // Legacy function for backward compatibility
+        // This should no longer be called with the new plan system
+        console.warn("showPaymentRequiredPrompt called - this should not happen with new plan system");
+      }
+
+      // Hide payment prompt
+      function hidePaymentPrompt() {
+        const prompt = document.getElementById("paymentPrompt");
+        if (prompt) {
+          prompt.remove();
+        }
+      }
+
+      // Toggle post job form visibility
+      function togglePostJobForm() {
+        const formSection = document.getElementById("postJobSection");
+        formSection.style.display = formSection.style.display === "none" || formSection.style.display === "" ? "block" : "none";
+
+        // Scroll to form if showing
+        if (formSection.style.display === "block") {
+          formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      // Show job message function
+      function showJobMessage(text, type) {
+        const messageDiv = document.getElementById("jobMessage");
+        messageDiv.textContent = text;
+        messageDiv.className = `message ${type}`;
+        messageDiv.style.cssText = `
+          padding: 12px;
+          border-radius: 5px;
+          margin-bottom: 15px;
+          text-align: center;
+          ${type === "success" ? "background: #4caf50; color: white;" : "background: #f44336; color: white;"}
+        `;
+
+        // Clear message after 5 seconds
+        setTimeout(() => {
+          messageDiv.textContent = "";
+          messageDiv.className = "message";
+          messageDiv.style.cssText = "";
+        }, 5000);
+      }
+
+      // Show message function
+      function showMessage(text, type, showPaymentButton = false, postsCount, freeLimit) {
+        const messageDiv = document.getElementById("message");
+
+        if (showPaymentButton) {
+          messageDiv.innerHTML = `
+            <div>${text}</div>
+            <button onclick="initiatePayment()" class="payment-button" style="
+              background: linear-gradient(45deg, #ffea00, #ff6600);
+              color: black;
+              border: none;
+              padding: 10px 20px;
+              border-radius: 25px;
+              font-weight: bold;
+              cursor: pointer;
+              margin-top: 10px;
+              display: inline-block;
+            ">💳 Pay $5 & Post Now</button>
+          `;
+        } else {
+          messageDiv.textContent = text;
+        }
+
+        messageDiv.className = `message ${type}`;
+        messageDiv.style.cssText = `
+          padding: 12px;
+          border-radius: 5px;
+          margin-bottom: 15px;
+          text-align: center;
+          ${type === "success" ? "background: #4caf50; color: white;" : "background: #f44336; color: white;"}
+        `;
+
+        // Clear message after 8 seconds for payment messages
+        const timeout = showPaymentButton ? 8000 : 5000;
+        setTimeout(() => {
+          messageDiv.textContent = "";
+          messageDiv.className = "message";
+          messageDiv.style.cssText = "";
+        }, timeout);
+      }
+
+      // Handle Stripe payment initiation
+      async function initiatePayment() {
+        try {
+          const response = await fetch("check_auth.php");
+          const authData = await response.json();
+
+          if (!authData.authenticated) {
+            alert("Please log in again to continue");
+            window.location.href = "login.html";
+            return;
+          }
+
+          // Call PHP payment server to create Stripe session
+          const paymentResponse = await fetch("create_payment_session.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              userId: authData.user.id
+            })
+          });
+
+          const paymentData = await paymentResponse.json();
+
+          if (paymentData.success && paymentData.url) {
+            // Redirect to Stripe Checkout
+            window.location.href = paymentData.url;
+          } else {
+            showMessage("Failed to start payment process. Please try again.", "error");
+          }
+        } catch (error) {
+          console.error("Payment initiation error:", error);
+          showMessage("Payment service unavailable. Please try again later.", "error");
+        }
+      }
+
+      // Handle payment success/cancel URLs
+      async function handlePaymentReturn() {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        if (urlParams.get('payment') === 'success') {
+          console.log("Payment success detected - setting flag and showing success banner");
+
+          // Store success state in sessionStorage for refresh persistence
+          sessionStorage.setItem('payment_success', '1');
+
+          // Set the paid flag to ensure database is updated
+          fetch('set_paid_flag.php')
+            .then(response => response.json())
+            .then(data => {
+              console.log('Flag set result:', data);
+            })
+            .catch(error => {
+              console.error('Error setting flag:', error);
+            });
+
+          // Show success banner
+          const existingBanner = document.getElementById("paymentSuccessBanner");
+          if (existingBanner) {
+            existingBanner.remove();
+          }
+
+          const bannerDiv = document.createElement("div");
+          bannerDiv.id = "paymentSuccessBanner";
+          bannerDiv.style.cssText = `
+            background: linear-gradient(45deg, #00ff88, #00aa55);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+            border: 2px solid #00ff88;
+            color: black;
+            font-weight: bold;
+          `;
+
+          bannerDiv.innerHTML = `
+            <h3 style="margin: 0 0 10px 0; color: black;">🎉 Payment Successful!</h3>
+            <p style="margin: 0; color: black;">You can now post additional accommodation listings. Your posting form is shown below.</p>
+          `;
+
+          // Insert after the quick-actions div
+          const quickActions = document.querySelector(".quick-actions");
+          quickActions.insertAdjacentElement('afterend', bannerDiv);
+
+          // Hide any payment prompts and show posting form directly
+          hidePaymentPrompt();
+
+          // Show the posting form
+          const formSection = document.getElementById("postRoomSection");
+          formSection.style.display = "block";
+          formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+          // Refresh user stats
+          loadUserStats();
+
+          // Remove URL parameters after processing
+          window.history.replaceState({}, document.title, window.location.pathname);
+
+          // Auto-remove banner after 10 seconds
+          setTimeout(() => {
+            const banner = document.getElementById("paymentSuccessBanner");
+            if (banner) {
+              banner.remove();
+            }
+          }, 10000);
+
+        } else if (urlParams.get('payment') === 'cancelled') {
+          // Payment was cancelled - show message
+          showMessage("Payment was cancelled. You can try again anytime.", "error");
+
+          // Remove URL parameters
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+
+      // Update user stats display with plan information
+      function updateUserStats(stats) {
+        const statsDiv = document.getElementById("userStats");
+
+        const planName = stats.plan_type.charAt(0).toUpperCase() + stats.plan_type.slice(1);
+        const remainingSlots = Math.max(0, stats.listings_limit - stats.active_rooms);
+
+        if (stats.plan_expired) {
+          statsDiv.innerHTML = `⚠️ <strong>${planName}</strong> plan expired | ${stats.active_rooms}/${stats.listings_limit} active listings`;
+          statsDiv.style.color = "#ffea00";
+        } else if (remainingSlots > 0) {
+          statsDiv.innerHTML = `✅ <strong>${planName}</strong> plan | ${stats.active_rooms}/${stats.listings_limit} active listings | <strong>${remainingSlots}</strong> slots remaining`;
+          statsDiv.style.color = "#00eeff";
+        } else {
+          statsDiv.innerHTML = `📋 <strong>${planName}</strong> plan at limit | ${stats.active_rooms}/${stats.listings_limit} active listings`;
+          statsDiv.style.color = "#ffea00";
+        }
+
+        // Add boost information if they have active boosts
+        if (stats.active_boosts > 0) {
+          statsDiv.innerHTML += ` | ⚡ ${stats.active_boosts} boosted`;
+        }
+      }
+
+      // Fetch and display user posting stats
+      async function loadUserStats() {
+        try {
+          const res = await fetch("get_user_stats.php");
+          const data = await res.json();
+          if (data.success && data.stats) {
+            updateUserStats(data.stats);
+          }
+        } catch (error) {
+          console.error("Failed to load user stats:", error);
+          document.getElementById("userStats").innerHTML = "❌ Error loading stats";
+          document.getElementById("userStats").style.color = "#ff4d4d";
+        }
+      }
+
+      // Check if user can post and show appropriate UI
+      async function checkPostingEligibility() {
+        try {
+          const response = await fetch("get_user_stats.php");
+          const data = await response.json();
+
+          if (data.success && data.stats) {
+            const stats = data.stats;
+
+            // User can post more rooms
+            if (stats.can_post_more && !stats.plan_expired) {
+              return { canPost: true, stats: stats };
+            }
+
+            // User needs to upgrade or renew
+            return {
+              canPost: false,
+              needsUpgrade: true,
+              stats: stats
+            };
+          }
+        } catch (error) {
+          console.error("Error checking posting eligibility:", error);
+        }
+
+        return { canPost: false, error: true };
+      }
+
+      // Handle room form submission
+      document.getElementById('roomForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+
+        const submitBtn = document.querySelector('#roomForm button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "🔄 Posting...";
+
+        try {
+          const res = await fetch("post_room.php", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await res.json();
+
+          if (data.success) {
+            showMessage(data.message, "success");
+            form.reset();
+            // Refresh user stats after successful posting
+            loadUserStats();
+            // Optionally hide the form after successful submission
+            // setTimeout(() => togglePostRoomForm(), 2000);
+          } else if (data.upgrade_required) {
+            // Show upgrade prompt for plan limits
+            showUpgradeRequiredPrompt(data);
+          } else {
+            showMessage(data.message, "error");
+          }
+        } catch (err) {
+          console.error("Post room error:", err);
+          showMessage("Failed to post room. Please try again.", "error");
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      });
+
+      // Handle job form submission
+      document.getElementById('jobForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+
+        const submitBtn = document.querySelector('#jobForm button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "🔄 Posting...";
+
+        try {
+          const res = await fetch("post_job.php", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await res.json();
+
+          if (data.success) {
+            showJobMessage(data.message, "success");
+            form.reset();
+            // Optionally hide the form after successful submission
+            // setTimeout(() => togglePostJobForm(), 2000);
+          } else {
+            showJobMessage(data.message, "error");
+          }
+        } catch (err) {
+          console.error("Post job error:", err);
+          showJobMessage("Failed to post job. Please try again.", "error");
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      });
+
+      // Dynamic script to fetch and display user info from server
+      document.addEventListener("DOMContentLoaded", async function () {
+        try {
+          // Check authentication and fetch user data
+          const response = await fetch("check_auth.php");
+          const data = await response.json();
+
+          if (data.authenticated && data.user) {
+            // Update user info with real data
+            document.getElementById(
+              "userName"
+            ).textContent = `Welcome, ${data.user.name}!`;
+            document.getElementById("userEmail").textContent = data.user.email;
+
+            // Check user type and hide posting options for chat_only users
+            if (data.user.user_type === 'chat_only') {
+              // Hide Post Accommodation card
+              const postRoomCard = document.querySelector('.action-card[onclick*="togglePostRoomForm"]');
+              if (postRoomCard) {
+                postRoomCard.style.display = 'none';
+              }
+
+              // Hide Post Job card
+              const postJobCard = document.getElementById('postJobCard');
+              if (postJobCard) {
+                postJobCard.style.display = 'none';
+              }
+
+              // Hide Marketplace posting functionality (keep viewing)
+              // The marketplace card stays visible for browsing, but posting will be blocked in marketplace.js
+            } else {
+              // Add click event listener for Post Job card (only for full_access users)
+              document.getElementById("postJobCard").addEventListener("click", function() {
+                togglePostJobForm();
+              });
+            }
+
+            // Load user posting stats
+            loadUserStats();
+
+         
+
+            
+          
+          } else {
+            // Not authenticated, redirect to login
+            alert("You must be logged in to access the dashboard.");
+            window.location.href = "login.html";
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          // Fallback to login page on error
+          alert("Error loading dashboard. Please try logging in again.");
+          window.location.href = "login.html";
+        }
+      });
+    </script>
+
+    <!-- Load the navigation bar -->
+    <script src="nav-loader.js"></script>
+  </body>
+</html>

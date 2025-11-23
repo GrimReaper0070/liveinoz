@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Live in Oz</title>
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="index.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body class="home-page">
+    <div class="stage">
+      <div class="rotate"></div>
+    </div>
+
+    <!-- Navigation bar will be loaded here -->
+    <div id="navbar-placeholder"></div>
+
+    <div class="page-content">
+      <section class="hero">
+        <img src="images/logo.png" alt="Live in Oz Logo" class="hero-logo" />
+        <h1 class="main-title">
+          <span class="neon-text welcome-text">Bienvenidos</span>
+        </h1>
+        <p class="tagline">
+          The only website for the Latin community in Australia to find jobs,
+          rooms, friends, info and real connections. ✨
+        </p>
+      </section>
+
+      <section class="about-box">
+        <h2 class="about-heading">
+          <span class="neon-gradient">About Us</span>
+          <span class="title-underline"></span>
+        </h2>
+
+        <p class="about-intro">
+          This space was created for all the dreamers, the brave souls who left
+          their homeland to chase new opportunities in Australia — whether for a
+          better future or just for the adventure.
+        </p>
+
+        <p class="about-intro">
+          Here, you'll find everything you need to feel supported, informed, and
+          connected.
+        </p>
+
+        <div class="features-list">
+          <div class="feature-item">
+            <span class="feature-icon">🏠</span>
+            <div class="feature-content">
+              <strong class="feature-title">Accommodation</strong> - Find
+              verified rooms across Australia or advertise your own.
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <span class="feature-icon">💼</span>
+            <div class="feature-content">
+              <strong class="feature-title">Jobs</strong> - Look for work or
+              post job offers easily.
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <span class="feature-icon">🛒</span>
+            <div class="feature-content">
+              <strong class="feature-title">Marketplace</strong> - Buy, sell, or
+              give away anything you need, all in one trusted place.
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <span class="feature-icon">💬</span>
+            <div class="feature-content">
+              <strong class="feature-title">WhatsApp Groups</strong> - Access
+              the most active, verified community groups around the country.
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <span class="feature-icon">💭</span>
+            <div class="feature-content">
+              <strong class="feature-title">Chat Room</strong> - Enjoy chatting
+              directly through the website, just like in our retro-style app.
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <span class="feature-icon">📰</span>
+            <div class="feature-content">
+              <strong class="feature-title">Blog & News</strong> - Stay up to
+              date with the latest news, community stories, and updates from
+              Australia.
+            </div>
+          </div>
+
+          <div class="feature-item">
+            <span class="feature-icon">✈️</span>
+            <div class="feature-content">
+              <strong class="feature-title">Visa & Immigration</strong> - Get
+              clear and direct tutorials, official links, and step-by-step
+              guidance — from opening your bank account to applying for your ABN
+              or Tax File Number.
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-highlight">
+          <p>
+            When you log in, you'll have your own dashboard, where you can
+            advertise rooms, jobs, or marketplace items, and access the chat —
+            everything in one place.
+          </p>
+        </div>
+
+        <p class="about-intro">
+          I created Live in Oz to be more than just a website — it's a guide, a
+          bridge, and a home for everyone who comes to Australia looking for
+          connection, opportunity, and community.
+        </p>
+
+        <p class="about-intro">
+          No one should feel lost or alone in this journey. Here, we stay
+          connected to our roots while building our future. 🇦🇺
+        </p>
+
+        <div class="final-cta">
+          <h3 class="cta-title">
+            Welcome to Live in Oz — where your Australian story begins.
+          </h3>
+          <a href="signup.html" class="cta-button">Join the Community</a>
+        </div>
+      </section>
+
+      <!-- Dynamic Content Sections -->
+      <section class="content-section">
+        <!-- First Row: Blog, Room, Job -->
+        <div class="content-grid">
+          <div class="content-card">
+            <img src="images/laptop.png" alt="Laptop" class="content-icon" />
+            <h3 class="content-title">Latest Blog Article</h3>
+            <p class="content-desc">
+              The only website for the Latin community-
+            </p>
+            <div class="btn-container">
+              <button class="content-btn">Read More</button>
+            </div>
+          </div>
+          <div class="content-card">
+            <img src="images/bed.jpg" alt="Bed" class="content-icon" />
+            <h3 class="content-title">
+              Featured Room <span class="boost">(Boost)</span>
+            </h3>
+            <p class="content-desc">for Latin community</p>
+            <div class="btn-container">
+              <button class="content-btn">View Room</button>
+            </div>
+          </div>
+          <div class="content-card">
+            <img src="images/jobs.jpg" alt="Indeed" class="content-icon" />
+            <h3 class="content-title">Latest Job Posted</h3>
+            <p class="content-desc">View Job</p>
+            <div class="btn-container">
+              <button class="content-btn">View Job</button>
+            </div>
+          </div>
+          <div class="content-card mobile-extra-room">
+            <img src="images/bed.jpg" alt="Bed" class="content-icon" />
+            <h3 class="content-title">
+              Featured Room <span class="boost">(Boost)</span>
+            </h3>
+            <div class="btn-container">
+              <button class="content-btn">View Room</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Latest News Section 1 -->
+        <div class="news-section">
+          <h3 class="news-heading">Latest News</h3>
+          <h3 class="news-heading">Latest News</h3>
+          <div class="news-grid">
+            <div class="news-card">
+              <img src="images/bed.jpg" alt="Bed" class="news-icon" />
+              <h3 class="news-title">
+                Featured Room <span class="boost">(Boost)</span>
+              </h3>
+              <div class="btn-container">
+                <button class="news-btn">View Room</button>
+              </div>
+            </div>
+            <div class="news-card">
+              <img src="images/jobs.jpg" alt="Jobs" class="news-icon" />
+              <h3 class="news-title">Latest Jobs</h3>
+              <div class="btn-container">
+                <button class="news-btn">View Jobs</button>
+              </div>
+            </div>
+            <div class="news-card">
+              <img src="images/event.png" alt="Event" class="news-icon" />
+              <h3 class="news-title">
+                Event Poster <span class="boost">(Boost)</span>
+              </h3>
+              <div class="btn-container">
+                <button class="news-btn">View Event</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-container" id="paginationContainer" style="display: none;">
+          <div class="pagination-controls">
+            <button class="pagination-btn prev-btn" id="prevBtn" disabled>
+              <span class="pagination-icon">⬅️</span>
+              <span class="pagination-text">Previous</span>
+            </button>
+
+            <div class="page-numbers" id="pageNumbers">
+              <!-- Page buttons will be generated here -->
+            </div>
+
+            <button class="pagination-btn next-btn" id="nextBtn" disabled>
+              <span class="pagination-text">Next</span>
+              <span class="pagination-icon">➡️</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- end page-content -->
+
+    <!-- Footer will be loaded here -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Load the navigation bar -->
+    <script src="nav-loader.js"></script>
+
+    <!-- Load the footer -->
+    <script src="footer-loader.js"></script>
+
+    <!-- Dynamic rooms loading -->
+    <script src="dynamic-rooms.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const featureItems = document.querySelectorAll(".feature-item");
+        const isMobile = window.innerWidth <= 768;
+
+        featureItems.forEach((item) => {
+          if (isMobile) {
+            item.classList.add("mobile-collapsed");
+            item.setAttribute("data-expanded", "false");
+          }
+
+          item.addEventListener("click", function (e) {
+            if (window.innerWidth <= 768) {
+              e.stopPropagation();
+              toggleFeature(this);
+            }
+          });
+        });
+
+        window.addEventListener("resize", function () {
+          setTimeout(function () {
+            const isNowMobile = window.innerWidth <= 768;
+
+            featureItems.forEach((item) => {
+              if (isNowMobile) {
+                item.classList.add("mobile-collapsed");
+                item.setAttribute("data-expanded", "false");
+              } else {
+                item.classList.remove("mobile-collapsed");
+                item.setAttribute("data-expanded", "true");
+              }
+            });
+          }, 250);
+        });
+
+        // Handle broken images with neon placeholders
+        handleImageErrors();
+      });
+
+      function toggleFeature(element) {
+        const isExpanded = element.getAttribute("data-expanded") === "true";
+
+        if (isExpanded) {
+          element.classList.add("mobile-collapsed");
+          element.setAttribute("data-expanded", "false");
+        } else {
+          element.classList.remove("mobile-collapsed");
+          element.setAttribute("data-expanded", "true");
+        }
+      }
+
+      // Function to handle broken images and replace with neon placeholders
+      function handleImageErrors() {
+        const images = document.querySelectorAll('.content-icon, .news-icon');
+
+        images.forEach(img => {
+          // Check if image is already broken on load
+          if (img.complete && img.naturalHeight === 0) {
+            replaceWithPlaceholder(img);
+          }
+
+          // Handle future load errors
+          img.addEventListener('error', function() {
+            replaceWithPlaceholder(img);
+          });
+
+          // Handle successful loads (remove any existing placeholders)
+          img.addEventListener('load', function() {
+            // Remove any existing placeholder that might be there
+            const placeholder = img.parentNode.querySelector('.image-placeholder');
+            if (placeholder) {
+              placeholder.remove();
+            }
+            img.style.display = 'block';
+          });
+        });
+      }
+
+      // Function to replace broken image with neon placeholder
+      function replaceWithPlaceholder(img) {
+        // Hide the broken image
+        img.style.display = 'none';
+
+        // Check if placeholder already exists
+        let placeholder = img.parentNode.querySelector('.image-placeholder');
+        if (!placeholder) {
+          // Create new placeholder
+          placeholder = document.createElement('div');
+          placeholder.className = 'image-placeholder';
+
+          // Insert placeholder before the image
+          img.parentNode.insertBefore(placeholder, img);
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,4 @@
+C:\xampp\htdocs\oznewfinal\payment\cli\stripe.exe listen --forward-to localhost/oznewfinal/stripe_webhook.php
+
+
+C:\xampp\htdocs\oznewfinal\payment\stripe.exe listen --forward-to localhost/oznewfinal/stripe_webhook.php

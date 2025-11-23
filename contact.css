@@ -1,0 +1,469 @@
+/* === CONTACT PAGE STYLES === */
+
+/* Set the body background and typography for the synthwave theme */
+body.contact-page {
+  background: url("images/contact.png") no-repeat center center fixed;
+  background-size: cover;
+  font-family: "Courier New", monospace;
+  color: white;
+  margin: 0;
+  padding: 80px 20px 20px; /* Adjusted padding for navbar */
+  text-align: center;
+}
+
+/* Page container to hold and center all content */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header styling */
+.page-header {
+  text-align: center;
+  /* Reduced top padding to move the image up */
+  padding: 30px 20px 0;
+  /* Set a negative margin to pull the header up even more */
+  margin-top: -20px;
+}
+
+/* Title image container and image with neon glow */
+.contact-title-img {
+  width: 100%;
+  /* Use a smaller max-width to reduce the image size */
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.contact-title-img img {
+  width: 100%;
+  height: auto;
+  /* Neon glow effect with multiple layers */
+  filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 15px #00ffff)
+    drop-shadow(0 0 25px #00ffff);
+}
+
+/* Subtitle styling */
+.contact-subtitle {
+  color: #ccc;
+  font-size: 1.1em;
+  max-width: 700px;
+  margin: auto;
+  text-shadow: 0 0 6px #000;
+}
+
+/* Contact form container */
+.contact-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Changed to align-items: flex-start to move it up */
+  min-height: 50vh;
+  padding: 0; /* Removed padding to let it sit higher */
+}
+
+/* Contact form styling (retro synthwave) */
+.contact-form {
+  background: rgba(0, 0, 0, 0.7); /* Slightly transparent background */
+  backdrop-filter: blur(5px);
+  border: 2px solid #ff00ff; /* Neon pink border */
+  border-radius: 10px;
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 0 20px #ff00ff, inset 0 0 10px #ff00ff; /* Outer and inner glowing shadow */
+  animation: pulse-glow 2s infinite alternate;
+}
+
+/* Form group for labels and inputs */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  text-align: left;
+  display: block;
+  margin-bottom: 8px;
+  color: #00ffff; /* Neon cyan label text */
+  font-weight: bold;
+  text-shadow: 0 0 5px #00ffff;
+}
+
+/* Input and textarea fields */
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #00ffff;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1em;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Subtle cyan glow */
+  transition: box-shadow 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: #ff00ff; /* Change border color on focus */
+  box-shadow: 0 0 15px #ff00ff, 0 0 25px rgba(255, 0, 255, 0.7); /* Brighter glow on focus */
+}
+
+/* Submit button styling */
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(
+    45deg,
+    #ff00ff,
+    #00ffff
+  ); /* Neon gradient background */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 15px #ff00ff;
+  transition: box-shadow 0.3s ease;
+}
+
+.submit-btn:hover {
+  box-shadow: 0 0 20px #ff00ff, 0 0 30px #00ffff; /* Brighter glow on hover */
+}
+
+/* Pulsating animation for the form */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 20px #ff00ff, inset 0 0 10px #ff00ff;
+  }
+  100% {
+    box-shadow: 0 0 25px #ff00ff, inset 0 0 15px #ff00ff;
+  }
+}
+
+/* Status message for form submission */
+#statusMessage {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-shadow: 0 0 8px #00ffff;
+}
+/* ===== CRITICAL FOOTER FIX - ADD TO END OF accommodation.css ===== */
+
+/* Override any conflicting footer styles */
+
+/* Force footer columns to use flex layout */
+.footer-section .footer-columns {
+  display: flex !important;
+  justify-content: space-around !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 30px !important;
+  gap: unset !important;
+  grid-template-columns: unset !important;
+  align-items: unset !important;
+}
+
+.footer-section .footer-column {
+  flex: 1 1 200px !important;
+  margin: 10px !important;
+  min-width: unset !important;
+  text-align: unset !important;
+}
+
+.footer-section .footer-column h4 {
+  font-size: 1.2em !important;
+  margin-bottom: 15px !important;
+  color: #ffff00 !important;
+  text-shadow: 0 0 8px #ffff00, 0 0 15px rgba(255, 255, 0, 0.5) !important;
+  transition: all 0.3s ease !important;
+  line-height: 1.8 !important;
+}
+
+.footer-section .footer-column h4:hover {
+  text-shadow: 0 0 12px #ffff00, 0 0 25px #ffff00,
+    0 0 40px rgba(255, 255, 0, 0.8) !important;
+  color: #ffffff !important;
+}
+
+.footer-section .footer-column ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.footer-section .footer-column li {
+  color: #ffffff !important;
+  font-size: 0.95em !important;
+  margin: 8px 0 !important;
+  line-height: 1.6 !important;
+  transition: all 0.3s ease !important;
+}
+
+.footer-section .footer-column li a {
+  color: #ffffff !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+  transition: all 0.3s ease !important;
+}
+
+.footer-section .footer-column li a:hover {
+  color: #00eaff !important;
+  text-shadow: 0 0 8px rgba(0, 234, 255, 0.5) !important;
+}
+
+.footer-section .footer-column li:hover {
+  color: #00eaff !important;
+  text-shadow: 0 0 8px rgba(0, 234, 255, 0.5) !important;
+}
+
+/* Connect column flex layout */
+.footer-section .connect-column {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  gap: 15px !important;
+}
+
+.footer-section .connect-column .app-download-section {
+  position: static !important;
+  transform: none !important;
+  margin-top: 12px !important;
+}
+
+/* App download panel */
+.footer-section .app-download-panel {
+  max-width: 220px !important;
+}
+
+/* Footer bottom alignment */
+.footer-section .footer-bottom {
+  text-align: center !important;
+  font-size: 0.85em !important;
+  color: white !important;
+  border-top: 1px solid #444 !important;
+  padding-top: 15px !important;
+}
+
+.footer-section .footer-links {
+  margin-top: 10px !important;
+  text-align: center !important;
+  font-size: 0.85em !important;
+}
+
+/* Responsive footer for tablets */
+@media (max-width: 768px) {
+  .footer-section .footer-columns {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: 1 1 100% !important;
+    margin: 15px 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    font-size: 1.1em !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.9em !important;
+  }
+
+  .footer-section .social-media {
+    justify-content: center !important;
+    gap: 20px !important;
+  }
+
+  .footer-section .app-download-panel {
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Responsive footer for mobile */
+@media (max-width: 480px) {
+  .footer-section .footer-columns {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 15px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: 1 1 100% !important;
+    margin: 10px 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    text-align: center !important;
+    font-size: 1em !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.85em !important;
+  }
+
+  .footer-section .social-media {
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .footer-section .social-icon {
+    font-size: 1.2em !important;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 10px !important;
+  }
+
+  .footer-section .footer-links {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 15px !important;
+  }
+
+  .footer-section .footer-links a {
+    margin: 2px 0 !important;
+    font-size: 0.8em !important;
+  }
+
+  .footer-section .app-download-panel {
+    padding: 12px !important;
+  }
+
+  .footer-section .app-download-panel h5 {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
+}
+/* Mobile view - 2 columns (480px and below) */
+@media (max-width: 480px) {
+  .footer-section .footer-columns {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px 15px !important;
+    align-items: start !important;
+    flex-direction: unset !important;
+    flex-wrap: unset !important;
+    margin-bottom: 30px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: unset !important;
+    margin: 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    text-align: center !important;
+    font-size: 0.95em !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .footer-column ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.8em !important;
+    margin: 4px 0 !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Connect column spans both columns */
+  .footer-section .connect-column {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 15px !important;
+    margin-top: 10px !important;
+  }
+
+  .footer-section .connect-column h4 {
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    color: #ffff33 !important;
+    text-shadow: 0 0 8px #ffff33 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .footer-section .social-media {
+    justify-content: center !important;
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .footer-section .social-icon {
+    font-size: 1.2em !important;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 10px !important;
+  }
+
+  .footer-section .contact-info {
+    text-align: center !important;
+    font-size: 0.85em !important;
+  }
+
+  .footer-section .app-download-panel {
+    max-width: 100% !important;
+    width: 240px !important;
+    padding: 12px !important;
+    margin: 0 auto !important;
+  }
+
+  .footer-section .app-download-panel h5 {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .badge-text {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* Tablets (481px - 768px) - 3 columns */
+@media (min-width: 481px) and (max-width: 768px) {
+  .footer-section .footer-columns {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 20px 15px !important;
+    align-items: start !important;
+    margin-bottom: 30px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: unset !important;
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+  .footer-section .connect-column {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 15px !important;
+    margin-top: 15px !important;
+  }
+}

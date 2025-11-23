@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Diagnostic Test</title>
+    <style>
+        body {
+            background: #0a0a1f;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        
+        .test-container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 2px solid #00eeff;
+            border-radius: 10px;
+        }
+        
+        /* This is what should make your grid work */
+        .room-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            background: rgba(255, 0, 0, 0.1); /* Red tint to see the grid container */
+            padding: 10px;
+            margin: 20px 0;
+        }
+        
+        .room-item {
+            background: linear-gradient(145deg, #0f0f23, #0a0a1f);
+            border: 2px solid #00eeff;
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 150px;
+        }
+        
+        .room-item h3 {
+            margin: 0 0 10px 0;
+            color: #ff4d4d;
+        }
+        
+        .diagnostic-info {
+            background: rgba(255, 255, 0, 0.1);
+            border: 1px solid yellow;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .code-block {
+            background: #000;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        code {
+            color: #0f0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Grid Diagnostic Test</h1>
+    
+    <div class="diagnostic-info">
+        <h2>What to Check:</h2>
+        <ol>
+            <li><strong>Does the test grid below show 3 rooms per row?</strong> If YES, your CSS is working correctly.</li>
+            <li><strong>If NO</strong>, there might be a conflicting style from <code>global.css</code></li>
+            <li>Open browser DevTools (F12), inspect the red-tinted area, and check if <code>display: grid</code> is being applied</li>
+        </ol>
+    </div>
+
+    <div class="test-container">
+        <h2>Test Grid (Should show 3 columns)</h2>
+        <div class="room-grid" id="testGrid">
+            <div class="room-item">
+                <h3>Room 1</h3>
+                <p>This is test room 1</p>
+            </div>
+            <div class="room-item">
+                <h3>Room 2</h3>
+                <p>This is test room 2</p>
+            </div>
+            <div class="room-item">
+                <h3>Room 3</h3>
+                <p>This is test room 3</p>
+            </div>
+            <div class="room-item">
+                <h3>Room 4</h3>
+                <p>This is test room 4</p>
+            </div>
+            <div class="room-item">
+                <h3>Room 5</h3>
+                <p>This is test room 5</p>
+            </div>
+            <div class="room-item">
+                <h3>Room 6</h3>
+                <p>This is test room 6</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="diagnostic-info">
+        <h2>CSS Rules to Add:</h2>
+        <p>Add these to your <code>accommodation.css</code> (or use the cleaned version I provided):</p>
+        <div class="code-block">
+            <code>
+.room-grid {<br>
+&nbsp;&nbsp;display: grid !important;<br>
+&nbsp;&nbsp;grid-template-columns: repeat(3, 1fr) !important;<br>
+&nbsp;&nbsp;gap: 20px !important;<br>
+&nbsp;&nbsp;width: 100% !important;<br>
+}<br><br>
+.room-item {<br>
+&nbsp;&nbsp;/* Remove any width, float, or display properties */<br>
+&nbsp;&nbsp;width: auto; /* Let grid control the width */<br>
+}
+            </code>
+        </div>
+    </div>
+
+    <div class="diagnostic-info" style="background: rgba(255, 100, 100, 0.1); border-color: #ff6666;">
+        <h2>⚠️ Common Issues:</h2>
+        <ul>
+            <li><strong>global.css might be overriding</strong> - Check if global.css has styles for <code>.room-item</code> or <code>.room-grid</code></li>
+            <li><strong>Flexbox on parent</strong> - Make sure <code>.city-rooms</code> doesn't have <code>display: flex</code></li>
+            <li><strong>Width constraints</strong> - Make sure room items don't have fixed widths</li>
+            <li><strong>Float properties</strong> - Ensure no <code>float: left</code> on room items</li>
+        </ul>
+    </div>
+
+    <script>
+        // Log computed styles for debugging
+        window.addEventListener('load', () => {
+            const grid = document.getElementById('testGrid');
+            const computedStyle = window.getComputedStyle(grid);
+            
+            console.log('=== GRID DIAGNOSTIC ===');
+            console.log('Display:', computedStyle.display);
+            console.log('Grid Template Columns:', computedStyle.gridTemplateColumns);
+            console.log('Gap:', computedStyle.gap);
+            console.log('Width:', computedStyle.width);
+            
+            const items = grid.querySelectorAll('.room-item');
+            console.log('Number of items:', items.length);
+            
+            if (computedStyle.display !== 'grid') {
+                alert('⚠️ WARNING: Display is not "grid"! Current value: ' + computedStyle.display);
+            } else if (items.length >= 3) {
+                alert('✅ Grid is working! If your actual page still shows 1 column, check global.css for conflicts.');
+            }
+        });
+    </script>
+</body>
+</html>

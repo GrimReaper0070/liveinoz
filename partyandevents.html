@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live in Oz | Party & Events</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="partyandevents.css">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body class="party-events-page">
+
+    <!-- Navigation bar will be loaded here -->
+    <div id="navbar-placeholder"></div>
+
+    
+    <main class="page-container">
+        
+        <header class="page-header">
+            <div class="events-title-img">
+                <img src="images/party-events-title.png" alt="Party & Events Title">
+            </div>
+            <p class="events-subtitle">Discover the hottest parties, festivals, and meetups happening across Australia! From Sydney rooftop events to Melbourne Latin nights and Brisbane BBQs — find your vibe, join the fun, and meet awesome people.</p>
+        </header>
+
+        <div class="action-bar">
+            <button class="post-event-btn" onclick="openPostEventModal()">
+                📅 Post Your Event
+            </button>
+        </div>
+
+        <div class="city-filter">
+            <button class="city-btn active" data-city="all">All Events</button>
+            <button class="city-btn" data-city="Sydney">Sydney</button>
+            <button class="city-btn" data-city="Melbourne">Melbourne</button>
+            <button class="city-btn" data-city="Brisbane">Brisbane</button>
+            <button class="city-btn" data-city="Perth">Perth</button>
+            <button class="city-btn" data-city="Adelaide">Adelaide</button>
+        </div>
+
+        <h2 class="section-title">Fiestas y Eventos</h2>
+        <div class="poster-grid" id="posterGrid">
+            <!-- Events will be loaded dynamically -->
+        </div>
+
+    </main>
+
+    <!-- Post Event Modal -->
+    <div id="postEventModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePostEventModal()">&times;</span>
+            <h2>📅 Post Your Event</h2>
+
+            <form id="postEventForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="eventTitle">Event Title <span class="required">*</span></label>
+                    <input type="text" id="eventTitle" name="title" required maxlength="255" placeholder="e.g., Latin Night Fever">
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDescription">Description <span class="required">*</span></label>
+                    <textarea id="eventDescription" name="description" required placeholder="Describe your event in detail..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventCity">City <span class="required">*</span></label>
+                    <select id="eventCity" name="city" required>
+                        <option value="">Select your city</option>
+                        <option value="Sydney">Sydney, NSW</option>
+                        <option value="Melbourne">Melbourne, VIC</option>
+                        <option value="Brisbane">Brisbane, QLD</option>
+                        <option value="Perth">Perth, WA</option>
+                        <option value="Adelaide">Adelaide, SA</option>
+                        <option value="Hobart">Hobart, TAS</option>
+                        <option value="Darwin">Darwin, NT</option>
+                        <option value="Canberra">Canberra, ACT</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDate">Event Date <span class="required">*</span></label>
+                    <input type="date" id="eventDate" name="event_date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventTime">Event Time (Optional)</label>
+                    <input type="time" id="eventTime" name="event_time">
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Method <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="eventContactPhone" name="contact_phone_check" onchange="toggleEventContactField('phone')">
+                        <label for="eventContactPhone">Phone</label>
+                    </div>
+                    <input type="tel" id="eventPhoneNumber" name="contact_phone" style="display: none; margin-top: 10px" placeholder="+61 4XX XXX XXX">
+
+                    <div class="checkbox-group" style="margin-top: 10px">
+                        <input type="checkbox" id="eventContactEmail" name="contact_email_check" onchange="toggleEventContactField('email')">
+                        <label for="eventContactEmail">Email</label>
+                    </div>
+                    <input type="email" id="eventEmailAddress" name="contact_email" style="display: none; margin-top: 10px" placeholder="your@email.com">
+
+                    <div class="checkbox-group" style="margin-top: 10px">
+                        <input type="checkbox" id="eventAllowChat" name="allow_chat" checked>
+                        <label for="eventAllowChat">Allow chat on Live in Oz</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Event Poster <span class="required">*</span></label>
+                    <div class="file-upload-area" onclick="document.getElementById('eventPoster').click()">
+                        <p>📸 Click to upload event poster</p>
+                        <p style="font-size: 0.8rem; color: #ccc">JPEG, PNG, or WebP • Max 5MB</p>
+                        <input type="file" id="eventPoster" name="poster" accept="image/jpeg,image/png,image/webp" onchange="handleEventPosterSelect(event)" style="display: none">
+                    </div>
+                    <div class="preview-container" id="eventPreviewContainer"></div>
+                </div>
+
+                <button type="submit" class="submit-btn">🚀 Submit for Review</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Event Detail Modal -->
+    <div id="eventDetailModal" class="event-detail-modal">
+        <div class="event-modal-content">
+            <span class="event-close" onclick="closeEventDetailModal()">&times;</span>
+            <div class="event-modal-body">
+                <div class="event-poster-large">
+                    <img id="eventPosterLarge" src="" alt="Event Poster">
+                </div>
+                <div class="event-details">
+                    <h2 id="eventTitleDetail"></h2>
+                    <div class="event-info">
+                        <p><strong>Location:</strong> <span id="eventLocation"></span></p>
+                        <p><strong>Date:</strong> <span id="eventDateDetail"></span></p>
+                        <p><strong>Time:</strong> <span id="eventTimeDetail"></span></p>
+                    </div>
+                    <div class="event-description">
+                        <p id="eventDescriptionDetail"></p>
+                    </div>
+                    <div class="event-actions">
+                        <button class="action-btn whatsapp-btn" id="whatsappBtn">
+                            <i class="fab fa-whatsapp"></i> Join WhatsApp Group
+                        </button>
+                        <button class="action-btn directions-btn" id="directionsBtn">
+                            <i class="fas fa-directions"></i> Get Directions
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="image-modal" class="image-modal">
+        <span class="close-btn">&times;</span>
+        <img class="modal-content" id="expanded-image">
+    </div>
+    
+    <!-- Footer will be loaded here -->
+    <div id="footer-placeholder"></div>
+    <script src="partyandevents.js"></script>
+
+    <!-- Load the navigation bar -->
+    <script src="nav-loader.js"></script>
+
+    <!-- Load the footer -->
+    <script src="footer-loader.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+/* === STATE CHAT PAGES BACKGROUND (SHARED) === */
+html, body {
+  background: url('https://www.transparenttextures.com/patterns/dark-brick-wall.png');
+  background-color: #000014;
+  font-family: 'Courier New', monospace;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+/* === CHAT INTERFACE STYLES === */
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.chat-header h2 {
+  margin: 0;
+  color: #00eeff;
+  text-shadow: 0 0 10px #00eeff;
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9em;
+  font-family: 'Courier New', monospace;
+}
+
+.status-indicator {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.status-indicator.disconnected {
+  color: #ff4d4d;
+}
+
+.status-indicator.connecting {
+  color: #ffa500;
+}
+
+.status-indicator.connected {
+  color: #00ff00;
+}
+
+.status-indicator.error {
+  color: #ff0000;
+}
+
+.leave-room-btn {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 20px;
+  font-family: 'Courier New', monospace;
+}
+
+.leave-room-btn:hover {
+  background: #ff6666;
+}
+
+.chat-messages {
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00eeff;
+  border-radius: 10px;
+  height: 400px;
+  overflow-y: auto;
+  padding: 15px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.message {
+  background: rgba(26, 26, 46, 0.8);
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+}
+
+.message strong {
+  color: #00eeff;
+}
+
+.timestamp {
+  color: #888;
+  font-size: 0.8em;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00eeff;
+  border-radius: 5px;
+  color: white;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+}
+
+.chat-input input:focus {
+  outline: none;
+  box-shadow: 0 0 10px #00eeff;
+}
+
+.send-btn {
+  background: #00eeff;
+  color: #000;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+}
+
+.send-btn:hover {
+  background: #33ffff;
+}

@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>General Chat - Live in Oz</title>
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="html/chatroom-styles.css" />
+    <link rel="stylesheet" href="chat-map.css" />
+    <link rel="stylesheet" href="chat-buttons.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="auth-php.js"></script>
+    <style>
+      /* ========================================
+   NEON OZ CHAT - COMPLETE STYLES
+   ======================================== */
+
+      /* Reset & Base */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          180deg,
+          #0a1628 0%,
+          #1a0b2e 50%,
+          #2d1b4e 100%
+        );
+        color: #fff;
+        overflow: hidden;
+      }
+
+      /* Main Container */
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 98vh;
+        max-width: 1800px;
+        margin: 0 auto;
+        background: linear-gradient(
+          180deg,
+          rgba(10, 22, 40, 0.95) 0%,
+          rgba(26, 11, 46, 0.95) 100%
+        );
+        border: 3px solid #00eeff;
+        border-radius: 30px;
+        padding: 20px;
+        box-shadow: 0 0 40px rgba(0, 238, 255, 0.4),
+          inset 0 0 60px rgba(0, 238, 255, 0.05);
+        backdrop-filter: blur(10px);
+        margin-top: 10px;
+      }
+
+      /* Header */
+      .header {
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 2px solid rgba(0, 238, 255, 0.2);
+      }
+
+      .header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 0;
+      }
+
+      .side {
+        width: 60px;
+      }
+
+      .center {
+        flex: 1;
+        text-align: center;
+      }
+
+      .side.right {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .header-title {
+        font-family: "Arial Black", sans-serif;
+        font-size: 1.5em;
+        color: #00eeff;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin: 0;
+        text-shadow: 0 0 20px rgba(0, 238, 255, 0.8),
+          0 0 40px rgba(0, 238, 255, 0.5);
+        font-weight: 900;
+      }
+
+      .back-btn {
+        background: rgba(0, 238, 255, 0.1);
+        border: 2px solid #00eeff;
+        color: #00eeff;
+        font-size: 24px;
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 15px rgba(0, 238, 255, 0.3);
+      }
+
+      .back-btn:hover {
+        background: #00eeff;
+        color: #0a1628;
+        transform: translateX(-5px);
+        box-shadow: 0 0 25px rgba(0, 238, 255, 0.6);
+      }
+
+      #my-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #00eeff, #0088ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0a1628;
+        font-weight: bold;
+        font-size: 1.2em;
+        border: 3px solid #00eeff;
+        box-shadow: 0 0 20px rgba(0, 238, 255, 0.5);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      #my-avatar:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px rgba(0, 238, 255, 0.7);
+      }
+
+      /* Messages Container */
+      .messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        scrollbar-width: thin;
+        scrollbar-color: #00eeff rgba(0, 238, 255, 0.1);
+      }
+
+      .messages::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      .messages::-webkit-scrollbar-track {
+        background: rgba(0, 238, 255, 0.05);
+        border-radius: 10px;
+        margin: 10px 0;
+      }
+
+      .messages::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #00eeff, #0088ff);
+        border-radius: 10px;
+        border: 2px solid rgba(10, 22, 40, 0.5);
+      }
+
+      .messages::-webkit-scrollbar-thumb:hover {
+        background: #00eeff;
+      }
+
+      /* Message Row */
+      .message-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 15px;
+        animation: messageSlideIn 0.3s ease-out;
+      }
+
+      @keyframes messageSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .message-row.mine {
+        flex-direction: row-reverse;
+      }
+
+      /* Message Avatar */
+      .message-avatar {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        border: 3px solid #00eeff;
+        box-shadow: 0 0 20px rgba(0, 238, 255, 0.5);
+        overflow: hidden;
+        background: linear-gradient(135deg, #1a0b2e, #2d1b4e);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .message-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .message-avatar.placeholder {
+        background: linear-gradient(135deg, #00eeff, #0088ff);
+        color: #0a1628;
+        font-size: 1.3em;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .message-row.mine .message-avatar {
+        border-color: #ff6b9d;
+        box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+      }
+
+      .message-row.mine .message-avatar.placeholder {
+        background: linear-gradient(135deg, #ff6b9d, #c44569);
+      }
+
+      /* Message Bubble */
+      .message-bubble {
+        max-width: 65%;
+        padding: 18px 24px;
+        border-radius: 25px;
+        background: rgba(0, 238, 255, 0.1);
+        border: 2px solid #00eeff;
+        box-shadow: 0 4px 15px rgba(0, 238, 255, 0.2);
+        backdrop-filter: blur(10px);
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .message-bubble:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(0, 238, 255, 0.4);
+      }
+
+      .message-bubble.mine {
+        background: rgba(255, 107, 157, 0.15);
+        border-color: #ff6b9d;
+        box-shadow: 0 4px 15px rgba(255, 107, 157, 0.2);
+      }
+
+      .message-bubble.mine:hover {
+        box-shadow: 0 6px 25px rgba(255, 107, 157, 0.4);
+      }
+
+      /* Message Name */
+      .message-name {
+        font-weight: bold;
+        font-size: 0.95em;
+        margin-bottom: 8px;
+        color: #00eeff;
+        text-shadow: 0 0 10px rgba(0, 238, 255, 0.5);
+      }
+
+      .message-bubble.mine .message-name {
+        color: #ff6b9d;
+        text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+      }
+
+      .message-name.link {
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .message-name.link:hover {
+        text-decoration: underline;
+        transform: scale(1.05);
+      }
+
+      /* Message Text */
+      .message-text {
+        font-size: 1.05em;
+        line-height: 1.6;
+        color: #e0e0e0;
+        word-wrap: break-word;
+      }
+
+      /* Message Time */
+      .message-time {
+        font-size: 0.8em;
+        color: #888;
+        margin-top: 8px;
+        text-align: right;
+      }
+
+      /* Input Bar */
+      .input-bar {
+        display: flex;
+        gap: 15px;
+        padding: 20px;
+        background: rgba(0, 238, 255, 0.05);
+        border-radius: 25px;
+        border: 2px solid rgba(0, 238, 255, 0.3);
+        margin-top: 20px;
+        box-shadow: 0 -5px 20px rgba(0, 238, 255, 0.1);
+      }
+
+      #message-input {
+        flex: 1;
+        background: rgba(0, 238, 255, 0.05);
+        border: 2px solid rgba(0, 238, 255, 0.3);
+        border-radius: 20px;
+        padding: 15px 25px;
+        color: #fff;
+        font-size: 1em;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      #message-input::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      #message-input:focus {
+        border-color: #00eeff;
+        background: rgba(0, 238, 255, 0.1);
+        box-shadow: 0 0 20px rgba(0, 238, 255, 0.3);
+      }
+
+      #send-btn {
+        background: linear-gradient(135deg, #00eeff, #0088ff);
+        border: none;
+        border-radius: 20px;
+        padding: 15px 35px;
+        color: #0a1628;
+        font-weight: bold;
+        font-size: 1em;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(0, 238, 255, 0.4);
+      }
+
+      #send-btn:hover:not(:disabled) {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(0, 238, 255, 0.6);
+      }
+
+      #send-btn:active:not(:disabled) {
+        transform: translateY(-1px);
+      }
+
+      #send-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* DM Dock */
+      .dm-dock {
+        position: fixed;
+        right: 30px;
+        bottom: 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        z-index: 999;
+      }
+
+      .dm-bubble {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: rgba(0, 238, 255, 0.1);
+        border: 3px solid #00eeff;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 238, 255, 0.3);
+      }
+
+      .dm-bubble:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 25px rgba(0, 238, 255, 0.5);
+      }
+
+      .dm-avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.3em;
+        background: linear-gradient(135deg, #00eeff, #0088ff);
+        color: #0a1628;
+      }
+
+      .dm-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #ff4444;
+        border-radius: 50%;
+        min-width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #0a1628;
+        box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+      }
+
+      .dm-badge-txt {
+        color: #fff;
+        font-size: 0.75em;
+        font-weight: bold;
+      }
+
+      /* DM Requests Popup */
+      .dm-requests-popup {
+        position: fixed;
+        right: 30px;
+        bottom: 200px;
+        width: 320px;
+        background: rgba(10, 22, 40, 0.95);
+        border: 2px solid #00eeff;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 238, 255, 0.3);
+        z-index: 1000;
+        display: none;
+      }
+
+      .dm-popup-header {
+        padding: 20px;
+        border-bottom: 2px solid rgba(0, 238, 255, 0.3);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .dm-popup-header h3 {
+        color: #00eeff;
+        font-size: 1.1em;
+        margin: 0;
+      }
+
+      .dm-close-btn {
+        background: none;
+        border: none;
+        color: #ff4444;
+        font-size: 1.5em;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .dm-close-btn:hover {
+        color: #ff6666;
+        transform: rotate(90deg);
+      }
+
+      .dm-requests-list {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .dm-request {
+        padding: 15px 20px;
+        border-bottom: 1px solid rgba(0, 238, 255, 0.2);
+      }
+
+      .dm-request-name {
+        color: #00eeff;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .dm-request-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .dm-accept-btn,
+      .dm-decline-btn {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .dm-accept-btn {
+        background: linear-gradient(135deg, #00ff88, #00cc66);
+        color: #0a1628;
+      }
+
+      .dm-accept-btn:hover {
+        box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .dm-decline-btn {
+        background: linear-gradient(135deg, #ff4444, #cc0000);
+        color: #fff;
+      }
+
+      .dm-decline-btn:hover {
+        box-shadow: 0 5px 20px rgba(255, 68, 68, 0.4);
+        transform: translateY(-2px);
+      }
+
+      /* User Menu */
+      .user-menu {
+        position: absolute;
+        background: rgba(10, 22, 40, 0.98);
+        border: 2px solid #00eeff;
+        border-radius: 15px;
+        padding: 10px;
+        z-index: 1001;
+        min-width: 200px;
+        box-shadow: 0 10px 30px rgba(0, 238, 255, 0.4);
+      }
+
+      .user-menu-item {
+        padding: 12px 16px;
+        cursor: pointer;
+        color: #00eeff;
+        border-radius: 10px;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.95em;
+      }
+
+      .user-menu-item:hover {
+        background: rgba(0, 238, 255, 0.15);
+        transform: translateX(5px);
+      }
+
+      /* Toast Notification */
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 238, 255, 0.95);
+        color: #0a1628;
+        padding: 15px 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0, 238, 255, 0.5);
+        z-index: 2000;
+        font-weight: bold;
+        animation: toastSlideUp 0.3s ease-out;
+      }
+
+      @keyframes toastSlideUp {
+        from {
+          opacity: 0;
+          transform: translate(-50%, 20px);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, 0);
+        }
+      }
+
+      .toast.error {
+        background: rgba(255, 68, 68, 0.95);
+        color: #fff;
+      }
+
+      .toast.success {
+        background: rgba(0, 255, 136, 0.95);
+        color: #0a1628;
+      }
+
+      /* Login Required */
+      .login-required {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+        padding: 40px;
+      }
+
+      .login-required h2 {
+        color: #00eeff;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(0, 238, 255, 0.5);
+      }
+
+      .login-required p {
+        color: #ccc;
+        font-size: 1.2em;
+        margin-bottom: 30px;
+      }
+
+      .enter-btn {
+        background: linear-gradient(135deg, #00eeff, #0088ff);
+        color: #0a1628;
+        padding: 15px 40px;
+        border-radius: 15px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1em;
+        display: inline-block;
+        margin: 10px;
+        transition: all 0.3s;
+        box-shadow: 0 5px 20px rgba(0, 238, 255, 0.4);
+      }
+
+      .enter-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(0, 238, 255, 0.6);
+      }
+
+      .enter-btn.signup {
+        background: linear-gradient(135deg, #ff6b9d, #c44569);
+        color: #fff;
+        box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+      }
+
+      .enter-btn.signup:hover {
+        box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .container {
+          border-radius: 0;
+          border-left: none;
+          border-right: none;
+          height: 100vh;
+        }
+
+        .message-bubble {
+          max-width: 80%;
+        }
+
+        .dm-dock {
+          right: 15px;
+          bottom: 80px;
+        }
+
+        .dm-requests-popup {
+          right: 15px;
+          width: calc(100% - 30px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Language toggle -->
+
+    <!-- Navigation bar will be loaded here -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Login required message -->
+    <div id="loginRequired" class="login-required hidden">
+      <h2>🔐 Login Required</h2>
+      <p>You need to be logged in to access the chat room.</p>
+      <a href="login.html" class="enter-btn">Login</a>
+      <a href="signup.html" class="enter-btn signup">Sign Up</a>
+    </div>
+
+    <!-- Chat content (hidden by default) -->
+    <div class="container" id="chatContainer" style="display: none">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-row">
+          <div class="side">
+            <button class="back-btn" onclick="leaveRoom()">←</button>
+          </div>
+          <div class="center">
+            <h1 class="header-title" id="roomTitle">🏠 Chat Room</h1>
+          </div>
+          <div class="side right">
+            <div class="avatar" id="my-avatar">U</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- DM Dock -->
+      <div class="dm-dock" id="dm-dock">
+        <!-- DM bubbles will be added here -->
+      </div>
+
+      <!-- DM Requests Popup -->
+      <div class="dm-requests-popup" id="dmRequests">
+        <div class="dm-popup-header">
+          <h3>💬 DM Requests</h3>
+          <button class="dm-close-btn" onclick="hideDMRequests()">✕</button>
+        </div>
+        <div class="dm-requests-list">
+          <!-- DM requests will be added here -->
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="messages" id="messages">
+        <!-- Messages will be added here -->
+      </div>
+
+      <!-- Input Bar -->
+      <div class="input-bar">
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Escribe un mensaje…"
+        />
+        <button id="send-btn" disabled>send</button>
+      </div>
+
+      <!-- Toast -->
+      <div class="toast" id="toast" style="display: none">
+        <span id="toast-text"></span>
+      </div>
+
+      <!-- Report Modal -->
+      <div class="modal" id="report-modal" style="display: none">
+        <div class="modal-content">
+          <h2>Report User</h2>
+          <p>Why are you reporting this message?</p>
+          <button class="report-option" data-reason="Bullying/Harassment">
+            Bullying/Harassment
+          </button>
+          <button class="report-option" data-reason="Spam">Spam</button>
+          <button class="report-option" data-reason="Inappropriate Content">
+            Inappropriate Content
+          </button>
+          <button class="report-option" data-reason="Threats">Threats</button>
+          <button class="report-option" data-reason="Hate Speech">
+            Hate Speech
+          </button>
+          <button class="report-option" data-reason="Other">Other</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let currentState = "";
+      let currentCity = "";
+      let currentRoom = "";
+      let currentUserId = 0;
+      let lastMessageId = 0;
+      let pollInterval = null;
+      let currentLanguage = localStorage.getItem("chat_language") || "en";
+      let reportedUserId = 0;
+      let reportedMessageId = 0;
+
+      // Get URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      currentState = urlParams.get("state") || "";
+      currentCity = urlParams.get("city") || "";
+      currentRoom = urlParams.get("room") || "";
+
+      console.log("=== CHAT INITIALIZATION ===");
+      console.log("Room:", currentRoom);
+      console.log("State:", currentState);
+      console.log("City:", currentCity);
+
+      // Check authentication on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        if (!currentState || !currentCity || !currentRoom) {
+          window.location.href = "chat-directory.html";
+          return;
+        }
+
+        checkAuthentication();
+        setupLanguageToggle();
+        updateLanguage(currentLanguage);
+      });
+
+      function setupLanguageToggle() {
+        document
+          .getElementById("lang-en")
+          .addEventListener("click", () => setLanguage("en"));
+        document
+          .getElementById("lang-es")
+          .addEventListener("click", () => setLanguage("es"));
+      }
+
+      function setLanguage(lang) {
+        currentLanguage = lang;
+        localStorage.setItem("chat_language", lang);
+        updateLanguage(lang);
+      }
+
+      function updateLanguage(lang) {
+        document
+          .getElementById("lang-en")
+          .classList.toggle("active", lang === "en");
+        document
+          .getElementById("lang-es")
+          .classList.toggle("active", lang === "es");
+      }
+
+      async function checkAuthentication() {
+        try {
+          const response = await fetch("check_auth.php", {
+            credentials: "same-origin",
+          });
+          const result = await response.json();
+
+          if (result.authenticated && result.user) {
+            currentUserId = result.user.id;
+            console.log("✅ Authenticated as user ID:", currentUserId);
+            document.getElementById("chatContainer").style.display = "block";
+            initializeChat();
+          } else {
+            document.getElementById("loginRequired").style.display = "block";
+            localStorage.setItem("redirectAfterLogin", window.location.href);
+          }
+        } catch (error) {
+          console.error("Authentication check error:", error);
+          document.getElementById("loginRequired").style.display = "block";
+        }
+      }
+
+      async function initializeChat() {
+        console.log("🎬 Initializing chat...");
+
+        await loadRoomInfo();
+
+        document.getElementById("chatContainer").style.display = "flex";
+        document.getElementById("messages").innerHTML =
+          '<div style="text-align:center;color:#888;padding:20px;">Loading messages...</div>';
+        lastMessageId = 0;
+
+        await loadMessages();
+        loadDMThreads();
+        startMessagePolling();
+        setupInputEvents();
+
+        console.log("✅ Chat initialized");
+      }
+
+      function setupInputEvents() {
+        const input = document.getElementById("message-input");
+        const sendBtn = document.getElementById("send-btn");
+
+        input.addEventListener("input", () => {
+          sendBtn.disabled = !input.value.trim();
+        });
+
+        sendBtn.addEventListener("click", sendMessage);
+
+        input.addEventListener("keypress", (e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+          }
+        });
+
+        document
+          .getElementById("report-modal")
+          .addEventListener("click", (e) => {
+            if (e.target === document.getElementById("report-modal")) {
+              document.getElementById("report-modal").style.display = "none";
+            }
+          });
+
+        document.querySelectorAll(".report-option").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const displayReason = btn.dataset.reason;
+            let reason = "";
+
+            switch (displayReason) {
+              case "Bullying/Harassment":
+                reason = "harassment";
+                break;
+              case "Spam":
+                reason = "spam";
+                break;
+              case "Inappropriate Content":
+                reason = "inappropriate_content";
+                break;
+              case "Threats":
+                reason = "threats";
+                break;
+              case "Hate Speech":
+                reason = "hate_speech";
+                break;
+              case "Other":
+                reason = "other";
+                break;
+              default:
+                reason = "other";
+            }
+
+            if (!reportedUserId) {
+              showToast("Error: No user selected for report", "error");
+              document.getElementById("report-modal").style.display = "none";
+              return;
+            }
+
+            try {
+              const formData = new URLSearchParams();
+              formData.append("reported_user_id", reportedUserId);
+              if (reportedMessageId) {
+                formData.append("message_id", reportedMessageId);
+              }
+              formData.append("reason", reason);
+
+              const response = await fetch("report_user.php", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: formData,
+              });
+
+              const data = await response.json();
+
+              if (data.success) {
+                const message =
+                  currentLanguage === "es"
+                    ? "Reporte enviado. Nuestro equipo de moderación lo revisará."
+                    : "Report submitted. Our moderation team will review it.";
+                showToast(message, "success");
+              } else {
+                showToast("Error: " + data.message, "error");
+              }
+            } catch (error) {
+              console.error("Error submitting report:", error);
+              showToast("Failed to submit report", "error");
+            }
+
+            reportedUserId = 0;
+            reportedMessageId = 0;
+            document.getElementById("report-modal").style.display = "none";
+          });
+        });
+      }
+
+      async function loadRoomInfo() {
+        try {
+          const stateResponse = await fetch("states.php");
+          const stateData = await stateResponse.json();
+
+          if (stateData.success) {
+            const state = stateData.states.find((s) => s.code === currentState);
+            if (state) {
+              const stateName =
+                currentLanguage === "es" ? state.name : state.name;
+              const roomTitle =
+                currentLanguage === "es"
+                  ? `${currentRoom} - ${stateName}`
+                  : `${currentRoom} - ${stateName}`;
+              document.getElementById("roomTitle").textContent = roomTitle;
+            }
+          }
+        } catch (error) {
+          console.error("Error loading room info:", error);
+        }
+      }
+
+      function leaveRoom() {
+        window.location.href = `chat-city.html?state=${currentState}`;
+      }
+
+      async function sendMessage() {
+        const input = document.getElementById("message-input");
+        const message = input.value.trim();
+
+        if (!message || !currentRoom) {
+          console.log("⚠️ Cannot send: empty message or no room");
+          return;
+        }
+
+        console.log("📤 Sending message:", message.substring(0, 50));
+
+        const sendBtn = document.getElementById("send-btn");
+        sendBtn.disabled = true;
+        sendBtn.textContent = "⏳";
+
+        const sentMessage = message;
+        input.value = "";
+
+        try {
+          const response = await fetch("send_message.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              room: currentRoom,
+              state: currentState,
+              message: sentMessage,
+            }),
+          });
+
+          const data = await response.json();
+          console.log("📨 Send response:", data);
+
+          if (data.success) {
+            console.log("✅ Message sent successfully");
+            setTimeout(() => loadNewMessages(), 500);
+          } else {
+            console.error("❌ Send failed:", data.message);
+            showToast("❌ " + data.message, "error");
+            input.value = sentMessage;
+          }
+        } catch (error) {
+          console.error("💥 Send error:", error);
+          showToast("❌ Failed to send message", "error");
+          input.value = sentMessage;
+        } finally {
+          sendBtn.disabled = false;
+          sendBtn.textContent = "send";
+        }
+      }
+
+      async function loadMessages() {
+        if (!currentRoom || !currentState) {
+          console.error("Cannot load messages: missing room or state");
+          return;
+        }
+
+        console.log("📥 Loading messages for:", currentRoom, currentState);
+
+        try {
+          const url = `get_messages.php?room=${encodeURIComponent(
+            currentRoom
+          )}&state=${encodeURIComponent(currentState)}`;
+          console.log("Request URL:", url);
+
+          const response = await fetch(url);
+          const data = await response.json();
+
+          console.log("📨 Messages response:", data);
+
+          if (data.success) {
+            console.log(`✅ Loaded ${data.messages.length} messages`);
+
+            if (data.messages.length === 0) {
+              console.log("ℹ️ No messages in room yet");
+              const container = document.getElementById("messages");
+              container.innerHTML =
+                '<div style="text-align:center;color:#888;padding:20px;">No messages yet. Start the conversation!</div>';
+            } else {
+              displayMessages(data.messages);
+            }
+          } else {
+            console.error("❌ Failed to load messages:", data.message);
+            showToast("Failed to load messages: " + data.message, "error");
+          }
+        } catch (error) {
+          console.error("💥 Load messages error:", error);
+          showToast("Connection error", "error");
+        }
+      }
+
+      async function loadNewMessages() {
+        if (!currentRoom || !currentState) {
+          console.log("⏭️ Skipping poll - no room/state");
+          return;
+        }
+
+        console.log(
+          "🔄 Polling for new messages (lastMessageId:",
+          lastMessageId,
+          ")"
+        );
+
+        try {
+          const url =
+            lastMessageId > 0
+              ? `get_messages.php?room=${encodeURIComponent(
+                  currentRoom
+                )}&state=${encodeURIComponent(
+                  currentState
+                )}&last_id=${lastMessageId}`
+              : `get_messages.php?room=${encodeURIComponent(
+                  currentRoom
+                )}&state=${encodeURIComponent(currentState)}`;
+
+          const response = await fetch(url);
+          const data = await response.json();
+
+          console.log("📬 Poll response:", data);
+
+          if (data.success) {
+            if (data.messages.length > 0) {
+              console.log(`✨ Found ${data.messages.length} new message(s)`);
+              displayMessages(data.messages, true);
+            } else {
+              console.log("📭 No new messages");
+            }
+          } else {
+            console.error("❌ Poll failed:", data.message);
+          }
+        } catch (error) {
+          console.error("💥 Poll error:", error);
+        }
+      }
+
+      function displayMessages(messages, append = false) {
+        const container = document.getElementById("messages");
+
+        console.log(
+          `🎨 Displaying ${messages.length} message(s), append=${append}`
+        );
+
+        if (!append) {
+          container.innerHTML = "";
+        }
+
+        if (messages.length === 0) {
+          console.log("⚠️ No messages to display");
+          return;
+        }
+
+        messages.forEach((msg, index) => {
+          console.log(`Message ${index + 1}:`, {
+            id: msg.id,
+            user_id: msg.user_id,
+            currentUserId: currentUserId,
+            message: msg.message.substring(0, 50),
+          });
+
+          const messageRow = document.createElement("div");
+          messageRow.className = "message-row";
+
+          const isMine = msg.user_id === currentUserId;
+          if (isMine) {
+            messageRow.classList.add("mine");
+          }
+
+          if (!isMine) {
+            const avatar = document.createElement("div");
+            avatar.className = "message-avatar";
+            if (msg.profile_picture) {
+              const img = document.createElement("img");
+              img.src = msg.profile_picture;
+              img.alt = `${msg.first_name} ${msg.last_name}`;
+              img.style.width = "100%";
+              img.style.height = "100%";
+              img.style.borderRadius = "50%";
+              img.style.objectFit = "cover";
+              avatar.appendChild(img);
+            } else {
+              avatar.className += " placeholder";
+              avatar.textContent = msg.first_name[0].toUpperCase();
+            }
+            messageRow.appendChild(avatar);
+          }
+
+          const bubble = document.createElement("div");
+          bubble.className = `message-bubble ${isMine ? "mine" : ""}`;
+
+          const name = document.createElement("div");
+          name.className = `message-name ${!isMine ? "link" : ""}`;
+          name.textContent = `${msg.first_name} ${msg.last_name}`;
+          if (!isMine) {
+            name.onclick = (e) => {
+              e.preventDefault();
+              showUserMenu(e, msg.user_id, msg.first_name, msg.last_name);
+            };
+          }
+          bubble.appendChild(name);
+
+          const text = document.createElement("div");
+          text.className = "message-text";
+          text.textContent = msg.message;
+          bubble.appendChild(text);
+
+          const time = document.createElement("div");
+          time.className = "message-time";
+          time.textContent = new Date(msg.created_at).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          bubble.appendChild(time);
+
+          bubble.addEventListener("contextmenu", (e) => {
+            e.preventDefault();
+            if (!isMine) {
+              reportedUserId = msg.user_id;
+              reportedMessageId = msg.id;
+              document.getElementById("report-modal").style.display = "flex";
+            }
+          });
+
+          messageRow.appendChild(bubble);
+
+          if (isMine) {
+            const avatar = document.createElement("div");
+            avatar.className = "message-avatar";
+            if (msg.profile_picture) {
+              const img = document.createElement("img");
+              img.src = msg.profile_picture;
+              img.alt = `${msg.first_name} ${msg.last_name}`;
+              img.style.width = "100%";
+              img.style.height = "100%";
+              img.style.borderRadius = "50%";
+              img.style.objectFit = "cover";
+              avatar.appendChild(img);
+            } else {
+              avatar.className += " placeholder";
+              avatar.textContent = "Y";
+            }
+            messageRow.appendChild(avatar);
+          }
+
+          container.appendChild(messageRow);
+          lastMessageId = Math.max(lastMessageId, msg.id);
+        });
+
+        console.log("✅ Messages displayed, lastMessageId now:", lastMessageId);
+        container.scrollTop = container.scrollHeight;
+      }
+
+      function showUserMenu(event, userId, firstName, lastName) {
+        event.stopPropagation();
+
+        document
+          .querySelectorAll(".user-menu")
+          .forEach((menu) => menu.remove());
+
+        const menu = document.createElement("div");
+        menu.className = "user-menu";
+        menu.style.left = event.pageX + "px";
+        menu.style.top = event.pageY + "px";
+
+        menu.innerHTML = `
+        <div class="user-menu-item" onclick="sendDMRequest(${userId}, '${firstName}', '${lastName}')">
+            💬 Send Private Message
+        </div>
+        <div class="user-menu-item" onclick="blockUser(${userId}, '${firstName}', '${lastName}')">
+            🚫 Block User
+        </div>
+        <div class="user-menu-item" onclick="showReportModal(${userId})">
+            ⚠️ Report User
+        </div>
+    `;
+
+        document.body.appendChild(menu);
+
+        document.addEventListener(
+          "click",
+          function closeMenu() {
+            menu.remove();
+            document.removeEventListener("click", closeMenu);
+          },
+          { once: true }
+        );
+      }
+
+      async function sendDMRequest(targetUserId, firstName, lastName) {
+        console.log(
+          "Sending DM request to user ID:",
+          targetUserId,
+          "Name:",
+          firstName,
+          lastName
+        );
+
+        if (!targetUserId || targetUserId === 0) {
+          console.error("Invalid target user ID:", targetUserId);
+          alert("Error: Invalid user ID");
+          return;
+        }
+
+        try {
+          const response = await fetch("dm_request.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              target_user_id: targetUserId,
+            }),
+          });
+
+          const data = await response.json();
+          console.log("DM request response:", data);
+
+          if (data.success) {
+            const message =
+              currentLanguage === "es"
+                ? `Solicitud de mensaje privado enviada a ${firstName} ${lastName}`
+                : `Private message request sent to ${firstName} ${lastName}`;
+            showToast(message, "success");
+          } else {
+            alert("Error: " + data.message);
+          }
+        } catch (error) {
+          console.error("Error sending DM request:", error);
+          alert("Failed to send DM request");
+        }
+      }
+
+      async function blockUser(userId, firstName, lastName) {
+        if (
+          !confirm(
+            `Are you sure you want to block ${firstName} ${lastName}? This will prevent all communication between you.`
+          )
+        ) {
+          return;
+        }
+
+        try {
+          const response = await fetch("block_user.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              target_user_id: userId,
+              reason: "Blocked from chat interface",
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            const message =
+              currentLanguage === "es"
+                ? `Usuario ${firstName} ${lastName} bloqueado`
+                : `User ${firstName} ${lastName} blocked`;
+            showToast(message, "success");
+            loadDMThreads();
+          } else {
+            alert("Error: " + data.message);
+          }
+        } catch (error) {
+          console.error("Error blocking user:", error);
+          alert("Failed to block user");
+        }
+      }
+
+      function startMessagePolling() {
+        if (!currentRoom || !currentState) {
+          console.error("❌ Cannot start polling: missing room or state");
+          return;
+        }
+
+        console.log("🚀 Starting message polling");
+
+        pollInterval = setInterval(function () {
+          loadNewMessages();
+        }, 3000);
+
+        startDMPolling();
+      }
+
+      let dmPollInterval = null;
+      function startDMPolling() {
+        console.log("Starting DM polling for real-time notifications");
+        dmPollInterval = setInterval(function () {
+          loadDMThreads();
+        }, 15000);
+      }
+
+      function stopDMPolling() {
+        if (dmPollInterval) {
+          clearInterval(dmPollInterval);
+          dmPollInterval = null;
+        }
+      }
+
+      async function loadDMThreads() {
+        try {
+          const response = await fetch("dm_get_threads.php");
+          const data = await response.json();
+
+          if (data.success) {
+            displayDMThreads(data.threads);
+            displayDMRequests(data.pending_requests);
+
+            const totalUnread = data.threads.reduce(
+              (sum, thread) => sum + (thread.unread_count || 0),
+              0
+            );
+            updateDMUnreadCount(totalUnread);
+          }
+        } catch (error) {
+          console.error("Error loading DM threads:", error);
+        }
+      }
+
+      function displayDMThreads(threads) {
+        const container = document.getElementById("dm-dock");
+        container.innerHTML = "";
+
+        if (threads.length === 0) {
+          return;
+        }
+
+        threads.forEach((thread) => {
+          const bubble = document.createElement("div");
+          bubble.className = "dm-bubble";
+          bubble.onclick = () => openDMThread(thread.thread_id);
+
+          const avatar = document.createElement("div");
+          avatar.className = "dm-avatar placeholder";
+          avatar.textContent = thread.other_user_name.charAt(0).toUpperCase();
+          bubble.appendChild(avatar);
+
+          if (thread.unread_count > 0) {
+            const badge = document.createElement("div");
+            badge.className = "dm-badge";
+            badge.innerHTML = `<span class="dm-badge-txt">${
+              thread.unread_count > 99 ? "99+" : thread.unread_count
+            }</span>`;
+            bubble.appendChild(badge);
+          }
+
+          container.appendChild(bubble);
+        });
+      }
+
+      function displayDMRequests(requests) {
+        const container = document.getElementById("dmRequests");
+        const dmRequestsList = container.querySelector(".dm-requests-list");
+
+        if (requests.length === 0) {
+          container.style.display = "none";
+          return;
+        }
+
+        container.style.display = "block";
+        dmRequestsList.innerHTML = "";
+
+        requests.forEach((request) => {
+          const requestDiv = document.createElement("div");
+          requestDiv.className = "dm-request";
+
+          requestDiv.innerHTML = `
+            <div class="dm-request-name">${request.requester_name} wants to chat privately</div>
+            <div class="dm-request-actions">
+                <button class="dm-accept-btn" onclick="respondToDMRequest(${request.request_id}, 'accept')">Accept</button>
+                <button class="dm-decline-btn" onclick="respondToDMRequest(${request.request_id}, 'decline')">Decline</button>
+            </div>
+        `;
+
+          dmRequestsList.appendChild(requestDiv);
+        });
+      }
+
+      function hideDMRequests() {
+        const container = document.getElementById("dmRequests");
+        container.style.display = "none";
+      }
+
+      function updateDMUnreadCount(count) {
+        const badge = document.getElementById("dmUnreadCount");
+        if (badge) {
+          if (count > 0) {
+            badge.textContent = count > 99 ? "99+" : count;
+            badge.style.display = "inline";
+          } else {
+            badge.style.display = "none";
+          }
+        }
+      }
+
+      async function respondToDMRequest(requestId, action) {
+        try {
+          const response = await fetch("dm_respond.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              request_id: requestId,
+              action: action,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            loadDMThreads();
+
+            const message =
+              currentLanguage === "es"
+                ? action === "accept"
+                  ? "Solicitud de chat privado aceptada"
+                  : "Solicitud de chat privado rechazada"
+                : action === "accept"
+                ? "Private chat request accepted"
+                : "Private chat request declined";
+
+            showToast(message, "success");
+          } else {
+            alert("Error: " + data.message);
+          }
+        } catch (error) {
+          console.error("Error responding to DM request:", error);
+          alert("Failed to respond to request");
+        }
+      }
+
+      function openDMThread(threadId) {
+        window.location.href = `dm-chat.html?thread=${encodeURIComponent(
+          threadId
+        )}`;
+      }
+
+      function showReportModal(userId) {
+        reportedUserId = userId;
+        reportedMessageId = 0;
+        document.getElementById("report-modal").style.display = "flex";
+      }
+
+      function showToast(message, type = "info") {
+        const toast = document.getElementById("toast");
+        const toastText = document.getElementById("toast-text");
+
+        toastText.textContent = message;
+        toast.className = `toast ${type}`;
+        toast.style.display = "block";
+
+        setTimeout(() => {
+          toast.style.display = "none";
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>

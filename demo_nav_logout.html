@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Navigation Logout Button</title>
+    <link rel="stylesheet" href="global.css">
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+    
+    <div style="padding: 20px; text-align: center;">
+        <h1>Navigation Logout Button Demo</h1>
+        <p>This page demonstrates the navigation bar with logout functionality.</p>
+        <p>When you're logged in, you'll see your name and a logout button in the navigation bar.</p>
+        <p>When you're not logged in, you'll see a login button instead.</p>
+        
+        <div style="margin-top: 30px;">
+            <h2>How It Works</h2>
+            <ul style="text-align: left; display: inline-block;">
+                <li>The navigation bar dynamically checks if you're logged in</li>
+                <li>If logged in: Shows "Welcome, [Your Name]" and a logout button</li>
+                <li>If not logged in: Shows a login button</li>
+                <li>The logout button links to <code>logout.php</code> which clears your session</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="nav-loader.js"></script>
+</body>
+</html>

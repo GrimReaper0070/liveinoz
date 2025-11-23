@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chat Rooms - Live in Oz</title>
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="html/salon-list.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="auth-php.js"></script>
+    <style>
+      body {
+        background: url("images/brick-wall.jpg");
+        background-color: #000014;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .breadcrumb {
+        margin-bottom: 20px;
+        font-size: 0.9em;
+      }
+
+      .breadcrumb a {
+        color: #00eeff;
+        text-decoration: none;
+      }
+
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      .breadcrumb span {
+        color: #888;
+      }
+
+      .rooms-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .room-card {
+        background: rgba(0, 0, 0, 0.8);
+        border: 2px solid #00eeff;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .room-card:hover {
+        background: rgba(0, 238, 255, 0.1);
+        transform: translateY(-3px);
+      }
+
+      .room-name {
+        font-size: 1.2em;
+        color: #00eeff;
+        margin-bottom: 8px;
+      }
+
+      .room-type {
+        color: #888;
+        font-size: 0.8em;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .room-card.general {
+        border-color: #00eeff;
+      }
+      .room-card.help {
+        border-color: #00ff88;
+      }
+      .room-card.housing {
+        border-color: #ffaa00;
+      }
+      .room-card.jobs {
+        border-color: #ff4444;
+      }
+      .room-card.buy_sell {
+        border-color: #aa44ff;
+      }
+      .room-card.suggestions {
+        border-color: #44aaff;
+      }
+      .room-card.off_topic {
+        border-color: #ff66aa;
+      }
+      .room-card.more {
+        border-color: #ffaa44;
+      }
+
+      .language-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        border: 2px solid #00eeff;
+        border-radius: 25px;
+        padding: 5px;
+        cursor: pointer;
+      }
+
+      .lang-btn {
+        background: none;
+        border: none;
+        color: #888;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-family: "Courier New", monospace;
+      }
+
+      .lang-btn.active {
+        background: #00eeff;
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation bar will be loaded here -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Main content with salon-list design -->
+    <div class="background" id="mainContent" style="display: none">
+      <div class="overlay"></div>
+      <div class="container">
+        <header>
+          <h1 class="title" id="pageTitle">Chat Rooms</h1>
+          <div class="chips">
+            <div class="chip chip-city">
+              <span id="breadcrumb-state">State</span>
+            </div>
+            <div class="chip chip-lang">
+              <span>EN | ES</span>
+            </div>
+            <div class="chip chip-back">
+              <span>← Back</span>
+            </div>
+          </div>
+          <div class="search-wrap">
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search rooms"
+              id="searchInput"
+            />
+          </div>
+          <div class="tabs">
+            <div class="tab active" data-cat="all">All</div>
+            <div class="tab" data-cat="social">Social</div>
+            <div class="tab" data-cat="daily">Daily Life</div>
+            <div class="tab" data-cat="work">Work & Money</div>
+            <div class="tab" data-cat="fitness">Fitness</div>
+            <div class="tab" data-cat="hobbies">Hobbies</div>
+          </div>
+        </header>
+        <main class="grid" id="roomsContainer">
+          <!-- Rooms will be loaded here -->
+        </main>
+      </div>
+    </div>
+
+    <script>
+      let currentLanguage = localStorage.getItem("chat_language") || "en";
+      let currentState = "";
+      let currentCity = "";
+      let allRooms = [];
+      let currentCategory = "all";
+      let currentSearch = "";
+
+      // Colors for fallback (old rooms without DB colors)
+      const fallbackColors = {
+        general: "#00e5ff",
+        help: "#ff3fd8",
+        housing: "#ff8a5c",
+        jobs: "#00ffb0",
+        buy_sell: "#5599ff",
+        suggestions: "#ffa03c",
+        off_topic: "#ff6b8b",
+        more: "#ffaa44",
+      };
+
+      // Get URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      currentState = urlParams.get("state") || "";
+
+      // Check authentication on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        if (!currentState) {
+          window.location.href = "chat-directory.html";
+          return;
+        }
+
+        checkAuthentication();
+        setupEventListeners();
+        updateLanguage(currentLanguage);
+      });
+
+      async function checkAuthentication() {
+        try {
+          const authenticated = await isAuthenticated();
+
+          if (authenticated) {
+            // Initialize user preferences first
+            await fetch("init_user_prefs.php");
+
+            document.getElementById("mainContent").style.display = "block";
+            await loadStateInfo(); // Wait for state info to load
+            loadRooms(); // Then load rooms
+          } else {
+            document.getElementById("loginRequired").style.display = "block";
+            localStorage.setItem("redirectAfterLogin", window.location.href);
+          }
+        } catch (error) {
+          console.error("Authentication check error:", error);
+          document.getElementById("loginRequired").style.display = "block";
+        }
+      }
+
+      function setupEventListeners() {
+        // Language toggle
+        document.querySelector(".chip-lang").addEventListener("click", () => {
+          const newLang = currentLanguage === "en" ? "es" : "en";
+          setLanguage(newLang);
+        });
+
+        // Back button
+        document.querySelector(".chip-back").addEventListener("click", () => {
+          window.location.href = "chat-directory.html";
+        });
+
+        // Search input
+        document
+          .getElementById("searchInput")
+          .addEventListener("input", (e) => {
+            currentSearch = e.target.value.toLowerCase();
+            filterAndDisplayRooms();
+          });
+
+        // Category tabs
+        document.querySelectorAll(".tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            setActiveCategory(tab.dataset.cat);
+          });
+        });
+      }
+
+      async function setLanguage(lang) {
+        currentLanguage = lang;
+        localStorage.setItem("chat_language", lang);
+        updateLanguage(lang);
+
+        // Update language preference in database
+        try {
+          await fetch("update_language.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `language=${lang}`,
+          });
+        } catch (error) {
+          console.error("Failed to update language preference:", error);
+        }
+
+        // Reload state info and rooms with new language
+        await loadStateInfo();
+        loadRooms();
+      }
+
+      function updateLanguage(lang) {
+        const langChip = document.querySelector(".chip-lang span");
+        langChip.textContent = lang === "en" ? "EN | ES" : "ES | EN";
+
+        const backChip = document.querySelector(".chip-back span");
+        backChip.textContent = lang === "en" ? "← Back" : "← Volver";
+
+        const searchInput = document.getElementById("searchInput");
+        searchInput.placeholder =
+          lang === "en" ? "Search rooms" : "Buscar salas";
+
+        const titles = {
+          en: {
+            title: "Chat Rooms",
+            subtitle: "Choose a room to start chatting",
+          },
+          es: {
+            title: "Salas de Chat",
+            subtitle: "Elige una sala para comenzar a chatear",
+          },
+        };
+
+        document.getElementById("pageTitle").textContent = titles[lang].title;
+
+        // Update tab labels
+        const tabLabels = {
+          en: {
+            all: "All",
+            social: "Social",
+            daily: "Daily Life",
+            work: "Work & Money",
+            fitness: "Fitness",
+            hobbies: "Hobbies",
+          },
+          es: {
+            all: "Todas",
+            social: "Social",
+            daily: "Vida diaria",
+            work: "Trabajo y dinero",
+            fitness: "Fitness",
+            hobbies: "Hobbies",
+          },
+        };
+
+        document.querySelectorAll(".tab").forEach((tab) => {
+          const cat = tab.dataset.cat;
+          tab.textContent = tabLabels[lang][cat];
+        });
+      }
+
+      function setActiveCategory(newCat) {
+        currentCategory = newCat;
+        document.querySelectorAll(".tab").forEach((tab) => {
+          if (tab.dataset.cat === newCat) {
+            tab.classList.add("active");
+          } else {
+            tab.classList.remove("active");
+          }
+        });
+        filterAndDisplayRooms();
+      }
+
+      async function loadStateInfo() {
+        try {
+          const response = await fetch(`states.php?lang=${currentLanguage}`);
+          const data = await response.json();
+
+          if (data.success) {
+            const state = data.states.find((s) => s.code === currentState);
+            if (state) {
+              currentCity = state.main_city;
+              document.getElementById("breadcrumb-state").textContent =
+                state.name;
+              document.getElementById("pageTitle").textContent =
+                (currentLanguage === "es"
+                  ? "Salas de Chat - "
+                  : "Chat Rooms - ") + state.name;
+            }
+          }
+        } catch (error) {
+          console.error("Error loading state info:", error);
+        }
+      }
+
+      async function loadRooms() {
+        if (!currentState || !currentCity) return;
+
+        try {
+          const response = await fetch(
+            `chat_rooms.php?state=${currentState}&city=${currentCity}&lang=${currentLanguage}`
+          );
+          const data = await response.json();
+
+          if (data.success) {
+            allRooms = data.rooms;
+            filterAndDisplayRooms();
+          } else {
+            console.error("Failed to load rooms:", data.message);
+            document.getElementById("roomsContainer").innerHTML =
+              "<p>Failed to load rooms. Please try again.</p>";
+          }
+        } catch (error) {
+          console.error("Error loading rooms:", error);
+          document.getElementById("roomsContainer").innerHTML =
+            "<p>Error loading rooms. Please check your connection.</p>";
+        }
+      }
+
+      function filterAndDisplayRooms() {
+        let filteredRooms = allRooms;
+
+        // Filter by category
+        if (currentCategory !== "all") {
+          const categoryMapping = {
+            social: ["general", "off_topic", "more"],
+            daily: ["housing", "daily_static"],
+            work: ["jobs", "buy_sell"],
+            fitness: ["fitness_static"],
+            hobbies: ["hobbies_static"],
+          };
+
+          filteredRooms = filteredRooms.filter((room) =>
+            categoryMapping[currentCategory].includes(room.type)
+          );
+        }
+
+        // Filter by search
+        if (currentSearch) {
+          filteredRooms = filteredRooms.filter((room) =>
+            room.name.toLowerCase().includes(currentSearch)
+          );
+        }
+
+        displayRooms(filteredRooms);
+      }
+
+      function displayRooms(rooms) {
+        const container = document.getElementById("roomsContainer");
+        container.innerHTML = "";
+
+        // Fallback emojis and colors for rooms without DB values
+        const fallbackEmojis = {
+          general: "💬",
+          help: "🆘",
+          housing: "🏠",
+          jobs: "💼",
+          buy_sell: "🛒",
+          suggestions: "💡",
+          off_topic: "🎭",
+          more: "🎉",
+          daily_static: "📋",
+          fitness_static: "🏋️",
+          hobbies_static: "🎮",
+          work: "💡",
+        };
+
+        rooms.forEach((room) => {
+          const card = document.createElement("div");
+          card.className = `card ${room.type}`;
+
+          const chosenEmoji = room.emoji || fallbackEmojis[room.type] || "💬";
+          const chosenColor =
+            room.color || fallbackColors[room.type] || "#00e5ff";
+
+          card.style.color = chosenColor;
+          card.style.borderColor = chosenColor;
+          card.onclick = () => enterRoom(room.identifier);
+
+          let roomTypeText =
+            currentLanguage === "es"
+              ? room.type.replace(/_/g, " ")
+              : room.type.replace(/_/g, " ");
+
+          if (room.type === "daily_static") {
+            roomTypeText = "Daily";
+          } else if (room.type === "fitness_static") {
+            roomTypeText = "Fitness";
+          } else if (room.type === "hobbies_static") {
+            roomTypeText = "Hobbies";
+          } else if (room.type === "work") {
+            roomTypeText = "Work";
+          } else if (room.type === "hobbies") {
+            roomTypeText = "Hobbies";
+          }
+
+          card.innerHTML = `
+                    <div class="card-title">
+                        <span>${chosenEmoji}</span>
+                        <span>${room.name}</span>
+                    </div>
+                    <div class="meta">${roomTypeText}</div>
+                `;
+
+          container.appendChild(card);
+        });
+      }
+
+      function enterRoom(roomName) {
+        // Navigate to the chat room
+        window.location.href = `general-chat.html?state=${currentState}&city=${currentCity}&room=${encodeURIComponent(
+          roomName
+        )}`;
+      }
+    </script>
+
+    <!-- Load the navigation bar -->
+    <script src="nav-loader.js"></script>
+  </body>
+</html>

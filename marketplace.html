@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marketplace | Live in Oz</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="global.css" />
+        <link rel="stylesheet" href="marketplace.css" />
+    <style>
+      /* Marketplace Page Styles */
+      body.marketplace-page {
+        
+        background-color: #000014;
+        font-family: "Orbitron", sans-serif;
+        color: #fff;
+        padding-top: 60px;
+      }
+
+      .hero {
+        text-align: center;
+        padding: 60px 20px 20px;
+        background-color: rgba(0, 0, 0, 0.6);
+        border-bottom: 2px solid #ff00cc;
+      }
+
+      .hero .main-title {
+        font-size: 3rem;
+        color: #00f0ff;
+        text-shadow: 0 0 10px #00f0ff, 0 0 20px #ff00cc;
+        margin: 0;
+      }
+
+      .hero .tagline {
+        font-size: 1.1rem;
+        color: #b3f0ff;
+        text-shadow: 0 0 8px #00f0ff;
+        margin: 10px auto 0;
+        max-width: 600px;
+      }
+
+      .action-bar {
+        text-align: center;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+
+      .post-item-btn {
+        background: linear-gradient(45deg, #ff00cc, #00f0ff);
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: bold;
+        padding: 15px 40px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        box-shadow: 0 0 20px rgba(255, 0, 204, 0.6);
+        transition: all 0.3s ease;
+        font-family: "Orbitron", sans-serif;
+      }
+
+      .post-item-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.8);
+      }
+
+      /* Filter Section */
+      .filter-section {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: rgba(26, 26, 26, 0.8);
+        border: 1px solid #00f0ff;
+        border-radius: 10px;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .filter-section select {
+        padding: 10px;
+        background-color: #1a1a1a;
+        color: #00f0ff;
+        border: 1px solid #00f0ff;
+        border-radius: 5px;
+        font-family: "Orbitron", sans-serif;
+        cursor: pointer;
+      }
+
+      /* Marketplace Grid */
+      .marketplace-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      .marketplace-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        justify-content: center;
+      }
+
+      @media (max-width: 600px) {
+        .marketplace-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .marketplace-item {
+        background-color: rgba(26, 26, 26, 0.9);
+        border: 1px solid #333;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .marketplace-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0, 240, 255, 0.8);
+      }
+
+      .marketplace-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      .marketplace-item h3 {
+        color: #ffcc00;
+        font-size: 1.5rem;
+        margin: 10px 0;
+      }
+
+      .marketplace-item .price {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #00f0ff;
+        text-shadow: 0 0 5px #00f0ff;
+        margin: 5px 0;
+      }
+
+      .marketplace-item .free-badge {
+        background-color: #00ff00;
+        color: #000;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+
+      .marketplace-item .description {
+        font-size: 0.9rem;
+        color: #ccc;
+        margin-top: 5px;
+        text-align: left;
+      }
+
+      .marketplace-item .location {
+        font-size: 0.85rem;
+        color: #ff00cc;
+        margin-top: 10px;
+      }
+
+      /* Modal Styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+      }
+
+      .modal-content {
+        background-color: #1a1a1a;
+        margin: 2% auto;
+        padding: 30px;
+        border: 2px solid #00f0ff;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 600px;
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.8);
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .close {
+        color: #ff00cc;
+        float: right;
+        font-size: 35px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+
+      .close:hover {
+        color: #00f0ff;
+      }
+
+      .modal h2 {
+        color: #00f0ff;
+        text-shadow: 0 0 10px #00f0ff;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      .form-group label {
+        display: block;
+        color: #00f0ff;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        background-color: #0a0a0a;
+        color: #fff;
+        border: 1px solid #00f0ff;
+        border-radius: 5px;
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+      }
+
+      .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .form-group input[type="checkbox"] {
+        width: auto;
+        margin-right: 10px;
+      }
+
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .file-upload-area {
+        border: 2px dashed #00f0ff;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .file-upload-area:hover {
+        background-color: rgba(0, 240, 255, 0.1);
+      }
+
+      .file-upload-area input[type="file"] {
+        display: none;
+      }
+
+      .preview-container {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 15px;
+      }
+
+      .preview-image {
+        position: relative;
+        width: 100px;
+        height: 100px;
+      }
+
+      .preview-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+        border: 1px solid #00f0ff;
+      }
+
+      .preview-image .remove-btn {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: #ff0000;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(45deg, #00f0ff, #ff00cc);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: "Orbitron", sans-serif;
+      }
+
+      .submit-btn:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(0, 240, 255, 0.8);
+      }
+
+      .submit-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .required {
+        color: #ff00cc;
+      }
+
+
+      
+/* Responsive footer for tablets */
+@media (max-width: 768px) {
+  .footer-section .footer-columns {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: 1 1 100% !important;
+    margin: 15px 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    font-size: 1.1em !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.9em !important;
+  }
+
+  .footer-section .social-media {
+    justify-content: center !important;
+    gap: 20px !important;
+  }
+
+  .footer-section .app-download-panel {
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Responsive footer for mobile */
+@media (max-width: 480px) {
+  .footer-section .footer-columns {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 15px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: 1 1 100% !important;
+    margin: 10px 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    text-align: center !important;
+    font-size: 1em !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.85em !important;
+  }
+
+  .footer-section .social-media {
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .footer-section .social-icon {
+    font-size: 1.2em !important;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 10px !important;
+  }
+
+  .footer-section .footer-links {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 15px !important;
+  }
+
+  .footer-section .footer-links a {
+    margin: 2px 0 !important;
+    font-size: 0.8em !important;
+  }
+
+  .footer-section .app-download-panel {
+    padding: 12px !important;
+  }
+
+  .footer-section .app-download-panel h5 {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
+}
+
+/* ===== MOBILE FOOTER 2-COLUMN LAYOUT ===== */
+
+/* Mobile view - 2 columns (480px and below) */
+@media (max-width: 480px) {
+  .footer-section .footer-columns {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px 15px !important;
+    align-items: start !important;
+    flex-direction: unset !important;
+    flex-wrap: unset !important;
+    margin-bottom: 30px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: unset !important;
+    margin: 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    text-align: center !important;
+    font-size: 0.95em !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .footer-column ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.8em !important;
+    margin: 4px 0 !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Connect column spans both columns */
+  .footer-section .connect-column {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 15px !important;
+    margin-top: 10px !important;
+  }
+
+  .footer-section .connect-column h4 {
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    color: #ffff33 !important;
+    text-shadow: 0 0 8px #ffff33 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .footer-section .social-media {
+    justify-content: center !important;
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .footer-section .social-icon {
+    font-size: 1.2em !important;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 10px !important;
+  }
+
+  .footer-section .contact-info {
+    text-align: center !important;
+    font-size: 0.85em !important;
+  }
+
+  .footer-section .app-download-panel {
+    max-width: 100% !important;
+    width: 240px !important;
+    padding: 12px !important;
+    margin: 0 auto !important;
+  }
+
+  .footer-section .app-download-panel h5 {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .badge-text {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* Tablets (481px - 768px) - 3 columns */
+@media (min-width: 481px) and (max-width: 768px) {
+  .footer-section .footer-columns {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 20px 15px !important;
+    align-items: start !important;
+    margin-bottom: 30px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: unset !important;
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+  .footer-section .connect-column {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 15px !important;
+    margin-top: 15px !important;
+  }
+}
+
+
+
+/* ===== EXTRA SMALL MOBILE (409px and below) ===== */
+@media (max-width: 409px) {
+  /* Menu Toggle Button */
+  .menu-toggle {
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    gap: 5px;
+  }
+
+  .menu-toggle span {
+    width: 22px;
+    height: 2.5px;
+  }
+
+  /* Menu Title */
+  .menu-header {
+    top: 20px;
+  }
+
+  .menu-title {
+    font-size: 1.6rem;
+    letter-spacing: 4px;
+  }
+
+  /* Mobile Navigation Menu */
+  .main-menu {
+    width: 85%;
+    max-width: 320px;
+    padding: 100px 20px 30px 20px;
+  }
+
+  .main-menu a {
+    padding: 12px 18px;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    border-radius: 10px;
+  }
+
+  .main-menu a .icon {
+    font-size: 1.3rem;
+  }
+
+  /* User Info Section */
+  .user-info {
+    margin-top: 25px;
+    padding-top: 25px;
+  }
+
+  /* Footer 2-Column Layout for Extra Small Screens */
+  .footer-section .footer-columns {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 15px 10px !important;
+  }
+
+  .footer-section .footer-column h4 {
+    font-size: 0.9em !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.75em !important;
+  }
+
+  .footer-section .social-icon {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 1.1em !important;
+  }
+
+  .footer-section .app-download-panel {
+    width: 220px !important;
+    padding: 10px !important;
+  }
+}
+    </style>
+  </head>
+
+  <body class="marketplace-page">
+    <div id="navbar-placeholder"></div>
+
+    <section class="hero">
+      <h1 class="main-title neon-text">🛍️ Marketplace</h1>
+      <p class="tagline">
+        Buy, sell or give away items in your city. 100% community driven.
+      </p>
+    </section>
+
+    <div class="action-bar">
+      <button class="post-item-btn" onclick="openPostModal()">
+        📦 Post an Item
+      </button>
+    </div>
+
+    <div class="filter-section">
+      <select id="categoryFilter" onchange="filterItems()">
+        <option value="">All Categories</option>
+        <option value="electronics">💻 Electronics</option>
+        <option value="furniture">🪑 Furniture</option>
+        <option value="vehicles">🚗 Vehicles</option>
+        <option value="clothing">👕 Clothing</option>
+        <option value="miscellaneous">🌀 Miscellaneous</option>
+        <option value="free_items">🎁 Free Items</option>
+      </select>
+
+      <select id="cityFilter" onchange="filterItems()">
+        <option value="">All Cities</option>
+        <option value="Sydney">Sydney</option>
+        <option value="Melbourne">Melbourne</option>
+        <option value="Brisbane">Brisbane</option>
+        <option value="Perth">Perth</option>
+        <option value="Adelaide">Adelaide</option>
+        <option value="Hobart">Hobart</option>
+        <option value="Darwin">Darwin</option>
+        <option value="Canberra">Canberra</option>
+      </select>
+
+      <select id="priceSort" onchange="filterItems()">
+        <option value="">Sort by</option>
+        <option value="newest">Newest First</option>
+        <option value="price_low">Price: Low to High</option>
+        <option value="price_high">Price: High to Low</option>
+      </select>
+    </div>
+
+    <section class="marketplace-container">
+      <div class="marketplace-grid" id="marketplaceGrid">
+        <!-- Items will be loaded here dynamically -->
+      </div>
+    </section>
+
+    <!-- Post Item Modal -->
+    <div id="postModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closePostModal()">&times;</span>
+        <h2>📦 Post an Item</h2>
+
+        <form id="postItemForm" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="itemTitle"
+              >Item Title <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="itemTitle"
+              name="title"
+              required
+              maxlength="255"
+              placeholder="e.g., Vintage Wooden Table"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="category"
+              >Category <span class="required">*</span></label
+            >
+            <select id="category" name="category" required>
+              <option value="">Select a category</option>
+              <option value="electronics">💻 Electronics</option>
+              <option value="furniture">🪑 Furniture</option>
+              <option value="vehicles">🚗 Vehicles</option>
+              <option value="clothing">👕 Clothing</option>
+              <option value="miscellaneous">🌀 Miscellaneous</option>
+              <option value="free_items">🎁 Free Items</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="description"
+              >Description <span class="required">*</span></label
+            >
+            <textarea
+              id="description"
+              name="description"
+              required
+              placeholder="Describe your item in detail..."
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="isFree"
+                name="is_free"
+                onchange="togglePrice()"
+              />
+              <label for="isFree">This item is FREE</label>
+            </div>
+          </div>
+
+          <div class="form-group" id="priceGroup">
+            <label for="price"
+              >Price (AUD) <span class="required">*</span></label
+            >
+            <input
+              type="number"
+              id="price"
+              name="price"
+              min="0"
+              step="0.01"
+              placeholder="0.00"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="city">City <span class="required">*</span></label>
+            <select id="city" name="city" required>
+              <option value="">Select your city</option>
+              <option value="Sydney">Sydney, NSW</option>
+              <option value="Melbourne">Melbourne, VIC</option>
+              <option value="Brisbane">Brisbane, QLD</option>
+              <option value="Perth">Perth, WA</option>
+              <option value="Adelaide">Adelaide, SA</option>
+              <option value="Hobart">Hobart, TAS</option>
+              <option value="Darwin">Darwin, NT</option>
+              <option value="Canberra">Canberra, ACT</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Contact Method <span class="required">*</span></label>
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="contactPhone"
+                name="contact_phone_check"
+                onchange="toggleContactField('phone')"
+              />
+              <label for="contactPhone">Phone</label>
+            </div>
+            <input
+              type="tel"
+              id="phoneNumber"
+              name="contact_phone"
+              style="display: none; margin-top: 10px"
+              placeholder="+61 4XX XXX XXX"
+            />
+
+            <div class="checkbox-group" style="margin-top: 10px">
+              <input
+                type="checkbox"
+                id="contactEmail"
+                name="contact_email_check"
+                onchange="toggleContactField('email')"
+              />
+              <label for="contactEmail">Email</label>
+            </div>
+            <input
+              type="email"
+              id="emailAddress"
+              name="contact_email"
+              style="display: none; margin-top: 10px"
+              placeholder="your@email.com"
+            />
+
+            <div class="checkbox-group" style="margin-top: 10px">
+              <input type="checkbox" id="allowChat" name="allow_chat" checked />
+              <label for="allowChat">Allow chat on Live in Oz</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label
+              >Photos (Up to 5 images) <span class="required">*</span></label
+            >
+            <div
+              class="file-upload-area"
+              onclick="document.getElementById('photoUpload').click()"
+            >
+              <p>📸 Click to upload photos</p>
+              <p style="font-size: 0.8rem; color: #ccc">
+                JPEG, PNG, or WebP • Max 5MB each
+              </p>
+              <input
+                type="file"
+                id="photoUpload"
+                name="photos[]"
+                multiple
+                accept="image/jpeg,image/png,image/webp"
+                onchange="handleFileSelect(event)"
+              />
+            </div>
+            <div class="preview-container" id="previewContainer"></div>
+          </div>
+
+          <button type="submit" class="submit-btn">🚀 Submit for Review</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div id="alertModal" class="alert-modal" style="display: none;">
+        <div class="alert-modal-content">
+            <span class="alert-close" onclick="closeAlertModal()">&times;</span>
+            <h2 id="alertTitle">Alert</h2>
+            <p id="alertMessage">Message</p>
+            <div class="alert-modal-buttons">
+                <button id="alertCloseBtn" class="alert-btn close">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer will be loaded here -->
+    <div id="footer-placeholder"></div>
+
+    <script src="nav-loader.js"></script>
+    <script src="footer-loader.js"></script>
+    <script src="marketplace.js"></script>
+  </body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live in Oz | Contact Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="contact.css">
+
+    <style>
+    /* === ALERT MODAL STYLES === */
+
+    .alert-modal {
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: none;
+    }
+
+    .alert-modal-content {
+      background: linear-gradient(145deg, #0f0f23, #0a0a1f);
+      margin: 15% auto;
+      padding: 30px;
+      border: 3px solid #00f0ff;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 0 40px #00f0ff, 0 0 80px #00f0ff, 0 0 120px #00f0ff;
+      animation: alertModalGlow 2s ease-in-out infinite alternate;
+      text-align: center;
+    }
+
+    @keyframes alertModalGlow {
+      0% {
+        box-shadow: 0 0 40px #00f0ff, 0 0 80px #00f0ff, 0 0 120px #00f0ff;
+      }
+      100% {
+        box-shadow: 0 0 50px #33ffcc, 0 0 100px #33ffcc, 0 0 150px #33ffcc;
+      }
+    }
+
+    .alert-modal.success .alert-modal-content {
+      border: 3px solid #00ff66;
+      box-shadow: 0 0 40px #00ff66, 0 0 80px #00ff66, 0 0 120px #00ff66;
+      animation: alertSuccessGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes alertSuccessGlow {
+      0% {
+        box-shadow: 0 0 40px #00ff66, 0 0 80px #00ff66, 0 0 120px #00ff66;
+      }
+      100% {
+        box-shadow: 0 0 50px #33ff99, 0 0 100px #33ff99, 0 0 150px #33ff99;
+      }
+    }
+
+    .alert-modal.error .alert-modal-content {
+      border: 3px solid #ff33cc;
+      box-shadow: 0 0 40px #ff33cc, 0 0 80px #ff33cc, 0 0 120px #ff33cc;
+      animation: alertErrorGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes alertErrorGlow {
+      0% {
+        box-shadow: 0 0 40px #ff33cc, 0 0 80px #ff33cc, 0 0 120px #ff33cc;
+      }
+      100% {
+        box-shadow: 0 0 50px #ff6600, 0 0 100px #ff6600, 0 0 150px #ff6600;
+      }
+    }
+
+    .alert-close {
+      color: #ff33cc;
+      float: right;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .alert-close:hover {
+      color: #ff66ff;
+      transform: scale(1.2);
+      text-shadow: 0 0 10px #ff33cc;
+    }
+
+    #alertTitle {
+      color: #00f0ff;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      text-shadow: 0 0 15px #00f0ff;
+      font-family: "Orbitron", sans-serif;
+    }
+
+    .alert-modal.success #alertTitle {
+      color: #00ff66;
+      text-shadow: 0 0 15px #00ff66;
+    }
+
+    .alert-modal.error #alertTitle {
+      color: #ff33cc;
+      text-shadow: 0 0 15px #ff33cc;
+    }
+
+    #alertMessage {
+      color: #fff;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      font-family: "Orbitron", sans-serif;
+    }
+
+    .alert-modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .alert-btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-family: "Orbitron", sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .alert-btn.close {
+      background: linear-gradient(45deg, #666, #999);
+      color: #fff;
+      box-shadow: 0 0 10px #666;
+    }
+
+    .alert-btn.close:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px #999;
+    }
+    </style>
+</head>
+<body class="contact-page">
+
+    <!-- Navigation bar will be loaded here -->
+    <div id="navbar-placeholder"></div>
+
+    
+    <!-- Main content container -->
+    <main class="page-container">
+
+        <!-- Header section with the neon glowing title image -->
+        <header class="page-header">
+            <div class="contact-title-img">
+                <img src="images/contact-us-title.png" alt="Contact Us Title">
+            </div>
+        </header>
+
+        <!-- Synthwave retro contact form -->
+        <div class="contact-form-container">
+            <form id="contactForm" class="contact-form" action="#" method="post">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+            <div id="statusMessage"></div>
+        </div>
+
+    </main>
+
+    <!-- Alert Modal -->
+    <div id="alertModal" class="alert-modal" style="display: none;">
+        <div class="alert-modal-content">
+            <span class="alert-close" onclick="closeAlertModal()">&times;</span>
+            <h2 id="alertTitle">Success</h2>
+            <p id="alertMessage">Message sent successfully!</p>
+            <div class="alert-modal-buttons">
+                <button id="alertCloseBtn" class="alert-btn close">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer will be loaded here -->
+    <div id="footer-placeholder"></div>
+    <script src="contact.js"></script>
+
+    <!-- Load the navigation bar -->
+    <script src="nav-loader.js"></script>
+
+    <!-- Load the footer -->
+    <script src="footer-loader.js"></script>
+</body>
+</html>

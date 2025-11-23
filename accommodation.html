@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accommodation | Live in Oz</title>
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="accommodation.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* Boost Modal Styles */
+      .boost-modal {
+        display: none;
+        position: fixed;
+        z-index: 3000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(5px);
+      }
+
+      .boost-modal-content {
+        background: linear-gradient(135deg, #1a1a1a, #000);
+        margin: 10% auto;
+        padding: 30px;
+        border: 3px solid #ffff00;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 0 50px rgba(255, 255, 0, 0.6),
+          0 0 100px rgba(255, 255, 0, 0.3);
+        animation: modalGlow 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes modalGlow {
+        from {
+          box-shadow: 0 0 50px rgba(255, 255, 0, 0.6),
+            0 0 100px rgba(255, 255, 0, 0.3);
+        }
+        to {
+          box-shadow: 0 0 70px rgba(255, 255, 0, 0.8),
+            0 0 120px rgba(255, 255, 0, 0.5);
+        }
+      }
+
+      .boost-modal-content h2 {
+        color: #ffff00;
+        text-shadow: 0 0 15px #ffff00, 0 0 30px #ffaa00;
+        font-size: 1.8rem;
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+
+      #boostConfirmMessage {
+        color: #fff;
+        font-size: 1.1rem;
+        text-align: center;
+        margin-bottom: 30px;
+        line-height: 1.6;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      }
+
+      .boost-modal-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+      }
+
+      .boost-btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        font-family: "Orbitron", sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        min-width: 150px;
+      }
+
+      .boost-btn.confirm {
+        background: linear-gradient(45deg, #ffff00, #ffaa00);
+        color: #000;
+        box-shadow: 0 0 20px rgba(255, 255, 0, 0.6);
+      }
+
+      .boost-btn.confirm:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(255, 255, 0, 0.8);
+        background: linear-gradient(45deg, #ffaa00, #ffff00);
+      }
+
+      .boost-btn.cancel {
+        background: linear-gradient(45deg, #ff4d4d, #cc0000);
+        color: #fff;
+        box-shadow: 0 0 20px rgba(255, 0, 77, 0.6);
+      }
+
+      .boost-btn.cancel:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(255, 0, 77, 0.8);
+        background: linear-gradient(45deg, #cc0000, #ff4d4d);
+      }
+
+      /* === MOBILE RESPONSIVE BOOST MODAL === */
+
+      /* Tablets / large mobiles */
+      @media (max-width: 768px) {
+        /* Force 2 columns on mobile first, before other styles */
+        .room-grid,
+        [id^="boosted-"],
+        [id^="regular-"] {
+          display: grid !important;
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 25px !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+        }
+
+        .boost-modal-content {
+          margin: 15% auto;
+          padding: 20px;
+          max-width: 90%;
+        }
+
+        .boost-modal-content h2 {
+          font-size: 1.5rem;
+        }
+
+        #boostConfirmMessage {
+          font-size: 1rem;
+        }
+
+        .boost-modal-buttons {
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .boost-btn {
+          padding: 12px 20px;
+          font-size: 1rem;
+          min-width: 130px;
+        }
+      }
+
+      /* Small mobile phones */
+      @media (max-width: 480px) {
+        /* Force 2 columns on mobile first, before other styles */
+        .room-grid,
+        [id^="boosted-"],
+        [id^="regular-"] {
+          display: grid !important;
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 10px !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+        }
+
+        .boost-modal-content {
+          margin: 20% auto;
+          padding: 15px;
+          width: 95%;
+          max-width: 400px;
+        }
+
+        .boost-modal-content h2 {
+          font-size: 1.3rem;
+        }
+
+        #boostConfirmMessage {
+          font-size: 0.95rem;
+        }
+
+        .boost-modal-buttons {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .boost-btn {
+          padding: 10px 18px;
+          font-size: 0.95rem;
+          min-width: 120px;
+        }
+      }
+
+      /*
+  MOBILE GRID OVERRIDE - Most Specific Selector
+  This inline style takes precedence over external CSS
+*/
+      @media (max-width: 768px) {
+        .room-grid,
+        [id^="boosted-"],
+        [id^="regular-"] {
+          display: grid !important;
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 25px !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .room-grid,
+        [id^="boosted-"],
+        [id^="regular-"] {
+          display: grid !important;
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 20px !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+        }
+      }
+    </style>
+    <script src="auth-php.js"></script>
+  </head>
+  <body class="accommodation-page">
+    <!-- Navigation bar will be loaded here -->
+    <div id="navbar-placeholder"></div>
+
+    <div class="container">
+      <h1>🛏️ Available Accommodation</h1>
+      <p class="intro">
+        Browse available rooms and find your perfect place to stay in Australia!
+      </p>
+
+      <!-- Rooms List Section -->
+      <div>
+        <div
+          id="roomListMessage"
+          style="
+            text-align: center;
+            color: #888;
+            margin-bottom: 20px;
+            display: none;
+          "
+        >
+          No rooms found. Be the first to post one!
+        </div>
+
+        <div id="cityList" class="city-container">
+          <!-- City sections will be populated here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for room details -->
+    <div id="roomModal" class="modal" style="display: none">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modalBody">
+          <!-- Room details will be populated here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for delete confirmation -->
+    <div id="deleteConfirmModal" class="delete-modal" style="display: none">
+      <div class="delete-modal-content">
+        <h2 id="deleteModalTitle">Confirm Deletion</h2>
+        <p>Are you sure you want to delete this room listing?</p>
+        <div class="delete-modal-buttons">
+          <button id="confirmDeleteBtn" class="delete-btn confirm">
+            Yes, Delete
+          </button>
+          <button id="cancelDeleteBtn" class="delete-btn cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for delete success -->
+    <div id="deleteSuccessModal" class="success-modal" style="display: none">
+      <div class="delete-modal-content">
+        <h2 id="successModalTitle">✅ Success!</h2>
+        <p>Room deleted successfully</p>
+        <div class="delete-modal-buttons">
+          <button id="closeSuccessBtn" class="delete-btn cancel">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for boost confirmation -->
+    <div id="boostConfirmModal" class="boost-modal" style="display: none">
+      <div class="boost-modal-content">
+        <h2>⚡ Confirm Boost</h2>
+        <p id="boostConfirmMessage">
+          Boost this listing for $15? It will appear at the top of search
+          results for 3 days.
+        </p>
+        <div class="boost-modal-buttons">
+          <button id="confirmBoostBtn" class="boost-btn confirm">
+            🚀 Boost Now - $15
+          </button>
+          <button id="cancelBoostBtn" class="boost-btn cancel">
+            ❌ Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Global variables - check if user is logged in for delete functionality
+      let currentUser = null;
+      let userPlanType = "free"; // Default to free
+      let roomToDelete = null;
+      let roomToBoost = null;
+      let boostCity = "";
+
+      // Check if user is logged in and get plan type (for delete button and boost pricing)
+      async function checkAuthForDelete() {
+        try {
+          const res = await fetch("check_auth.php");
+          const authData = await res.json();
+          if (authData.loggedIn) {
+            currentUser = authData.user;
+
+            // Also fetch user stats to get plan type for boost pricing
+            try {
+              const statsResponse = await fetch("get_user_stats.php");
+              const statsData = await statsResponse.json();
+              if (statsData.success) {
+                userPlanType = statsData.stats.plan_type || "free";
+              }
+            } catch (statsError) {
+              console.error("Failed to fetch user stats:", statsError);
+              userPlanType = "free"; // Default fallback
+            }
+          }
+        } catch (error) {
+          console.error("Auth check failed:", error);
+        }
+      }
+
+     
+      // Load rooms from server - unified grid
+      async function loadRooms() {
+        try {
+          const res = await fetch("fetch_rooms.php");
+          const data = await res.json();
+          const cityList = document.getElementById("cityList");
+          const roomListMessage = document.getElementById("roomListMessage");
+
+          cityList.innerHTML = "";
+
+          if (!data.success || !data.grouped_rooms || Object.keys(data.grouped_rooms).length === 0) {
+            roomListMessage.style.display = "block";
+            return;
+          }
+
+          roomListMessage.style.display = "none";
+
+          // Collect all rooms from all cities
+          let allBoostedRooms = [];
+          let allRegularRooms = [];
+
+          Object.keys(data.grouped_rooms).forEach((cityName) => {
+            const cityData = data.grouped_rooms[cityName];
+            if (cityData.boosted && cityData.boosted.length > 0) {
+              allBoostedRooms = allBoostedRooms.concat(cityData.boosted);
+            }
+            if (cityData.regular && cityData.regular.length > 0) {
+              allRegularRooms = allRegularRooms.concat(cityData.regular);
+            }
+          });
+
+          // Create single container for all rooms
+          const roomsContainer = document.createElement("div");
+          roomsContainer.className = "all-rooms-container";
+
+          // Add boosted rooms section if any
+          if (allBoostedRooms.length > 0) {
+            const boostedSection = document.createElement("div");
+            boostedSection.className = "boosted-section";
+            boostedSection.innerHTML = `
+              <h4 class="section-title" style="color: #ffff00; border-color: #ffff00;">
+                ⚡ Featured Listings (${allBoostedRooms.length})
+              </h4>
+            `;
+
+            const boostedGrid = document.createElement("div");
+            boostedGrid.className = "room-grid";
+            boostedGrid.id = "boosted-all";
+
+            allBoostedRooms.forEach((room) => {
+              const roomCard = createRoomCard(room, true);
+              boostedGrid.appendChild(roomCard);
+            });
+
+            boostedSection.appendChild(boostedGrid);
+            roomsContainer.appendChild(boostedSection);
+          }
+
+          // Add regular rooms section
+          if (allRegularRooms.length > 0) {
+            const regularSection = document.createElement("div");
+            regularSection.className = "regular-section";
+            regularSection.innerHTML = `
+              <h4 class="section-title" style="color: #00eeff; border-color: #00eeff;">
+                📋 Available Rooms (${allRegularRooms.length})
+              </h4>
+            `;
+
+            const regularGrid = document.createElement("div");
+            regularGrid.className = "room-grid";
+            regularGrid.id = "regular-all";
+
+            allRegularRooms.forEach((room) => {
+              const roomCard = createRoomCard(room, false);
+              regularGrid.appendChild(roomCard);
+            });
+
+            regularSection.appendChild(regularGrid);
+            roomsContainer.appendChild(regularSection);
+          }
+
+          cityList.appendChild(roomsContainer);
+        } catch (err) {
+          console.error("Failed to load rooms:", err);
+        }
+      }
+
+      // Create room card with boost/badge support
+      function createRoomCard(room, isBoosted) {
+        const roomDiv = document.createElement("div");
+        roomDiv.className = `room-item ${isBoosted ? "boosted-room" : ""}`;
+
+        const postedBy =
+          room.first_name && room.last_name
+            ? ` (Posted by: ${room.first_name} ${room.last_name})`
+            : "";
+
+        const canDelete = currentUser && currentUser.id == room.user_id;
+        const planBadge =
+          room.plan_type === "premium"
+            ? "👑 Premium Host"
+            : room.plan_type === "basic"
+            ? "⭐ Basic Host"
+            : "";
+
+        // Format remaining boost time
+        let boostTimer = "";
+        if (room.is_active_boost && room.boost_time_remaining > 0) {
+          const hours = Math.floor(room.boost_time_remaining / 3600);
+          const minutes = Math.floor((room.boost_time_remaining % 3600) / 60);
+          boostTimer = `<div class="boost-timer" style="color: #ffff00; font-weight: bold; font-size: 12px;">
+                    ⏱️ ${hours}h ${minutes}m remaining
+                </div>`;
+        }
+
+        let photosHtml = "";
+        if (room.photo1) {
+          photosHtml = `<img src="./uploads/${escapeHtml(
+            room.photo1
+          )}" alt="Room photo" style="max-width: 80px; margin: 5px;" onerror="this.style.display='none'">`;
+        }
+
+      roomDiv.innerHTML = `
+   
+    <div class="room-image">
+      ${room.photo1 ? `<img src="./uploads/${escapeHtml(room.photo1)}" alt="Room photo" />` : '<div class="no-image">No Image</div>'}
+    </div>
+    <div class="room-info">
+      <div class="room-location">${escapeHtml(room.city)}</div>
+      <div class="room-desc">${escapeHtml(room.description).substring(0, 100)}${room.description.length > 100 ? "..." : ""}</div>
+      <div class="room-price">$${escapeHtml(room.rent)}/week</div>
+      <div class="view-room-btn">View Room</div>
+      ${canDelete ? `<div onclick="deleteRoom(event, ${room.id})" class="delete-btn">🗑️ Delete</div>` : ""}
+      ${currentUser && currentUser.id == room.user_id && !room.is_boosted ? `<div id="boost-btn-${room.id}" onclick="boostRoom(${room.id}, '${escapeHtml(room.city)}')" class="boost-button">⚡ Boost - $${userPlanType === "premium" ? "10" : "15"}</div>` : ""}
+    </div>
+    ${boostTimer}
+`;
+
+
+        // Add click event for modal (but not delete/boost button clicks)
+        roomDiv.addEventListener("click", (e) => {
+          if (!e.target.closest(".delete-btn, .boost-button")) {
+            openRoomModal(room);
+          }
+        });
+
+        return roomDiv;
+      }
+
+      // Delete room function (only available to listing owners)
+      function deleteRoom(event, roomId) {
+        event.stopPropagation(); // Prevent modal from opening
+
+        if (!currentUser) {
+          alert("You must be logged in to delete listings.");
+          return;
+        }
+
+        roomToDelete = roomId;
+        document.getElementById("deleteConfirmModal").style.display = "block";
+      }
+
+      // Confirm delete function
+      async function confirmDeleteRoom() {
+        if (!roomToDelete) return;
+
+        document.getElementById("deleteConfirmModal").style.display = "none";
+
+        console.log("Sending delete request for room:", roomToDelete);
+        try {
+          const formData = new FormData();
+          formData.append("id", roomToDelete);
+
+          const res = await fetch("delete_room.php", {
+            method: "POST",
+            body: formData,
+          });
+
+          console.log("Response status:", res.status);
+          const responseText = await res.text();
+          console.log("Response text:", responseText);
+
+          try {
+            const data = JSON.parse(responseText);
+            console.log("Parsed data:", data);
+
+            if (data.success) {
+              console.log("Success! Showing modal:", data.message);
+              document.getElementById("deleteSuccessModal").style.display =
+                "block";
+              loadRooms(); // Reload rooms list
+            } else {
+              console.log("Error! Alerting:", data.message);
+              alert(data.message);
+            }
+          } catch (parseError) {
+            console.error("JSON parse error:", parseError);
+            alert("Invalid response from server.");
+          }
+        } catch (error) {
+          console.error("Delete room error:", error);
+          alert("Failed to delete room. Please try again.");
+        } finally {
+          roomToDelete = null;
+        }
+      }
+
+      // Cancel delete function
+      function cancelDeleteRoom() {
+        document.getElementById("deleteConfirmModal").style.display = "none";
+        roomToDelete = null;
+      }
+
+      // Close success modal function
+      function closeSuccessModal() {
+        document.getElementById("deleteSuccessModal").style.display = "none";
+      }
+
+      // Boost room function
+      async function boostRoom(roomId, city) {
+        if (!currentUser) {
+          alert("You must be logged in to boost listings.");
+          return;
+        }
+
+        roomToBoost = roomId;
+        boostCity = city;
+
+        try {
+          // Fetch user stats to get plan type
+          const statsResponse = await fetch("get_user_stats.php");
+          const statsData = await statsResponse.json();
+
+          if (statsData.success) {
+            const planType = statsData.stats.plan_type;
+            const boostPrice = planType === "premium" ? "$10" : "$15";
+
+            // Update modal with dynamic pricing
+            document.getElementById(
+              "boostConfirmMessage"
+            ).textContent = `Boost this listing for ${boostPrice}? It will appear at the top of ${city} search results for 3 days.`;
+            document.getElementById(
+              "confirmBoostBtn"
+            ).textContent = `🚀 Boost Now - ${boostPrice}`;
+
+            document.getElementById("boostConfirmModal").style.display =
+              "block";
+          } else {
+            throw new Error("Failed to fetch user information");
+          }
+        } catch (error) {
+          console.error("Error fetching user stats:", error);
+          // Fallback to default pricing if fetch fails
+          document.getElementById(
+            "boostConfirmMessage"
+          ).textContent = `Boost this listing for $15? It will appear at the top of ${city} search results for 3 days.`;
+          document.getElementById(
+            "confirmBoostBtn"
+          ).textContent = `🚀 Boost Now - $15`;
+          document.getElementById("boostConfirmModal").style.display = "block";
+        }
+      }
+
+      // Confirm boost function
+      async function confirmBoostRoom() {
+        if (!roomToBoost || !boostCity) return;
+
+        document.getElementById("boostConfirmModal").style.display = "none";
+
+        try {
+          // Get auth token
+          const authResponse = await fetch("check_auth.php");
+          const authData = await authResponse.json();
+
+          if (!authData.authenticated) {
+            alert("Please log in again to continue");
+            window.location.href = "login.html";
+            return;
+          }
+
+          // Create boost payment session
+          const paymentResponse = await fetch("create_boost.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${authData.user.token || ""}`,
+            },
+            body: JSON.stringify({
+              userId: authData.user.id,
+              roomId: roomToBoost,
+            }),
+          });
+
+          const paymentData = await paymentResponse.json();
+
+          if (paymentData.success && paymentData.url) {
+            // Redirect to Stripe Checkout
+            window.location.href = paymentData.url;
+          } else {
+            alert(
+              "Failed to start boost payment process. " +
+                (paymentData.message || "Please try again.")
+            );
+          }
+        } catch (error) {
+          console.error("Boost payment error:", error);
+          alert("Boost service unavailable. Please try again later.");
+        } finally {
+          roomToBoost = null;
+          boostCity = "";
+        }
+      }
+
+      // Cancel boost function
+      function cancelBoostRoom() {
+        document.getElementById("boostConfirmModal").style.display = "none";
+        roomToBoost = null;
+        boostCity = "";
+      }
+
+      // Modal functions
+      function openRoomModal(room) {
+        const modal = document.getElementById("roomModal");
+        const modalBody = document.getElementById("modalBody");
+
+        const postedBy =
+          room.first_name && room.last_name
+            ? ` (Posted by: ${room.first_name} ${room.last_name})`
+            : "";
+
+        let photosGallery = "";
+        if (room.photo1) {
+          photosGallery += `<img src="./uploads/${escapeHtml(
+            room.photo1
+          )}" alt="Room photo" style="width: 100%; max-width: 300px;" onerror="this.style.display='none'">`;
+        }
+        if (room.photo2) {
+          photosGallery += `<img src="./uploads/${escapeHtml(
+            room.photo2
+          )}" alt="Room photo" style="width: 100%; max-width: 300px;" onerror="this.style.display='none'">`;
+        }
+        if (room.photo3) {
+          photosGallery += `<img src="./uploads/${escapeHtml(
+            room.photo3
+          )}" alt="Room photo" style="width: 100%; max-width: 300px;" onerror="this.style.display='none'">`;
+        }
+        if (room.photo4) {
+          photosGallery += `<img src="./uploads/${escapeHtml(
+            room.photo4
+          )}" alt="Room photo" style="width: 100%; max-width: 300px;" onerror="this.style.display='none'">`;
+        }
+        if (room.photo5) {
+          photosGallery += `<img src="./uploads/${escapeHtml(
+            room.photo5
+          )}" alt="Room photo" style="width: 100%; max-width: 300px;" onerror="this.style.display='none'">`;
+        }
+
+        modalBody.innerHTML = `
+                <h2>🏠 ${escapeHtml(room.address)}, ${escapeHtml(
+          room.suburb
+        )}</h2>
+
+                <h3>📍 Location Details</h3>
+                <p><strong>City:</strong> ${escapeHtml(room.city)}</p>
+                <p><strong>Address:</strong> ${escapeHtml(
+                  room.address
+                )}, ${escapeHtml(room.suburb)}, ${escapeHtml(room.city)}</p>
+
+                <h3>💰 Pricing Information</h3>
+                <p><strong>Rent:</strong> $${escapeHtml(
+                  room.rent
+                )} AUD per week</p>
+                <p><strong>Bond:</strong> ${escapeHtml(room.bond)} weeks</p>
+
+                <h3>📝 Description</h3>
+                <p style="line-height: 1.6;">${escapeHtml(
+                  room.description
+                ).replace(/\n/g, "<br>")}</p>
+
+                ${
+                  photosGallery
+                    ? `<h3>📸 Photos</h3><div class="photo-gallery">${photosGallery}</div>`
+                    : ""
+                }
+
+                <div class="contact-info">
+                    <h3>📞 Contact Information</h3>
+                    <p><strong>Contact Name:</strong> ${escapeHtml(
+                      room.contact_name
+                    )}</p>
+                    <p><strong>Phone:</strong> <a href="tel:${escapeHtml(
+                      room.contact_number
+                    )}">${escapeHtml(room.contact_number)}</a></p>
+                    <p><strong>Posted:</strong> ${new Date(
+                      room.created_at
+                    ).toLocaleDateString()}${postedBy}</p>
+                </div>
+            `;
+
+        modal.style.display = "block";
+      }
+
+      function closeRoomModal() {
+        document.getElementById("roomModal").style.display = "none";
+      }
+
+      // Close modal when clicking outside or on close button
+      document.addEventListener("click", (e) => {
+        const modal = document.getElementById("roomModal");
+        const closeBtn = document.querySelector(".close-modal");
+
+        if (e.target === modal || e.target === closeBtn) {
+          closeRoomModal();
+        }
+      });
+
+      // Escape key to close modal
+      document.addEventListener("keydown", (e) => {
+        if (
+          e.key === "Escape" &&
+          document.getElementById("roomModal").style.display === "block"
+        ) {
+          closeRoomModal();
+        }
+      });
+
+      // Escape HTML to prevent XSS
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // Initialize the page
+      checkAuthForDelete().then(() => {
+        loadRooms();
+
+        // Handle boost success/cancel URLs
+        handleBoostReturn();
+
+        // Set up modal event listeners
+        document
+          .getElementById("confirmDeleteBtn")
+          .addEventListener("click", confirmDeleteRoom);
+        document
+          .getElementById("cancelDeleteBtn")
+          .addEventListener("click", cancelDeleteRoom);
+        document
+          .getElementById("closeSuccessBtn")
+          .addEventListener("click", closeSuccessModal);
+
+        // Boost modal event listeners
+        document
+          .getElementById("confirmBoostBtn")
+          .addEventListener("click", confirmBoostRoom);
+        document
+          .getElementById("cancelBoostBtn")
+          .addEventListener("click", cancelBoostRoom);
+
+        // Close delete modal when clicking outside
+        document.addEventListener("click", (e) => {
+          const deleteModal = document.getElementById("deleteConfirmModal");
+          if (e.target === deleteModal) {
+            cancelDeleteRoom();
+          }
+
+          const successModal = document.getElementById("deleteSuccessModal");
+          if (e.target === successModal) {
+            closeSuccessModal();
+          }
+        });
+
+        // Escape key to close modals
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            if (
+              document.getElementById("deleteConfirmModal").style.display ===
+              "block"
+            ) {
+              cancelDeleteRoom();
+            }
+            if (
+              document.getElementById("deleteSuccessModal").style.display ===
+              "block"
+            ) {
+              closeSuccessModal();
+            }
+          }
+        });
+      });
+
+      // Handle boost payment returns
+      function handleBoostReturn() {
+        const urlParams = new URLSearchParams(window.location.search);
+
+        if (urlParams.get("boost") === "success") {
+          console.log("Boost success detected");
+
+          // Show success banner
+          const existingBanner = document.getElementById("boostSuccessBanner");
+          if (existingBanner) {
+            existingBanner.remove();
+          }
+
+          const bannerDiv = document.createElement("div");
+          bannerDiv.id = "boostSuccessBanner";
+          bannerDiv.style.cssText = `
+                    background: linear-gradient(45deg, #ffff00, #ffaa00);
+                    border-radius: 15px;
+                    padding: 20px;
+                    margin: 20px 0;
+                    text-align: center;
+                    box-shadow: 0 0 20px rgba(255, 255, 0, 0.6);
+                    border: 2px solid #ffff00;
+                    color: black;
+                    font-weight: bold;
+                `;
+
+          bannerDiv.innerHTML = `
+                    <h3 style="margin: 0 0 10px 0; color: black;">⚡ Boost Activated!</h3>
+                    <p style="margin: 0; color: black;">Your listing is now featured at the top of search results for 3 days!</p>
+                `;
+
+          // Insert at top of container
+          const container = document.querySelector(".container");
+          container.insertBefore(bannerDiv, container.firstChild.nextSibling);
+
+          // Refresh room display to show boosted status
+          loadRooms();
+
+          // Remove URL parameters after processing
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+          );
+
+          // Auto-remove banner after 8 seconds
+          setTimeout(() => {
+            const banner = document.getElementById("boostSuccessBanner");
+            if (banner) {
+              banner.remove();
+            }
+          }, 8000);
+        } else if (urlParams.get("boost") === "cancelled") {
+          // Boost was cancelled - show message
+          alert("Boost was cancelled. You can try again anytime.");
+          // Remove URL parameters
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+          );
+        }
+      }
+    </script>
+
+    <!-- Footer will be loaded here -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Load the navigation bar -->
+    <script src="nav-loader.js"></script>
+
+    <!-- Load the footer -->
+    <script src="footer-loader.js"></script>
+  </body>
+</html>

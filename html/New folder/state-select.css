@@ -1,0 +1,323 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #0b0124;
+}
+
+.background-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(5, 0, 18, 0.55),
+    rgba(12, 2, 40, 0.55)
+  );
+}
+
+.content-container {
+  position: relative;
+  height: 100%;
+  padding-top: 80px;
+  padding-left: 18px;
+  padding-right: 18px;
+  padding-bottom: 20px;
+}
+
+.back-btn {
+  position: absolute;
+  left: 16px;
+  top: 24px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background-color: rgba(255, 255, 255, 0.06);
+  z-index: 10;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.back-txt {
+  color: #aefcff;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.title {
+  color: #bffcff;
+  font-size: 22px;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.states-container {
+  height: calc(100% - 80px);
+  overflow-y: auto;
+  padding-bottom: 56px;
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 28px;
+}
+
+.state-item {
+  width: 100%;
+  transition: transform 0.15s ease;
+}
+
+.state-item:active {
+  transform: scale(0.985);
+}
+
+.box {
+  position: relative;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  overflow: visible;
+}
+
+/* Neon outline with flickering effect - improved version */
+/* REMOVE ALL ANIMATION DECLARATIONS FROM CSS */
+/* Only keep the base styles without animation */
+.neon-outline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  /* Keep the neon border styles but without animation */
+  box-shadow: 0 0 8px #fff, 0 0 12px #fff, 0 0 20px var(--neon-color),
+    0 0 30px var(--neon-color),
+    inset 0 0 0 2px color-mix(in srgb, var(--neon-color) 95%, transparent);
+}
+
+/* ONLY KEEP KEYFRAMES DEFINITION (NO ANIMATION APPLIED) */
+@keyframes flicker {
+  0% {
+    opacity: 1;
+    box-shadow: 0 0 8px #fff, 0 0 12px #fff, 0 0 20px var(--neon-color),
+      0 0 30px var(--neon-color),
+      inset 0 0 0 2px color-mix(in srgb, var(--neon-color) 95%, transparent);
+  }
+  25% {
+    opacity: 0.5;
+    box-shadow: 0 0 4px #fff, 0 0 6px #fff, 0 0 10px var(--neon-color),
+      0 0 15px var(--neon-color),
+      inset 0 0 0 2px color-mix(in srgb, var(--neon-color) 47.5%, transparent);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 6px #fff, 0 0 9px #fff, 0 0 15px var(--neon-color),
+      0 0 22px var(--neon-color),
+      inset 0 0 0 2px color-mix(in srgb, var(--neon-color) 76%, transparent);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 8px #fff, 0 0 12px #fff, 0 0 20px var(--neon-color),
+      0 0 30px var(--neon-color),
+      inset 0 0 0 2px color-mix(in srgb, var(--neon-color) 95%, transparent);
+  }
+}
+
+/* Enhanced flickering with random delays */
+.neon-outline:nth-child(2n) {
+  animation-delay: 0.1s;
+}
+
+.neon-outline:nth-child(3n) {
+  animation-delay: 0.2s;
+}
+
+.neon-outline:nth-child(4n) {
+  animation-delay: 0.3s;
+}
+
+.neon-outline:nth-child(5n) {
+  animation-delay: 0.4s;
+}
+
+.state-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.state-text {
+  color: #f5f7ff;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.city-text {
+  color: #e1ecff;
+  font-size: 12px;
+  margin-top: 2px;
+  opacity: 0.95;
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Additional horizontal and vertical glow strips */
+.neon-outline::part(glow-h-top) {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  right: 12px;
+  height: 20px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in srgb, var(--neon-color) 35%, transparent),
+    transparent
+  );
+  border-radius: 16px;
+}
+
+.neon-outline::part(glow-h-bottom) {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 12px;
+  right: 12px;
+  height: 20px;
+  background: linear-gradient(
+    to top,
+    transparent,
+    color-mix(in srgb, var(--neon-color) 35%, transparent),
+    transparent
+  );
+  border-radius: 16px;
+}
+
+.neon-outline::part(glow-v-left) {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 12px;
+  bottom: 12px;
+  width: 20px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--neon-color) 35%, transparent),
+    transparent
+  );
+  border-radius: 16px;
+}
+
+.neon-outline::part(glow-v-right) {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 12px;
+  bottom: 12px;
+  width: 20px;
+  background: linear-gradient(
+    to left,
+    transparent,
+    color-mix(in srgb, var(--neon-color) 35%, transparent),
+    transparent
+  );
+  border-radius: 16px;
+}
+
+/* Better neon outline implementation */
+.neon-outline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  /* Create the border manually using box shadows */
+  box-shadow: inset 0 0 0 2px
+    color-mix(in srgb, var(--neon-color) 95%, transparent);
+}
+
+/* Additional glow layers */
+.neon-outline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  box-shadow: 0 -10px 0 0 color-mix(in srgb, var(--neon-color) 35%, transparent),
+    0 10px 0 0 color-mix(in srgb, var(--neon-color) 35%, transparent),
+    -10px 0 0 0 color-mix(in srgb, var(--neon-color) 35%, transparent),
+    10px 0 0 0 color-mix(in srgb, var(--neon-color) 35%, transparent);
+  opacity: 1;
+  animation: flicker 0.5s infinite alternate;
+}
+
+/* Scrollbar styling */
+.states-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.states-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.states-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.states-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

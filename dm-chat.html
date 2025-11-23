@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Private Chat - Live in Oz</title>
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="html/chatroom-styles.css" />
+    <link rel="stylesheet" href="chat-state-bg.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="auth-php.js"></script>
+    <style>
+      /* ========================================
+   NEON OZ CHAT - COMPLETE STYLES
+   ======================================== */
+
+      /* Reset & Base */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          180deg,
+          #0a1628 0%,
+          #1a0b2e 50%,
+          #2d1b4e 100%
+        );
+        color: #fff;
+        overflow: hidden;
+      }
+
+      /* Main Container */
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 90vh;
+        max-width: 1800px;
+        margin: 0 auto;
+        background: linear-gradient(
+          180deg,
+          rgba(10, 22, 40, 0.95) 0%,
+          rgba(26, 11, 46, 0.95) 100%
+        );
+        border: 3px solid #00eeff;
+        border-radius: 30px;
+        padding: 20px;
+        box-shadow: 0 0 40px rgba(0, 238, 255, 0.4),
+          inset 0 0 60px rgba(0, 238, 255, 0.05);
+        backdrop-filter: blur(10px);
+        margin-top: 10px;
+      }
+
+      /* Header */
+      .header {
+        padding: 20px 0;
+        position: relative;
+        border-bottom: 2px solid rgba(0, 238, 255, 0.2);
+      }
+
+      .header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 0;
+      }
+
+      .side {
+        width: 60px;
+      }
+
+      .center {
+        flex: 1;
+        text-align: center;
+      }
+
+      .side.right {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .header-title {
+        font-family: "Arial Black", sans-serif;
+        font-size: 1.5em;
+        color: #00eeff;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin: 0;
+        text-shadow: 0 0 20px rgba(0, 238, 255, 0.8),
+          0 0 40px rgba(0, 238, 255, 0.5);
+        font-weight: 900;
+      }
+
+      .back-btn {
+        background: rgba(0, 238, 255, 0.1);
+        border: 2px solid #00eeff;
+        color: #00eeff;
+        font-size: 24px;
+        width: 45px;
+        height: 45px;
+        border-radius: 30%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 15px rgba(0, 238, 255, 0.3);
+      }
+
+      .back-btn:hover {
+        background: #00eeff;
+        color: #0a1628;
+        transform: translateX(-5px);
+        box-shadow: 0 0 25px rgba(0, 238, 255, 0.6);
+      }
+
+      #my-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #00eeff, #0088ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0a1628;
+        font-weight: bold;
+        font-size: 1.2em;
+        border: 3px solid #00eeff;
+        box-shadow: 0 0 20px rgba(0, 238, 255, 0.5);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      #my-avatar:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px rgba(0, 238, 255, 0.7);
+      }
+
+      /* Header avatar styles */
+      .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #00eeff, #0088ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0a1628;
+        font-weight: bold;
+        font-size: 1.2em;
+        border: 3px solid #00eeff;
+        box-shadow: 0 0 20px rgba(0, 238, 255, 0.5);
+        overflow: hidden;
+      }
+
+      .avatar.has-image {
+        background: none !important;
+        display: block !important;
+      }
+
+      /* Specific rule for header avatar with image */
+      #userAvatar.has-image {
+        background: none !important;
+        display: block !important;
+      }
+
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Messages Container */
+      .messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        scrollbar-width: thin;
+        scrollbar-color: #00eeff rgba(0, 238, 255, 0.1);
+      }
+
+      .messages::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      .messages::-webkit-scrollbar-track {
+        background: rgba(0, 238, 255, 0.05);
+        border-radius: 10px;
+        margin: 10px 0;
+      }
+
+      .messages::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #00eeff, #0088ff);
+        border-radius: 10px;
+        border: 2px solid rgba(10, 22, 40, 0.5);
+      }
+
+      .messages::-webkit-scrollbar-thumb:hover {
+        background: #00eeff;
+      }
+
+      /* Message Row */
+      .message-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 15px;
+        animation: messageSlideIn 0.3s ease-out;
+      }
+
+      @keyframes messageSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .message-row.mine {
+        flex-direction: row-reverse;
+      }
+
+      /* Message Avatar */
+      .message-avatar {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        border: 3px solid #00eeff;
+        box-shadow: 0 0 20px rgba(0, 238, 255, 0.5);
+        overflow: hidden;
+        background: linear-gradient(135deg, #1a0b2e, #2d1b4e);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .message-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .message-avatar.placeholder {
+        background: linear-gradient(135deg, #00eeff, #0088ff);
+        color: #0a1628;
+        font-size: 1.3em;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .message-row.mine .message-avatar {
+        border-color: #ff6b9d;
+        box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+      }
+
+      .message-row.mine .message-avatar.placeholder {
+        background: linear-gradient(135deg, #ff6b9d, #c44569);
+      }
+
+      /* Message Bubble */
+      .message-bubble {
+        max-width: 65%;
+        padding: 18px 24px;
+        border-radius: 25px;
+        background: rgba(0, 238, 255, 0.1);
+        border: 2px solid #00eeff;
+        box-shadow: 0 4px 15px rgba(0, 238, 255, 0.2);
+        backdrop-filter: blur(10px);
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .message-bubble:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(0, 238, 255, 0.4);
+      }
+
+      .message-bubble.mine {
+        background: rgba(255, 107, 157, 0.15);
+        border-color: #ff6b9d;
+        box-shadow: 0 4px 15px rgba(255, 107, 157, 0.2);
+      }
+
+      .message-bubble.mine:hover {
+        box-shadow: 0 6px 25px rgba(255, 107, 157, 0.4);
+      }
+
+      /* Message Name */
+      .message-name {
+        font-weight: bold;
+        font-size: 0.95em;
+        margin-bottom: 8px;
+        color: #00eeff;
+        text-shadow: 0 0 10px rgba(0, 238, 255, 0.5);
+      }
+
+      .message-bubble.mine .message-name {
+        color: #ff6b9d;
+        text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+      }
+
+      .message-name.link {
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .message-name.link:hover {
+        text-decoration: underline;
+        transform: scale(1.05);
+      }
+
+      /* Message Text */
+      .message-text {
+        font-size: 1.05em;
+        line-height: 1.6;
+        color: #e0e0e0;
+        word-wrap: break-word;
+      }
+
+      /* Message Time */
+      .message-time {
+        font-size: 0.8em;
+        color: #888;
+        margin-top: 8px;
+        text-align: right;
+      }
+
+      /* Input Bar */
+      .input-bar {
+        display: flex;
+        gap: 15px;
+        padding: 20px;
+        background: rgba(0, 238, 255, 0.05);
+        border-radius: 25px;
+        border: 2px solid rgba(0, 238, 255, 0.3);
+        margin-top: 20px;
+        box-shadow: 0 -5px 20px rgba(0, 238, 255, 0.1);
+      }
+
+      #message-input {
+        flex: 1;
+        background: rgba(0, 238, 255, 0.05);
+        border: 2px solid rgba(0, 238, 255, 0.3);
+        border-radius: 20px;
+        padding: 15px 25px;
+        color: #fff;
+        font-size: 1em;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      #message-input::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      #message-input:focus {
+        border-color: #00eeff;
+        background: rgba(0, 238, 255, 0.1);
+        box-shadow: 0 0 20px rgba(0, 238, 255, 0.3);
+      }
+
+      #send-btn {
+        background: linear-gradient(135deg, #00eeff, #0088ff);
+        border: none;
+        border-radius: 20px;
+        padding: 15px 35px;
+        color: #0a1628;
+        font-weight: bold;
+        font-size: 1em;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(0, 238, 255, 0.4);
+      }
+
+      #send-btn:hover:not(:disabled) {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(0, 238, 255, 0.6);
+      }
+
+      #send-btn:active:not(:disabled) {
+        transform: translateY(-1px);
+      }
+
+      #send-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* DM Dock */
+      .dm-dock {
+        position: fixed;
+        right: 30px;
+        bottom: 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        z-index: 999;
+      }
+
+      .dm-bubble {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: rgba(0, 238, 255, 0.1);
+        border: 3px solid #00eeff;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 238, 255, 0.3);
+      }
+
+      .dm-bubble:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 25px rgba(0, 238, 255, 0.5);
+      }
+
+      .dm-bubble.active {
+        border-color: #ff6b9d;
+        box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+      }
+
+      .dm-avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.3em;
+        background: linear-gradient(135deg, #00eeff, #0088ff);
+        color: #0a1628;
+        overflow: hidden;
+      }
+
+      .dm-avatar.has-image {
+        background: none;
+        display: block;
+      }
+
+      .dm-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .dm-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #ff4444;
+        border-radius: 50%;
+        min-width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #0a1628;
+        box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+      }
+
+      .dm-badge-txt {
+        color: #fff;
+        font-size: 0.75em;
+        font-weight: bold;
+      }
+
+      /* DM Requests Popup */
+      .dm-requests-popup {
+        position: fixed;
+        right: 30px;
+        bottom: 200px;
+        width: 320px;
+        background: rgba(10, 22, 40, 0.95);
+        border: 2px solid #00eeff;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 238, 255, 0.3);
+        z-index: 1000;
+        display: none;
+      }
+
+      .dm-popup-header {
+        padding: 20px;
+        border-bottom: 2px solid rgba(0, 238, 255, 0.3);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .dm-popup-header h3 {
+        color: #00eeff;
+        font-size: 1.1em;
+        margin: 0;
+      }
+
+      .dm-close-btn {
+        background: none;
+        border: none;
+        color: #ff4444;
+        font-size: 1.5em;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .dm-close-btn:hover {
+        color: #ff6666;
+        transform: rotate(90deg);
+      }
+
+      .dm-requests-list {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .dm-request {
+        padding: 15px 20px;
+        border-bottom: 1px solid rgba(0, 238, 255, 0.2);
+      }
+
+      .dm-request-name {
+        color: #00eeff;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .dm-request-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .dm-accept-btn,
+      .dm-decline-btn {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .dm-accept-btn {
+        background: linear-gradient(135deg, #00ff88, #00cc66);
+        color: #0a1628;
+      }
+
+      .dm-accept-btn:hover {
+        box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .dm-decline-btn {
+        background: linear-gradient(135deg, #ff4444, #cc0000);
+        color: #fff;
+      }
+
+      .dm-decline-btn:hover {
+        box-shadow: 0 5px 20px rgba(255, 68, 68, 0.4);
+        transform: translateY(-2px);
+      }
+
+      /* User Menu */
+      .user-menu {
+        position: absolute;
+        background: rgba(10, 22, 40, 0.98);
+        border: 2px solid #00eeff;
+        border-radius: 15px;
+        padding: 10px;
+        z-index: 1001;
+        min-width: 200px;
+        box-shadow: 0 10px 30px rgba(0, 238, 255, 0.4);
+      }
+
+      .user-menu-item {
+        padding: 12px 16px;
+        cursor: pointer;
+        color: #00eeff;
+        border-radius: 10px;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.95em;
+      }
+
+      .user-menu-item:hover {
+        background: rgba(0, 238, 255, 0.15);
+        transform: translateX(5px);
+      }
+
+      /* Toast Notification */
+      .toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 238, 255, 0.95);
+        color: #0a1628;
+        padding: 15px 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0, 238, 255, 0.5);
+        z-index: 2000;
+        font-weight: bold;
+        animation: toastSlideUp 0.3s ease-out;
+      }
+
+      @keyframes toastSlideUp {
+        from {
+          opacity: 0;
+          transform: translate(-50%, 20px);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, 0);
+        }
+      }
+
+      .toast.error {
+        background: rgba(255, 68, 68, 0.95);
+        color: #fff;
+      }
+
+      .toast.success {
+        background: rgba(0, 255, 136, 0.95);
+        color: #0a1628;
+      }
+
+      /* Login Required */
+      .login-required {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+        padding: 40px;
+      }
+
+      .login-required h2 {
+        color: #00eeff;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(0, 238, 255, 0.5);
+      }
+
+      .login-required p {
+        color: #ccc;
+        font-size: 1.2em;
+        margin-bottom: 30px;
+      }
+
+      .enter-btn {
+        background: linear-gradient(135deg, #00eeff, #0088ff);
+        color: #0a1628;
+        padding: 15px 40px;
+        border-radius: 15px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1em;
+        display: inline-block;
+        margin: 10px;
+        transition: all 0.3s;
+        box-shadow: 0 5px 20px rgba(0, 238, 255, 0.4);
+      }
+
+      .enter-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(0, 238, 255, 0.6);
+      }
+
+      .enter-btn.signup {
+        background: linear-gradient(135deg, #ff6b9d, #c44569);
+        color: #fff;
+        box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+      }
+
+      .enter-btn.signup:hover {
+        box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      /* File Upload Styles */
+      .dm-file-attachment {
+        margin-top: 8px;
+        padding: 8px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 5px;
+        border: 1px solid #555;
+      }
+
+      .dm-file-link {
+        color: #00eeff;
+        text-decoration: none;
+      }
+
+      .dm-file-link:hover {
+        text-decoration: underline;
+      }
+
+      .dm-file-btn {
+        background: #ffa500;
+        color: #000;
+        border: none;
+        padding: 15px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(255, 165, 0, 0.4);
+      }
+
+      .dm-file-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(255, 165, 0, 0.6);
+      }
+
+      .dm-file-btn:active {
+        transform: translateY(-1px);
+      }
+
+      .dm-upload-progress {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        border: 2px solid #00eeff;
+        text-align: center;
+        z-index: 1000;
+      }
+
+      .dm-upload-progress.hidden {
+        display: none;
+      }
+
+      .dm-progress-bar {
+        width: 200px;
+        height: 20px;
+        background: #333;
+        border-radius: 10px;
+        margin: 10px 0;
+        overflow: hidden;
+      }
+
+      .dm-progress-fill {
+        height: 100%;
+        background: #00eeff;
+        width: 0%;
+        transition: width 0.3s ease;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .container {
+          border-radius: 0;
+          border-left: none;
+          border-right: none;
+          height: 100vh;
+        }
+
+        .message-bubble {
+          max-width: 80%;
+        }
+
+        .dm-dock {
+          right: 15px;
+          bottom: 80px;
+        }
+
+        .dm-requests-popup {
+          right: 15px;
+          width: calc(100% - 30px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation bar will be loaded here -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Login required message -->
+    <div id="loginRequired" class="login-required hidden">
+      <h2>🔐 Login Required</h2>
+      <p>You need to be logged in to access the chat room.</p>
+      <a href="login.html" class="enter-btn">Login</a>
+      <a href="signup.html" class="enter-btn signup">Sign Up</a>
+    </div>
+
+    <!-- Chat content (hidden by default) -->
+    <div class="container" id="dmContainer" style="display: none">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-row">
+          <div class="side">
+            <button class="back-btn" onclick="goBack()">←</button>
+          </div>
+          <div class="center">
+            <h1 class="header-title" id="userName">User</h1>
+          </div>
+          <div class="side right">
+            <div class="avatar" id="userAvatar">U</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- DM Dock -->
+      <div class="dm-dock" id="dm-dock">
+        <!-- DM bubbles will be added here -->
+      </div>
+
+      <!-- Messages -->
+      <div class="messages" id="dmMessages">
+        <!-- Messages will be loaded here -->
+      </div>
+
+      <!-- Input Bar -->
+      <div class="input-bar">
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Escribe un mensaje…"
+        />
+       
+        <button
+          class="dm-file-btn"
+          onclick="document.getElementById('fileInput').click()"
+        >
+          📎
+        </button>
+        <button id="send-btn" disabled>Send</button>
+      </div>
+
+      <!-- Toast -->
+      <div class="toast" id="toast" style="display: none">
+        <span id="toast-text"></span>
+      </div>
+
+      <!-- Report Modal -->
+      <div class="modal" id="report-modal" style="display: none">
+        <div class="modal-content">
+          <h2>Report User</h2>
+          <p>Why are you reporting this message?</p>
+          <button class="report-option" data-reason="Bullying/Harassment">
+            Bullying/Harassment
+          </button>
+          <button class="report-option" data-reason="Spam">Spam</button>
+          <button class="report-option" data-reason="Inappropriate Content">
+            Inappropriate Content
+          </button>
+          <button class="report-option" data-reason="Hate Speech">
+            Hate Speech
+          </button>
+          <button class="report-option" data-reason="Other">Other</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Progress Modal -->
+    <div class="dm-upload-progress hidden" id="uploadProgress">
+      <div>Uploading file...</div>
+      <div class="dm-progress-bar">
+        <div class="dm-progress-fill" id="progressFill"></div>
+      </div>
+      <div id="uploadStatus">Please wait...</div>
+    </div>
+
+    <script>
+      let currentThreadId = "";
+      let currentUserId = 0;
+      let currentUserName = "";
+      let lastMessageId = 0;
+      let uploadedFileId = null;
+      let pollInterval = null;
+
+      // Get URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      currentThreadId = urlParams.get("thread") || "";
+
+      // Check authentication on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        if (!currentThreadId) {
+          window.location.href = "general-chat.html";
+          return;
+        }
+
+        checkAuthentication();
+      });
+
+      async function checkAuthentication() {
+        try {
+          const authenticated = await isAuthenticated();
+
+          if (authenticated) {
+            document.getElementById("dmContainer").style.display = "flex";
+            loadDMThread();
+            setupInputEvents();
+          } else {
+            document.getElementById("loginRequired").style.display = "block";
+            localStorage.setItem("redirectAfterLogin", window.location.href);
+          }
+        } catch (error) {
+          console.error("Authentication check error:", error);
+          document.getElementById("loginRequired").style.display = "block";
+        }
+      }
+
+      async function loadDMThread() {
+        console.log("Loading DM thread:", currentThreadId);
+
+        try {
+          const response = await fetch(
+            `dm_get_messages.php?thread_id=${encodeURIComponent(
+              currentThreadId
+            )}`,
+            {
+              credentials: "same-origin",
+            }
+          );
+          console.log("Fetch response status:", response.status);
+          const data = await response.json();
+
+          console.log("DM thread response:", data);
+
+          if (data.success) {
+            currentUserId = data.other_user.id;
+            currentUserName = data.other_user.name;
+
+            console.log("Other user:", currentUserName, "ID:", currentUserId);
+
+            // Update header
+            document.getElementById("userName").textContent = currentUserName;
+
+            // Update header avatar
+            const userAvatar = document.getElementById("userAvatar");
+            if (data.other_user.profile_picture) {
+              // Clear existing content
+              userAvatar.innerHTML = "";
+              userAvatar.classList.add("has-image");
+              // Create and append image
+              const img = document.createElement("img");
+              img.src = data.other_user.profile_picture;
+              img.alt = currentUserName;
+              img.style.width = "100%";
+              img.style.height = "100%";
+              img.style.borderRadius = "50%";
+              img.style.objectFit = "cover";
+              img.onerror = function() {
+                // If image fails to load, show placeholder
+                userAvatar.classList.remove("has-image");
+                userAvatar.innerHTML = "";
+                userAvatar.textContent = currentUserName.charAt(0).toUpperCase();
+              };
+              userAvatar.appendChild(img);
+            } else {
+              // Show placeholder initial
+              userAvatar.classList.remove("has-image");
+              userAvatar.textContent = currentUserName.charAt(0).toUpperCase();
+            }
+
+            // Display messages
+            displayMessages(data.messages);
+
+            // Load DM threads for the dock
+            loadDMThreads();
+
+            // Start polling for new messages
+            startDMMessagePolling();
+          } else {
+            console.error("Error loading DM thread:", data.message);
+            alert("Error loading DM thread: " + data.message);
+            goBack();
+          }
+        } catch (error) {
+          console.error("Error loading DM thread:", error);
+          alert("Failed to load DM thread");
+          goBack();
+        }
+      }
+
+      async function loadNewDMMessages() {
+        if (!currentThreadId || lastMessageId === 0) return;
+
+        try {
+          const response = await fetch(
+            `dm_get_messages.php?thread_id=${encodeURIComponent(
+              currentThreadId
+            )}&last_id=${lastMessageId}`,
+            {
+              credentials: "same-origin",
+            }
+          );
+          const data = await response.json();
+
+          if (data.success && data.messages && data.messages.length > 0) {
+            // Only append new messages
+            const newMessages = data.messages.filter(
+              (msg) => msg.id > lastMessageId
+            );
+            if (newMessages.length > 0) {
+              displayMessages(data.messages); // Reload all to maintain order
+            }
+          }
+        } catch (error) {
+          console.error("Error loading new DM messages:", error);
+        }
+      }
+
+      function startDMMessagePolling() {
+        if (!currentThreadId) return;
+
+        console.log("Starting DM message polling for thread:", currentThreadId);
+
+        // Poll for new messages every 8 seconds (slightly faster for DMs)
+        pollInterval = setInterval(function () {
+          loadNewDMMessages();
+        }, 8000);
+      }
+
+      function displayMessages(messages) {
+        const container = document.getElementById("dmMessages");
+
+        if (!Array.isArray(messages)) {
+          console.error("Messages is not an array:", messages);
+          return;
+        }
+
+        container.innerHTML = "";
+
+        if (messages.length === 0) {
+          container.innerHTML =
+            '<div style="text-align: center; color: #666; padding: 20px;">No messages yet. Start the conversation!</div>';
+          return;
+        }
+
+        messages.forEach((msg, index) => {
+          if (!msg || typeof msg !== "object") {
+            console.error(`Invalid message at index ${index}:`, msg);
+            return;
+          }
+
+          const messageRow = document.createElement("div");
+          messageRow.className = "message-row";
+
+          const isMine = msg.is_from_me;
+          if (isMine) {
+            messageRow.classList.add("mine");
+          }
+
+          // Avatar
+          if (!isMine) {
+            const avatar = document.createElement("div");
+            avatar.className = "message-avatar";
+            if (msg.profile_picture) {
+              // Display profile picture
+              const img = document.createElement("img");
+              img.src = msg.profile_picture;
+              img.alt = `${msg.first_name} ${msg.last_name}`;
+              img.style.width = "100%";
+              img.style.height = "100%";
+              img.style.borderRadius = "50%";
+              img.style.objectFit = "cover";
+              avatar.appendChild(img);
+            } else {
+              // Display placeholder initial
+              avatar.className += " placeholder";
+              avatar.textContent = currentUserName.charAt(0).toUpperCase();
+            }
+            messageRow.appendChild(avatar);
+          }
+
+          // Message bubble
+          const bubble = document.createElement("div");
+          bubble.className = `message-bubble ${isMine ? "mine" : ""}`;
+
+          // Username
+          const name = document.createElement("div");
+          name.className = `message-name ${!isMine ? "link" : ""}`;
+          name.textContent = msg.is_from_me ? "You" : currentUserName;
+          bubble.appendChild(name);
+
+          // Message text
+          const text = document.createElement("div");
+          text.className = "message-text";
+          text.innerHTML = msg.message || "[Empty message]";
+          bubble.appendChild(text);
+
+          // Timestamp
+          const time = document.createElement("div");
+          time.className = "message-time";
+          time.textContent = new Date(msg.created_at).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          bubble.appendChild(time);
+
+          if (msg.file_path) {
+            const fileDiv = document.createElement("div");
+            fileDiv.className = "dm-file-attachment";
+            const fileUrl = msg.file_path;
+            const fileName = msg.file_name || "File";
+            fileDiv.innerHTML = `<a href="${fileUrl}" target="_blank" class="dm-file-link">📎 ${fileName}</a>`;
+            bubble.appendChild(fileDiv);
+          }
+
+          messageRow.appendChild(bubble);
+
+          // Avatar for own messages
+          if (isMine) {
+            const avatar = document.createElement("div");
+            avatar.className = "message-avatar";
+            if (msg.profile_picture) {
+              // Display profile picture
+              const img = document.createElement("img");
+              img.src = msg.profile_picture;
+              img.alt = `${msg.first_name} ${msg.last_name}`;
+              img.style.width = "100%";
+              img.style.height = "100%";
+              img.style.borderRadius = "50%";
+              img.style.objectFit = "cover";
+              avatar.appendChild(img);
+            } else {
+              // Display placeholder initial
+              avatar.className += " placeholder";
+              avatar.textContent = "Y"; // You
+            }
+            messageRow.appendChild(avatar);
+          }
+
+          container.appendChild(messageRow);
+
+          if (msg.id) {
+            lastMessageId = Math.max(lastMessageId, msg.id);
+          }
+        });
+
+        container.scrollTop = container.scrollHeight;
+      }
+
+      async function sendMessage() {
+        const input = document.getElementById("message-input");
+        const message = input.value.trim();
+
+        console.log(
+          "Sending message:",
+          message,
+          "file:",
+          uploadedFileId,
+          "thread:",
+          currentThreadId
+        );
+
+        if (!message && !uploadedFileId) {
+          console.log("No message or file to send");
+          return;
+        }
+
+        try {
+          const formData = new FormData();
+          formData.append("thread_id", currentThreadId);
+          if (message) formData.append("message", message);
+          if (uploadedFileId) formData.append("file_id", uploadedFileId);
+
+          console.log("Sending POST to dm_send_message.php");
+
+          const response = await fetch("dm_send_message.php", {
+            method: "POST",
+            credentials: "same-origin",
+            body: formData,
+          });
+
+          console.log("Send response status:", response.status);
+
+          const data = await response.json();
+
+          console.log("Send response data:", data);
+
+          if (data.success) {
+            console.log("Send successful, reloading thread");
+            input.value = "";
+            uploadedFileId = null;
+            // Reload messages to show the new one
+            loadDMThread();
+          } else {
+            console.error("Send failed:", data.message);
+            alert("Failed to send message: " + data.message);
+          }
+        } catch (error) {
+          console.error("Error sending message:", error);
+          alert("Failed to send message");
+        }
+      }
+
+
+
+      // File upload handling
+      document
+        .getElementById("fileInput")
+        .addEventListener("change", async function (e) {
+          const file = e.target.files[0];
+          if (!file) return;
+
+          // Show upload progress
+          const progressModal = document.getElementById("uploadProgress");
+          const progressFill = document.getElementById("progressFill");
+          const uploadStatus = document.getElementById("uploadStatus");
+
+          progressModal.classList.remove("hidden");
+          progressFill.style.width = "0%";
+          uploadStatus.textContent = "Uploading...";
+
+          try {
+            const formData = new FormData();
+            formData.append("thread_id", currentThreadId);
+            formData.append("file", file);
+
+            const response = await fetch("upload_dm_file.php", {
+              method: "POST",
+              credentials: "same-origin",
+              body: formData,
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+              uploadedFileId = data.file_id;
+              progressFill.style.width = "100%";
+              uploadStatus.textContent = "File uploaded successfully!";
+              setTimeout(() => {
+                progressModal.classList.add("hidden");
+              }, 1500);
+            } else {
+              throw new Error(data.message);
+            }
+          } catch (error) {
+            console.error("File upload error:", error);
+            uploadStatus.textContent = "Upload failed: " + error.message;
+            setTimeout(() => {
+              progressModal.classList.add("hidden");
+            }, 3000);
+          }
+
+          // Clear file input
+          e.target.value = "";
+        });
+
+      function goBack() {
+        console.log("goBack called, going back 1 step in history");
+        // Clear polling interval
+        if (pollInterval) {
+          clearInterval(pollInterval);
+          pollInterval = null;
+        }
+
+        // Go back 1 step in browser history
+        window.history.back();
+      }
+
+      function setupInputEvents() {
+        const input = document.getElementById("message-input");
+        const sendBtn = document.getElementById("send-btn");
+
+        input.addEventListener("input", () => {
+          sendBtn.disabled = !input.value.trim();
+        });
+
+        sendBtn.addEventListener("click", sendMessage);
+
+        input.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            sendMessage();
+          }
+        });
+
+        // Close modal on click outside
+        document
+          .getElementById("report-modal")
+          .addEventListener("click", (e) => {
+            if (e.target === document.getElementById("report-modal")) {
+              document.getElementById("report-modal").style.display = "none";
+            }
+          });
+
+        // Report options
+        document.querySelectorAll(".report-option").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const reason = btn.dataset.reason;
+            console.log("Report submitted:", reason);
+            showToast("Report Sent");
+            document.getElementById("report-modal").style.display = "none";
+          });
+        });
+      }
+
+      // DM Management Functions
+      async function loadDMThreads() {
+        try {
+          const response = await fetch("dm_get_threads.php");
+          const data = await response.json();
+
+          if (data.success) {
+            displayDMThreads(data.threads);
+          }
+        } catch (error) {
+          console.error("Error loading DM threads:", error);
+        }
+      }
+
+      function displayDMThreads(threads) {
+        const container = document.getElementById("dm-dock");
+        container.innerHTML = "";
+
+        if (threads.length === 0) {
+          return;
+        }
+
+        threads.forEach((thread) => {
+          // Skip the active thread - don't show it
+          if (thread.thread_id === currentThreadId) {
+            return;
+          }
+
+          const bubble = document.createElement("div");
+          bubble.className = "dm-bubble";
+          bubble.onclick = () => openDMThread(thread.thread_id);
+
+          const avatar = document.createElement("div");
+          avatar.className = "dm-avatar";
+          if (thread.other_user_profile_picture) {
+            // Display profile picture
+            avatar.classList.add("has-image");
+            const img = document.createElement("img");
+            img.src = thread.other_user_profile_picture;
+            img.alt = thread.other_user_name;
+            img.style.width = "100%";
+            img.style.height = "100%";
+            img.style.borderRadius = "50%";
+            img.style.objectFit = "cover";
+            img.onerror = function() {
+              // If image fails to load, show placeholder
+              avatar.classList.remove("has-image");
+              avatar.innerHTML = "";
+              avatar.textContent = thread.other_user_name.charAt(0).toUpperCase();
+            };
+            avatar.appendChild(img);
+          } else {
+            // Display placeholder initial
+            avatar.classList.remove("has-image");
+            avatar.textContent = thread.other_user_name.charAt(0).toUpperCase();
+          }
+          bubble.appendChild(avatar);
+
+          if (thread.unread_count > 0) {
+            const badge = document.createElement("div");
+            badge.className = "dm-badge";
+            badge.innerHTML = `<span class="dm-badge-txt">${
+              thread.unread_count > 99 ? "99+" : thread.unread_count
+            }</span>`;
+            bubble.appendChild(badge);
+          }
+
+          container.appendChild(bubble);
+        });
+      }
+
+      function openDMThread(threadId) {
+        // If clicking on the current thread, do nothing
+        if (threadId === currentThreadId) return;
+
+        // Open the DM chat interface for different thread
+        window.location.href = `dm-chat.html?thread=${encodeURIComponent(
+          threadId
+        )}`;
+      }
+
+      function showToast(message, type = "info") {
+        const toast = document.getElementById("toast");
+        const toastText = document.getElementById("toast-text");
+
+        toastText.textContent = message;
+        toast.className = `toast ${type}`;
+        toast.style.display = "block";
+
+        setTimeout(() => {
+          toast.style.display = "none";
+        }, 3000);
+      }
+
+      // Store return URL when entering DM
+      sessionStorage.setItem(
+        "dm_return_url",
+        document.referrer || "general-chat.html"
+      );
+    </script>
+
+    <!-- Load the navigation bar -->
+    
+  </body>
+</html>

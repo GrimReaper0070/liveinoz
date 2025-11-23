@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Choose your state</title>
+    <link rel="stylesheet" href="state-select.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="background-container">
+        <img src="assets/state.png" alt="Background" class="background-image" />
+        <div class="gradient-overlay"></div>
+      </div>
+
+      <div class="content-container">
+        <button id="back-btn" class="back-btn">
+          <span class="back-txt">← Home</span>
+        </button>
+
+        <h1 class="title">Choose your state</h1>
+
+        <div class="states-container">
+          <div
+            class="state-item"
+            data-state-code="NSW"
+            data-state-name="New South Wales"
+          >
+            <div class="box">
+              <div class="neon-outline" style="--neon-color: #ff3fd8"></div>
+              <div class="state-info">
+                <div class="state-text">New South Wales</div>
+                <div class="city-text">Sydney</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="state-item"
+            data-state-code="VIC"
+            data-state-name="Victoria"
+          >
+            <div class="box">
+              <div class="neon-outline" style="--neon-color: #00e5ff"></div>
+              <div class="state-info">
+                <div class="state-text">Victoria</div>
+                <div class="city-text">Melbourne</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="state-item"
+            data-state-code="QLD"
+            data-state-name="Queensland"
+          >
+            <div class="box">
+              <div class="neon-outline" style="--neon-color: #7dc6ff"></div>
+              <div class="state-info">
+                <div class="state-text">Queensland</div>
+                <div class="city-text">Brisbane</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="state-item"
+            data-state-code="WA"
+            data-state-name="Western Australia"
+          >
+            <div class="box">
+              <div class="neon-outline" style="--neon-color: #ff9a3c"></div>
+              <div class="state-info">
+                <div class="state-text">Western Australia</div>
+                <div class="city-text">Perth</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="state-item"
+            data-state-code="SA"
+            data-state-name="South Australia"
+          >
+            <div class="box">
+              <div class="neon-outline" style="--neon-color: #ff6b8b"></div>
+              <div class="state-info">
+                <div class="state-text">South Australia</div>
+                <div class="city-text">Adelaide</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="state-item"
+            data-state-code="TAS"
+            data-state-name="Tasmania"
+          >
+            <div class="box">
+              <div class="neon-outline" style="--neon-color: #c077ff"></div>
+              <div class="state-info">
+                <div class="state-text">Tasmania</div>
+                <div class="city-text">Hobart</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="state-item"
+            data-state-code="NT"
+            data-state-name="Northern Territory"
+          >
+            <div class="box">
+              <div class="neon-outline" style="--neon-color: #00ffb0"></div>
+              <div class="state-info">
+                <div class="state-text">Northern Territory</div>
+                <div class="city-text">Darwin</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="state-item"
+            data-state-code="ACT"
+            data-state-name="Australian Capital Territory"
+          >
+            <div class="box">
+              <div class="neon-outline" style="--neon-color: #e7fbff"></div>
+              <div class="state-info">
+                <div class="state-text">Australian Capital Territory</div>
+                <div class="city-text">Canberra</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="state-select.js"></script>
+  </body>
+</html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WhatsApp Groups - Live in Oz</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="global.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      h1 {
+        color: #00ccff;
+        text-shadow: 0 0 10px #00ccff;
+        padding: 20px;
+      }
+
+      .subtitle {
+        color: #ffff00;
+        text-shadow: 0 0 8px #ffff00, 0 0 15px rgba(255, 255, 0, 0.5);
+        font-size: 18px;
+        margin: -10px 0 20px 0;
+        text-align: center;
+      }
+
+      .filters {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        background: rgba(0, 255, 255, 0.1);
+        border: 1px solid #00ffff;
+        color: #00ffff;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 14px;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: rgba(0, 255, 255, 0.2);
+        box-shadow: 0 0 10px #00ffff;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        max-width: 1000px;
+        margin: 80px auto 40px auto;
+      }
+
+      .group-box {
+        background: black;
+        border: 2px solid #00ffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px #00ffff;
+        transition: transform 0.2s ease;
+        min-height: 380px;
+      }
+
+      .group-box:hover {
+        transform: scale(1.05);
+        animation: glowPulse 1.5s ease-in-out infinite;
+      }
+
+      @keyframes glowPulse {
+        0%, 100% {
+          box-shadow: 0 0 15px #00ffff;
+        }
+        50% {
+          box-shadow: 0 0 25px #00ffff, 0 0 35px #00ffff;
+        }
+      }
+
+      .group-box img {
+        width: 100%;
+        height: auto;
+        max-height: 300px;
+        object-fit: contain;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      .group-box p {
+        font-size: 14px;
+        color: #ffff00;
+        margin: 5px 0;
+      }
+
+      .group-box a {
+        display: block;
+        color: #00ccff;
+        text-decoration: none;
+        margin-top: 8px;
+        font-weight: bold;
+      }
+
+      .group-box a:hover {
+        text-decoration: underline;
+      }
+
+      /* ===== CRITICAL FOOTER FIX - ADD TO END OF accommodation.css ===== */
+
+      /* Override any conflicting footer styles */
+
+      /* Force footer columns to use flex layout */
+      .footer-section .footer-columns {
+        display: flex !important;
+        justify-content: space-around !important;
+        flex-wrap: wrap !important;
+        margin-bottom: 30px !important;
+        gap: unset !important;
+        grid-template-columns: unset !important;
+        align-items: unset !important;
+      }
+
+      .footer-section .footer-column {
+        flex: 1 1 200px !important;
+        margin: 10px !important;
+        min-width: unset !important;
+        text-align: unset !important;
+      }
+
+      .footer-section .footer-column h4 {
+        font-size: 1.2em !important;
+        margin-bottom: 15px !important;
+        color: #ffff00 !important;
+        text-shadow: 0 0 8px #ffff00, 0 0 15px rgba(255, 255, 0, 0.5) !important;
+        transition: all 0.3s ease !important;
+        line-height: 1.8 !important;
+      }
+
+      .footer-section .footer-column h4:hover {
+        text-shadow: 0 0 12px #ffff00, 0 0 25px #ffff00,
+          0 0 40px rgba(255, 255, 0, 0.8) !important;
+        color: #ffffff !important;
+      }
+
+      .footer-section .footer-column ul {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .footer-section .footer-column li {
+        color: #ffffff !important;
+        font-size: 0.95em !important;
+        margin: 8px 0 !important;
+        line-height: 1.6 !important;
+        transition: all 0.3s ease !important;
+      }
+
+      .footer-section .footer-column li a {
+        color: #ffffff !important;
+        text-decoration: none !important;
+        display: inline-flex !important;
+        gap: 8px !important;
+        align-items: center !important;
+        transition: all 0.3s ease !important;
+      }
+
+      .footer-section .footer-column li a:hover {
+        color: #00eaff !important;
+        text-shadow: 0 0 8px rgba(0, 234, 255, 0.5) !important;
+      }
+
+      .footer-section .footer-column li:hover {
+        color: #00eaff !important;
+        text-shadow: 0 0 8px rgba(0, 234, 255, 0.5) !important;
+      }
+
+      /* Connect column flex layout */
+      .footer-section .connect-column {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 15px !important;
+      }
+
+      .footer-section .connect-column .app-download-section {
+        position: static !important;
+        transform: none !important;
+        margin-top: 12px !important;
+      }
+
+      /* App download panel */
+      .footer-section .app-download-panel {
+        max-width: 220px !important;
+      }
+
+      /* Footer bottom alignment */
+      .footer-section .footer-bottom {
+        text-align: center !important;
+        font-size: 0.85em !important;
+        color: white !important;
+        border-top: 1px solid #444 !important;
+        padding-top: 15px !important;
+      }
+
+      .footer-section .footer-links {
+        margin-top: 10px !important;
+        text-align: center !important;
+        font-size: 0.85em !important;
+      }
+
+      /* Responsive footer for tablets */
+      @media (max-width: 768px) {
+        .footer-section .footer-columns {
+          flex-direction: column !important;
+          align-items: center !important;
+          gap: 20px !important;
+        }
+
+        .footer-section .footer-column {
+          flex: 1 1 100% !important;
+          margin: 15px 0 !important;
+          text-align: center !important;
+          min-width: auto !important;
+        }
+
+        .footer-section .footer-column h4 {
+          font-size: 1.1em !important;
+          margin-bottom: 8px !important;
+        }
+
+        .footer-section .footer-column li {
+          font-size: 0.9em !important;
+        }
+
+        .footer-section .social-media {
+          justify-content: center !important;
+          gap: 20px !important;
+        }
+
+        .footer-section .app-download-panel {
+          max-width: 100% !important;
+          margin: 0 auto !important;
+        }
+      }
+
+      /* Responsive footer for mobile */
+      @media (max-width: 480px) {
+        .footer-section .footer-columns {
+          flex-direction: column !important;
+          align-items: center !important;
+          gap: 15px !important;
+        }
+
+        .footer-section .footer-column {
+          flex: 1 1 100% !important;
+          margin: 10px 0 !important;
+          text-align: center !important;
+          min-width: auto !important;
+        }
+
+        .footer-section .footer-column h4 {
+          text-align: center !important;
+          font-size: 1em !important;
+        }
+
+        .footer-section .footer-column li {
+          font-size: 0.85em !important;
+        }
+
+        .footer-section .social-media {
+          gap: 15px !important;
+          flex-wrap: wrap !important;
+          justify-content: center !important;
+        }
+
+        .footer-section .social-icon {
+          font-size: 1.2em !important;
+          width: 45px !important;
+          height: 45px !important;
+          padding: 10px !important;
+        }
+
+        .footer-section .footer-links {
+          flex-direction: column !important;
+          align-items: center !important;
+          gap: 8px !important;
+          margin-top: 15px !important;
+        }
+
+        .footer-section .footer-links a {
+          margin: 2px 0 !important;
+          font-size: 0.8em !important;
+        }
+
+        .footer-section .app-download-panel {
+          padding: 12px !important;
+        }
+
+        .footer-section .app-download-panel h5 {
+          font-size: 0.9rem !important;
+          margin-bottom: 8px !important;
+        }
+      }
+
+      /* Mobile view - 2 columns (480px and below) */
+      @media (max-width: 480px) {
+        .footer-section .footer-columns {
+          display: grid !important;
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 20px 15px !important;
+          align-items: start !important;
+          flex-direction: unset !important;
+          flex-wrap: unset !important;
+          margin-bottom: 30px !important;
+        }
+
+        .footer-section .footer-column {
+          flex: unset !important;
+          margin: 0 !important;
+          text-align: center !important;
+          min-width: auto !important;
+        }
+
+        .footer-section .footer-column h4 {
+          text-align: center !important;
+          font-size: 0.95em !important;
+          margin-bottom: 8px !important;
+        }
+
+        .footer-section .footer-column ul {
+          list-style: none !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+
+        .footer-section .footer-column li {
+          font-size: 0.8em !important;
+          margin: 4px 0 !important;
+          line-height: 1.4 !important;
+        }
+
+        /* Connect column spans both columns */
+        .footer-section .connect-column {
+          grid-column: 1 / -1 !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          text-align: center !important;
+          gap: 15px !important;
+          margin-top: 10px !important;
+        }
+
+        .footer-section .connect-column h4 {
+          font-size: 1.1rem !important;
+          font-weight: bold !important;
+          color: #ffff33 !important;
+          text-shadow: 0 0 8px #ffff33 !important;
+          margin-bottom: 10px !important;
+        }
+
+        .footer-section .social-media {
+          justify-content: center !important;
+          gap: 15px !important;
+          flex-wrap: wrap !important;
+        }
+
+        .footer-section .social-icon {
+          font-size: 1.2em !important;
+          width: 45px !important;
+          height: 45px !important;
+          padding: 10px !important;
+        }
+
+        .footer-section .contact-info {
+          text-align: center !important;
+          font-size: 0.85em !important;
+        }
+
+        .footer-section .app-download-panel {
+          max-width: 100% !important;
+          width: 240px !important;
+          padding: 12px !important;
+          margin: 0 auto !important;
+        }
+
+        .footer-section .app-download-panel h5 {
+          font-size: 0.9rem !important;
+          margin-bottom: 8px !important;
+        }
+
+        .footer-section .badge-text {
+          font-size: 0.65rem !important;
+        }
+      }
+
+      /* Tablets (481px - 768px) - 3 columns */
+      @media (min-width: 481px) and (max-width: 768px) {
+        .footer-section .footer-columns {
+          display: grid !important;
+          grid-template-columns: repeat(3, 1fr) !important;
+          gap: 20px 15px !important;
+          align-items: start !important;
+          margin-bottom: 30px !important;
+        }
+
+        .footer-section .footer-column {
+          flex: unset !important;
+          margin: 0 !important;
+          text-align: center !important;
+        }
+
+        .footer-section .connect-column {
+          grid-column: 1 / -1 !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          text-align: center !important;
+          gap: 15px !important;
+          margin-top: 15px !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="whatsapp-page">
+    <header>
+      <!-- Navigation bar will be loaded here -->
+      <div id="navbar-placeholder"></div>
+    </header>
+
+    <!-- Title -->
+    <h1>📱 WhatsApp Groups</h1>
+    <p class="subtitle">
+      Connect instantly with your people — choose your group below
+    </p>
+
+    <!-- State Filters -->
+    <div class="filters">
+      <button class="filter-btn active" data-state="all">All</button>
+      <button class="filter-btn" data-state="NSW">NSW</button>
+      <button class="filter-btn" data-state="QLD">QLD</button>
+      <button class="filter-btn" data-state="VIC">VIC</button>
+      <button class="filter-btn" data-state="WA">WA</button>
+      <button class="filter-btn" data-state="SA">SA</button>
+      <button class="filter-btn" data-state="TAS">TAS</button>
+      <button class="filter-btn" data-state="ACT">ACT</button>
+      <button class="filter-btn" data-state="NT">NT</button>
+    </div>
+
+    <!-- Grid of WhatsApp Groups -->
+    <div class="grid" id="groups-container">
+      <!-- Groups will be loaded here dynamically -->
+      <p style="text-align: center; width: 100%; padding: 40px; color: #00ccff">
+        Loading groups...
+      </p>
+    </div>
+
+    <!-- Footer will be loaded here -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Load the navigation bar -->
+    <script src="nav-loader.js"></script>
+
+    <!-- Load the footer -->
+    <script src="footer-loader.js"></script>
+
+    <!-- Load WhatsApp Groups -->
+    <script>
+      let allGroups = [];
+
+      // Function to load WhatsApp groups
+      async function loadWhatsAppGroups() {
+        try {
+          const response = await fetch("get_whatsapp_groups.php");
+          const data = await response.json();
+
+          if (data.success && data.groups && data.groups.length > 0) {
+            allGroups = data.groups;
+            displayGroups(allGroups);
+          } else {
+            document.getElementById("groups-container").innerHTML =
+              '<p style="text-align: center; width: 100%; padding: 40px; color: #00ccff;">No WhatsApp groups available yet.</p>';
+          }
+        } catch (error) {
+          console.error("Error loading WhatsApp groups:", error);
+          document.getElementById("groups-container").innerHTML =
+            '<p style="text-align: center; width: 100%; padding: 40px; color: #ff4444;">Failed to load groups. Please try again later.</p>';
+        }
+      }
+
+      // Function to display groups
+      function displayGroups(groups) {
+        const container = document.getElementById("groups-container");
+        container.innerHTML = "";
+
+        if (groups.length === 0) {
+          container.innerHTML =
+            '<p style="text-align: center; width: 100%; padding: 40px; color: #00ccff;">No groups found for this filter.</p>';
+          return;
+        }
+
+        groups.forEach((group) => {
+          const groupBox = document.createElement("div");
+          groupBox.className = "group-box";
+
+          // Use default image if no image is provided
+          const image = group.image || "images/1Copy.png";
+
+          // Create location text if available
+          let locationText = "";
+          if (group.city_name || group.state_code) {
+            locationText =
+              "📍 " +
+              (group.city_name ? group.city_name : "") +
+              (group.city_name && group.state_code ? ", " : "") +
+              (group.state_code ? group.state_code : "");
+          }
+
+          groupBox.innerHTML = `
+            <a href="${group.whatsapp_link}" target="_blank">
+              <img src="${image}" alt="${group.name}">
+            </a>
+            <p>${group.name}</p>
+            ${locationText ? `<p>${locationText}</p>` : ""}
+            <p>${group.description}</p>
+          `;
+
+          container.appendChild(groupBox);
+        });
+      }
+
+      // Function to filter groups
+      function filterGroups(state) {
+        if (state === "all") {
+          displayGroups(allGroups);
+        } else {
+          const filtered = allGroups.filter(group => group.state_code === state);
+          displayGroups(filtered);
+        }
+      }
+
+
+
+      // Load groups when page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        loadWhatsAppGroups();
+
+        // Add event listeners to filter buttons
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            // Remove active class from all buttons
+            document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+            // Add active class to clicked button
+            btn.classList.add("active");
+            // Filter groups
+            const state = btn.getAttribute("data-state");
+            filterGroups(state);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Visa & Immigration | Live in Oz</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="global.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        margin: 0;
+        padding-top: 80px;
+        font-family: "Courier New", monospace;
+        background: url("images/visa-bg.jpg") no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+        text-align: left;
+      }
+
+      .visa-header {
+        text-align: center;
+        padding: 60px 20px 20px;
+      }
+
+      .visa-header h1 {
+        font-size: 3em;
+        color: #00f0ff;
+        text-shadow: 0 0 10px #00f0ff, 0 0 20px #ff00cc;
+        margin-bottom: 15px;
+      }
+
+      .visa-header p {
+        font-size: 1.2em;
+        max-width: 800px;
+        margin: auto;
+        color: #ccc;
+        text-shadow: 0 0 6px #000;
+      }
+
+      .visa-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .visa-card {
+        background: rgba(0, 0, 0, 0.7);
+        border: 2px solid #00ffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .visa-card:hover {
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        border-color: #ff00ff;
+      }
+
+      .visa-card h2 {
+        color: #ffea00;
+        text-shadow: 0 0 8px #ffea00;
+        margin-bottom: 15px;
+        font-size: 1.2em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .visa-card h2 i {
+        color: #00ffff;
+        text-shadow: 0 0 10px #00ffff;
+      }
+
+      .visa-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .visa-card li {
+        margin: 8px 0;
+      }
+
+      .visa-card a {
+        color: #ddd;
+        text-decoration: none;
+        font-size: 1.1em;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .visa-card a:hover {
+        color: #ffea00;
+        text-shadow: 0 0 10px #ffea00;
+        transform: translateX(5px);
+      }
+
+      .faq-card {
+        grid-column: 1 / -1;
+      }
+
+      .faq-content p {
+        font-size: 1em;
+        color: #ddd;
+        line-height: 1.6em;
+        margin: 10px 0;
+      }
+
+      .faq-content strong {
+        color: #00ffff;
+      }
+
+      @media (max-width: 768px) {
+        .visa-container {
+          padding: 20px;
+        }
+
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .visa-card {
+          padding: 15px;
+        }
+
+        .visa-card h2 {
+          font-size: 1.1em;
+        }
+
+        .visa-card a {
+          font-size: 1em;
+        }
+      }
+      /* ===== CRITICAL FOOTER FIX - ADD TO END OF accommodation.css ===== */
+
+      /* Override any conflicting footer styles */
+
+      /* Force footer columns to use flex layout */
+      .footer-section .footer-columns {
+        display: flex !important;
+        justify-content: space-around !important;
+        flex-wrap: wrap !important;
+        margin-bottom: 30px !important;
+        gap: unset !important;
+        grid-template-columns: unset !important;
+        align-items: unset !important;
+      }
+
+      .footer-section .footer-column {
+        flex: 1 1 200px !important;
+        margin: 10px !important;
+        min-width: unset !important;
+        text-align: unset !important;
+      }
+
+      .footer-section .footer-column h4 {
+        font-size: 1.2em !important;
+        margin-bottom: 15px !important;
+        color: #ffff00 !important;
+        text-shadow: 0 0 8px #ffff00, 0 0 15px rgba(255, 255, 0, 0.5) !important;
+        transition: all 0.3s ease !important;
+        line-height: 1.8 !important;
+      }
+
+      .footer-section .footer-column h4:hover {
+        text-shadow: 0 0 12px #ffff00, 0 0 25px #ffff00,
+          0 0 40px rgba(255, 255, 0, 0.8) !important;
+        color: #ffffff !important;
+      }
+
+      .footer-section .footer-column ul {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .footer-section .footer-column li {
+        color: #ffffff !important;
+        font-size: 0.95em !important;
+        margin: 8px 0 !important;
+        line-height: 1.6 !important;
+        transition: all 0.3s ease !important;
+      }
+
+      .footer-section .footer-column li a {
+        color: #ffffff !important;
+        text-decoration: none !important;
+        display: inline-flex !important;
+        gap: 8px !important;
+        align-items: center !important;
+        transition: all 0.3s ease !important;
+      }
+
+      .footer-section .footer-column li a:hover {
+        color: #00eaff !important;
+        text-shadow: 0 0 8px rgba(0, 234, 255, 0.5) !important;
+      }
+
+      .footer-section .footer-column li:hover {
+        color: #00eaff !important;
+        text-shadow: 0 0 8px rgba(0, 234, 255, 0.5) !important;
+      }
+
+      /* Connect column flex layout */
+      .footer-section .connect-column {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 15px !important;
+      }
+
+      .footer-section .connect-column .app-download-section {
+        position: static !important;
+        transform: none !important;
+        margin-top: 12px !important;
+      }
+
+      /* App download panel */
+      .footer-section .app-download-panel {
+        max-width: 220px !important;
+      }
+
+      /* Footer bottom alignment */
+      .footer-section .footer-bottom {
+        text-align: center !important;
+        font-size: 0.85em !important;
+        color: white !important;
+        border-top: 1px solid #444 !important;
+        padding-top: 15px !important;
+      }
+
+      .footer-section .footer-links {
+        margin-top: 10px !important;
+        text-align: center !important;
+        font-size: 0.85em !important;
+      }
+
+      /* Responsive footer for tablets */
+      @media (max-width: 768px) {
+        .footer-section .footer-columns {
+          flex-direction: column !important;
+          align-items: center !important;
+          gap: 20px !important;
+        }
+
+        .footer-section .footer-column {
+          flex: 1 1 100% !important;
+          margin: 15px 0 !important;
+          text-align: center !important;
+          min-width: auto !important;
+        }
+
+        .footer-section .footer-column h4 {
+          font-size: 1.1em !important;
+          margin-bottom: 8px !important;
+        }
+
+        .footer-section .footer-column li {
+          font-size: 0.9em !important;
+        }
+
+        .footer-section .social-media {
+          justify-content: center !important;
+          gap: 20px !important;
+        }
+
+        .footer-section .app-download-panel {
+          max-width: 100% !important;
+          margin: 0 auto !important;
+        }
+      }
+
+      /* Responsive footer for mobile */
+      @media (max-width: 480px) {
+        .footer-section .footer-columns {
+          flex-direction: column !important;
+          align-items: center !important;
+          gap: 15px !important;
+        }
+
+        .footer-section .footer-column {
+          flex: 1 1 100% !important;
+          margin: 10px 0 !important;
+          text-align: center !important;
+          min-width: auto !important;
+        }
+
+        .footer-section .footer-column h4 {
+          text-align: center !important;
+          font-size: 1em !important;
+        }
+
+        .footer-section .footer-column li {
+          font-size: 0.85em !important;
+        }
+
+        .footer-section .social-media {
+          gap: 15px !important;
+          flex-wrap: wrap !important;
+          justify-content: center !important;
+        }
+
+        .footer-section .social-icon {
+          font-size: 1.2em !important;
+          width: 45px !important;
+          height: 45px !important;
+          padding: 10px !important;
+        }
+
+        .footer-section .footer-links {
+          flex-direction: column !important;
+          align-items: center !important;
+          gap: 8px !important;
+          margin-top: 15px !important;
+        }
+
+        .footer-section .footer-links a {
+          margin: 2px 0 !important;
+          font-size: 0.8em !important;
+        }
+
+        .footer-section .app-download-panel {
+          padding: 12px !important;
+        }
+
+        .footer-section .app-download-panel h5 {
+          font-size: 0.9rem !important;
+          margin-bottom: 8px !important;
+        }
+      }
+
+      /* ===== MOBILE FOOTER 2-COLUMN LAYOUT ===== */
+
+/* Mobile view - 2 columns (480px and below) */
+@media (max-width: 480px) {
+  .footer-section .footer-columns {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px 15px !important;
+    align-items: start !important;
+    flex-direction: unset !important;
+    flex-wrap: unset !important;
+    margin-bottom: 30px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: unset !important;
+    margin: 0 !important;
+    text-align: center !important;
+    min-width: auto !important;
+  }
+
+  .footer-section .footer-column h4 {
+    text-align: center !important;
+    font-size: 0.95em !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .footer-column ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .footer-section .footer-column li {
+    font-size: 0.8em !important;
+    margin: 4px 0 !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Connect column spans both columns */
+  .footer-section .connect-column {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 15px !important;
+    margin-top: 10px !important;
+  }
+
+  .footer-section .connect-column h4 {
+    font-size: 1.1rem !important;
+    font-weight: bold !important;
+    color: #ffff33 !important;
+    text-shadow: 0 0 8px #ffff33 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .footer-section .social-media {
+    justify-content: center !important;
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .footer-section .social-icon {
+    font-size: 1.2em !important;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 10px !important;
+  }
+
+  .footer-section .contact-info {
+    text-align: center !important;
+    font-size: 0.85em !important;
+  }
+
+  .footer-section .app-download-panel {
+    max-width: 100% !important;
+    width: 240px !important;
+    padding: 12px !important;
+    margin: 0 auto !important;
+  }
+
+  .footer-section .app-download-panel h5 {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  .footer-section .badge-text {
+    font-size: 0.65rem !important;
+  }
+}
+
+/* Tablets (481px - 768px) - 3 columns */
+@media (min-width: 481px) and (max-width: 768px) {
+  .footer-section .footer-columns {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 20px 15px !important;
+    align-items: start !important;
+    margin-bottom: 30px !important;
+  }
+
+  .footer-section .footer-column {
+    flex: unset !important;
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+  .footer-section .connect-column {
+    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 15px !important;
+    margin-top: 15px !important;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- Navigation bar will be loaded here -->
+      <div id="navbar-placeholder"></div>
+    </header>
+
+    <div class="visa-header">
+      <h1>🛂 Visa & Immigration Help</h1>
+      <p>
+        Everything you need to know about starting your journey to Australia —
+        from applying for the right visa to settling in your new home.
+      </p>
+    </div>
+
+    <div class="visa-container">
+      <div class="content-grid">
+        <div class="visa-card">
+          <h2><i class="fas fa-link"></i> Helpful Resources</h2>
+          <ul>
+            <li><a href="https://immi.homeaffairs.gov.au/" target="_blank">→ Official Home Affairs Website</a></li>
+            <li><a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-finder" target="_blank">→ Visa Finder Tool</a></li>
+            <li><a href="https://www.studyaustralia.gov.au/" target="_blank">→ Study Australia Guide</a></li>
+            <li><a href="https://www.servicesaustralia.gov.au/" target="_blank">→ Medicare, TFN & Payments</a></li>
+            <li><a href="https://liveinbrisbane.qld.gov.au/" target="_blank">→ Living in Brisbane - Official Council Site</a></li>
+          </ul>
+        </div>
+
+        <div class="visa-card">
+          <h2><i class="fas fa-passport"></i> Types of Visas</h2>
+          <ul>
+            <li><a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing" target="_blank">→ List of All Visa Options</a></li>
+            <li><a href="#">→ Student Visa (subclass 500)</a></li>
+            <li><a href="#">→ Working Holiday Visa (subclass 417 / 462)</a></li>
+            <li><a href="#">→ Skilled Migration Visas (subclass 189, 190, 491)</a></li>
+          </ul>
+        </div>
+
+        <div class="visa-card">
+          <h2><i class="fas fa-briefcase"></i> Job Search Tools</h2>
+          <ul>
+            <li><a href="https://www.seek.com.au/" target="_blank">→ Seek</a></li>
+            <li><a href="https://www.au.indeed.com/" target="_blank">→ Indeed</a></li>
+            <li><a href="https://au.jora.com/" target="_blank">→ Jora</a></li>
+            <li><a href="https://www.gumtree.com.au/s-jobs/c18364" target="_blank">→ Gumtree Jobs</a></li>
+            <li><a href="jobs.html" target="_blank">→ 💼 Jobs Section on Live in Oz (Post a Job)</a></li>
+          </ul>
+        </div>
+
+        <div class="visa-card">
+          <h2><i class="fas fa-file-alt"></i> Documents & Paperwork</h2>
+          <ul>
+            <li><a href="#">→ Step-by-step TFN application</a></li>
+            <li><a href="#">→ How to get Medicare</a></li>
+            <li><a href="#">→ Getting an Australian ID/Proof of Age Card</a></li>
+          </ul>
+        </div>
+
+        <div class="visa-card">
+          <h2><i class="fas fa-home"></i> Accommodation & Banking</h2>
+          <ul>
+            <li><a href="accommodation.html">→ Find a Room to Rent (Live in Oz)</a></li>
+            <li><a href="#">→ How to Open a Bank Account</a></li>
+            <li><a href="#">→ How to Set Up Internet & SIM Card</a></li>
+          </ul>
+        </div>
+
+        <div class="visa-card">
+          <h2><i class="fas fa-heartbeat"></i> Health & Taxes</h2>
+          <ul>
+            <li><a href="#">→ Health Insurance Requirements</a></li>
+            <li><a href="#">→ Tax Filing in Australia</a></li>
+            <li><a href="#">→ Medicare vs Private Health</a></li>
+          </ul>
+        </div>
+
+        <div class="visa-card">
+          <h2><i class="fas fa-map-marked-alt"></i> State-by-State Info</h2>
+          <ul>
+            <li><a href="https://liveinbrisbane.qld.gov.au/" target="_blank">→ Brisbane</a></li>
+            <li><a href="https://www.nsw.gov.au/" target="_blank">→ New South Wales</a></li>
+            <li><a href="https://www.vic.gov.au/" target="_blank">→ Victoria</a></li>
+            <li><a href="https://www.wa.gov.au/" target="_blank">→ Western Australia</a></li>
+          </ul>
+        </div>
+
+        <div class="visa-card">
+          <h2><i class="fas fa-users"></i> Tips from Locals</h2>
+          <ul>
+            <li><a href="whatsapp.html">→ Join a WhatsApp Group</a></li>
+            <li><a href="chat-landing.html">→ Chat Room: Ask Questions</a></li>
+            <li><a href="#">→ How to use public transport</a></li>
+            <li><a href="#">→ Buying second-hand furniture, phones, bikes</a></li>
+          </ul>
+        </div>
+
+        <div class="visa-card faq-card">
+          <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+          <div class="faq-content">
+            <p><strong>Q: What's the easiest visa to come to Australia?</strong></p>
+            <p>A: It depends on your goal — Student Visa for studies, Working Holiday Visa for travel & work, Skilled Visa for jobs.</p>
+            <p><strong>Q: How long does a visa application take?</strong></p>
+            <p>A: It varies. Student Visas may take a few weeks; skilled migration can take months.</p>
+            <p><strong>Q: Do I need health insurance?</strong></p>
+            <p>A: Yes. Students must have Overseas Student Health Cover (OSHC); others may require private cover.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer will be loaded here -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Load the navigation bar -->
+    <script src="nav-loader.js"></script>
+
+    <!-- Load the footer -->
+    <script src="footer-loader.js"></script>
+  </body>
+</html>

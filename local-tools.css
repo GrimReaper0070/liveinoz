@@ -1,0 +1,155 @@
+/* === LOCAL TOOLS PAGE STYLES === */
+
+body.local-tools-page {
+    background: url('images/local-tools.png') no-repeat center center fixed;
+    background-color: #000014;
+    font-family: 'Courier New', monospace;
+    color: white;
+
+    margin: 0;
+    padding: 80px 20px 20px; /* Adjusted padding for navbar */
+    text-align: center;
+}
+
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.page-header {
+    text-align: center;
+    /* Removed padding to bring the title image up */
+    padding: 0;
+}
+
+.local-tools-title-img {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.local-tools-title-img img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 15px #00ffff) drop-shadow(0 0 25px #00ffff);
+}
+
+.tools-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+    /* Adjusted the negative margin to pull the entire container up */
+    margin-top: -100px;
+    padding: 40px 0;
+}
+
+.tool-card {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    border: 2px solid #ff00ff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 20px #ff00ff, inset 0 0 10px #ff00ff;
+    animation: pulse-glow 2s infinite alternate;
+}
+
+.tool-title {
+    color: #00ffff;
+    font-size: 1.5em;
+    text-align: center;
+    text-shadow: 0 0 8px #00ffff;
+    margin-top: 0;
+}
+
+.tool-content p, .transport-list li {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    text-align: left;
+    display: block;
+    margin-bottom: 5px;
+    color: #ff00ff;
+    font-weight: bold;
+    text-shadow: 0 0 5px #ff00ff;
+}
+
+.input-group select, .input-group input {
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #00ffff;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1em;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.input-group select:focus, .input-group input:focus {
+    outline: none;
+    border-color: #ff00ff;
+    box-shadow: 0 0 15px #ff00ff;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 15px #ff00ff;
+    transition: box-shadow 0.3s ease;
+}
+
+button:hover {
+    box-shadow: 0 0 20px #ff00ff, 0 0 30px #00ffff;
+}
+
+.result-box {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid #00ffff;
+    border-radius: 5px;
+    text-align: center;
+    color: #00ffff;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00ffff;
+}
+
+.transport-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.transport-list li {
+    margin-bottom: 10px;
+}
+
+.transport-list a, .cta-link {
+    color: #ff00ff;
+    text-decoration: none;
+    text-shadow: 0 0 5px #ff00ff;
+    font-weight: bold;
+    transition: text-shadow 0.3s ease;
+}
+
+.transport-list a:hover, .cta-link:hover {
+    text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+}
+/* Custom color for the Tools menu link */
+.main-menu a[href="local-tools.html"] {
+    color: #ff00ff; /* This is a bright pink color */
+}
