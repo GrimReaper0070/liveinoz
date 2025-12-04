@@ -25,6 +25,7 @@
         overflow: hidden;
 
         background: url("images/state.png") no-repeat center center fixed;
+         /* background: url("images/chatcity.png") no-repeat center center fixed; */
         background-size: cover;
       }
 
@@ -345,52 +346,62 @@
         align-items: center;
         justify-content: center;
         z-index: 1000;
+        overflow: hidden;
       }
 
       .mobile-content {
-        text-align: center;
-        padding: 40px;
-        max-width: 400px;
-        background: rgba(10, 22, 40, 0.95);
-        border: 2px solid #00eeff;
-        border-radius: 20px;
-        box-shadow: 0 0 40px rgba(0, 238, 255, 0.4);
+        position: relative;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        max-width: none;
+        background: none;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
       }
 
-      .mobile-content h2 {
-        color: #00eeff;
-        font-size: 1.8em;
-        margin-bottom: 15px;
-        text-shadow: 0 0 20px rgba(0, 238, 255, 0.5);
+      .mobile-icon {
+        width: 100%;
+        height: 100%;
+        position: relative;
       }
 
-      .mobile-content p {
-        color: #e0e0e0;
-        font-size: 1.1em;
-        margin-bottom: 25px;
-        line-height: 1.5;
+      .mobile-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
       }
 
-      .app-stores {
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-        margin-bottom: 20px;
+      /* Hide mobile view on larger screens */
+      @media (min-width: 769px) {
+        .mobile-only {
+          display: none !important;
+        }
       }
 
-      .store-btn {
-        display: inline-block;
-        transition: transform 0.3s ease;
+      /* Clickable overlay styles */
+      .clickable-overlay {
+        position: absolute;
+        top: 0;
+        width: 50%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 10;
       }
 
-      .store-btn:hover {
-        transform: scale(1.05);
+      .clickable-overlay:active {
+        background: rgba(255, 255, 255, 0.1);
       }
 
-      .mobile-note {
-        color: #888;
-        font-size: 0.9em;
-        margin-top: 15px;
+      .left-overlay {
+        left: 0;
+      }
+
+      .right-overlay {
+        right: 0;
       }
     </style>
   </head>
@@ -402,19 +413,11 @@
     <div id="mobileOnly" class="mobile-only hidden">
       <div class="mobile-content">
         <div class="mobile-icon">
-          <img src="images/devices.png" alt="Desktop Chat" style="width: 120px; height: 120px; opacity: 0.8;">
+          <img src="images/devices2.png" alt="Desktop Chat" />
         </div>
-        <h2>💬 Chat Room Available on Desktop</h2>
-        <p>Get the Live in Oz chat app for mobile devices</p>
-        <div class="app-stores">
-          <a href="#" id="appStoreLink" class="store-btn apple">
-            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" style="height: 40px;">
-          </a>
-          <a href="#" id="playStoreLink" class="store-btn google">
-            <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" style="height: 40px;">
-          </a>
-        </div>
-        <p class="mobile-note">Chat rooms are optimized for PC and laptop computers</p>
+        <!-- Clickable overlays -->
+        <div class="clickable-overlay left-overlay" id="leftClickArea"></div>
+        <div class="clickable-overlay right-overlay" id="rightClickArea"></div>
       </div>
     </div>
 
@@ -463,22 +466,33 @@
 
       // Device detection function
       function isMobileDevice() {
-        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-               window.innerWidth <= 768;
+        return (
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent
+          ) || window.innerWidth <= 768
+        );
       }
 
       // Set app store links based on device
       function setAppStoreLinks() {
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        const appStoreLink = document.getElementById('appStoreLink');
-        const playStoreLink = document.getElementById('playStoreLink');
+        // Replace these with your actual store URLs
+        const APP_STORE_URL = "https://apps.apple.com/app/your-app-id";
+        const PLAY_STORE_URL =
+          "https://play.google.com/store/apps/details?id=your.package.name";
 
-        if (isIOS) {
-          appStoreLink.href = '#'; // Placeholder - will be updated with actual App Store URL
-          playStoreLink.style.display = 'none'; // Hide Google Play for iOS
-        } else {
-          playStoreLink.href = '#'; // Placeholder - will be updated with actual Play Store URL
-          appStoreLink.style.display = 'none'; // Hide App Store for Android
+        const leftArea = document.getElementById("leftClickArea");
+        const rightArea = document.getElementById("rightClickArea");
+
+        if (leftArea) {
+          leftArea.addEventListener("click", function () {
+            window.location.href = APP_STORE_URL;
+          });
+        }
+
+        if (rightArea) {
+          rightArea.addEventListener("click", function () {
+            window.location.href = PLAY_STORE_URL;
+          });
         }
       }
 
@@ -540,15 +554,15 @@
 
         // Update language preference in database
         try {
-          await fetch('update_language.php', {
-            method: 'POST',
+          await fetch("update_language.php", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
+              "Content-Type": "application/x-www-form-urlencoded",
             },
-            body: `language=${lang}`
+            body: `language=${lang}`,
           });
         } catch (error) {
-          console.error('Failed to update language preference:', error);
+          console.error("Failed to update language preference:", error);
         }
 
         // Reload states with new language

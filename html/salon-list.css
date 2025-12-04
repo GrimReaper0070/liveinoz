@@ -12,29 +12,42 @@ body {
   background: black;
 }
 
+body.chat-rooms-page {
+
+background: #000;
+}
+
+body.chat-rooms-page::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+background: url('images/chatcity.png') no-repeat center center fixed;
+  background-size: 100% 100%;
+  filter: blur(2px); /* Adjust blur amount as needed */
+  z-index: -1;
+}
+
 .background {
   position: relative;
   min-height: 100vh;
-  background-image: url("assets/salones.png");
-  background-size: cover;
-  background-position: center;
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(rgba(5, 0, 18, 0.28), rgba(12, 2, 40, 0.28));
+.chat-rooms-header {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto 20px auto;
+  padding: 0 32px;
 }
 
 .container {
   position: relative;
   z-index: 1;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0 32px 120px 32px;
 }
 
 .title {
@@ -63,6 +76,7 @@ body {
   cursor: pointer;
   border: 2px solid transparent;
   animation: neonGlow 0.9s infinite;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .chip-city {
@@ -89,6 +103,7 @@ body {
   padding: 0 14px;
   border: 2px solid transparent;
   animation: neonGlowPink 0.9s infinite;
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .search-input {
@@ -149,9 +164,8 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  column-gap: 20px;
-  row-gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px 24px;
   padding: 8px 0 120px 0;
 }
 

@@ -69,7 +69,7 @@
       </div>
 
       <!-- Terms & Conditions Section -->
-      <div class="terms-section" id="terms-section" style="display: none">
+      <div class="terms-section">
         <h1>Chat Room Terms & Conditions (summary)</h1>
         <p>By entering the chat you agree to follow these rules and you accept our Terms & Conditions and Privacy Policy.</p>
         <p>We may store your messages, profile details, IP address and any files you share to keep the community safe, improve the service and investigate abuse.</p>
@@ -148,9 +148,6 @@
               document.getElementById("acceptCheckbox").checked = true;
               document.getElementById("enterBtn").disabled = false;
             }
-
-            // Show the terms section
-            document.getElementById("terms-section").style.display = "block";
           } else {
             // Show login required message
             document.getElementById("loginRequired").style.display = "block";

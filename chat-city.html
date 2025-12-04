@@ -9,13 +9,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="auth-php.js"></script>
     <style>
-      body {
-        background: url("images/brick-wall.jpg");
-        background-color: #000014;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
       .breadcrumb {
         margin-bottom: 20px;
         font-size: 0.9em;
@@ -36,7 +29,7 @@
 
       .rooms-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmin(250px, 1fr));
         gap: 15px;
         margin: 20px 0;
       }
@@ -119,17 +112,31 @@
         background: #00eeff;
         color: #000;
       }
+
+      /* New styles for flag display */
+      .flag-container {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 16px;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+
+      .flag-container svg {
+        width: 100%;
+        height: 100%;
+      }
     </style>
   </head>
-  <body>
+  <body class="chat-rooms-page">
     <!-- Navigation bar will be loaded here -->
     <div id="navbar-placeholder"></div>
 
     <!-- Main content with salon-list design -->
     <div class="background" id="mainContent" style="display: none">
-      <div class="overlay"></div>
-      <div class="container">
-        <header>
+      <header class="chat-rooms-header">
           <h1 class="title" id="pageTitle">Chat Rooms</h1>
           <div class="chips">
             <div class="chip chip-city">
@@ -159,9 +166,11 @@
             <div class="tab" data-cat="hobbies">Hobbies</div>
           </div>
         </header>
-        <main class="grid" id="roomsContainer">
-          <!-- Rooms will be loaded here -->
-        </main>
+        <div class="container">
+          <main class="grid" id="roomsContainer">
+            <!-- Rooms will be loaded here -->
+          </main>
+        </div>
       </div>
     </div>
 
@@ -189,6 +198,114 @@
       const urlParams = new URLSearchParams(window.location.search);
       currentState = urlParams.get("state") || "";
 
+      // Country flag SVG mapping
+      const countryFlags = {
+        Argentinians: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="22" height="16" fill="#74ACDF"/><rect width="22" height="8" y="4" fill="#FFF"/><path d="M11,8 C11,8.552 10.552,9 10,9 C9.448,9 9,8.552 9,8 C9,7.448 9.448,7 10,7 C10.552,7 11,7.448 11,8 Z" fill="#F6B40E"/></svg>`,
+        Argentinos: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="22" height="16" fill="#74ACDF"/><rect width="22" height="8" y="4" fill="#FFF"/><path d="M11,8 C11,8.552 10.552,9 10,9 C9.448,9 9,8.552 9,8 C9,7.448 9.448,7 10,7 C10.552,7 11,7.448 11,8 Z" fill="#F6B40E"/></svg>`,
+        Mexicans: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="7.333" height="16" fill="#006847"/><rect width="7.333" height="16" x="7.333" fill="#FFF"/><rect width="7.333" height="16" x="14.667" fill="#CE1126"/></svg>`,
+        Mexicanos: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="7.333" height="16" fill="#006847"/><rect width="7.333" height="16" x="7.333" fill="#FFF"/><rect width="7.333" height="16" x="14.667" fill="#CE1126"/></svg>`,
+        Colombians: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="22" height="16" fill="#FCD116"/><rect width="22" height="8" y="8" fill="#003893"/><rect width="22" height="4" y="12" fill="#CE1126"/></svg>`,
+        Colombianos: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="22" height="16" fill="#FCD116"/><rect width="22" height="8" y="8" fill="#003893"/><rect width="22" height="4" y="12" fill="#CE1126"/></svg>`,
+        Peruvians: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="7.333" height="16" fill="#D91023"/><rect width="7.333" height="16" x="7.333" fill="#FFF"/><rect width="7.333" height="16" x="14.667" fill="#D91023"/></svg>`,
+        Peruanos: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="7.333" height="16" fill="#D91023"/><rect width="7.333" height="16" x="7.333" fill="#FFF"/><rect width="7.333" height="16" x="14.667" fill="#D91023"/></svg>`,
+        Spanish: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="22" height="16" fill="#AA151B"/><rect width="22" height="8" y="4" fill="#F1BF00"/></svg>`,
+        Españoles: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="22" height="16" fill="#AA151B"/><rect width="22" height="8" y="4" fill="#F1BF00"/></svg>`,
+        Brazilians: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="22" height="16" fill="#009739"/><polygon fill="#FEDD00" points="11,2 19,8 11,14 3,8"></polygon><circle cx="11" cy="8" r="3" fill="#009739"/></svg>`,
+        Brasileños: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="22" height="16" fill="#009739"/><polygon fill="#FEDD00" points="11,2 19,8 11,14 3,8"></polygon><circle cx="11" cy="8" r="3" fill="#009739"/></svg>`,
+        Chileans: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="22" height="16" fill="#D52B1E"/><rect width="11" height="8" fill="#FFF"/><rect width="5.5" height="8" fill="#0039A6"/><path d="M5.5,4 C5.5,4.552 5.052,5 4.5,5 C3.948,5 3.5,4.552 3.5,4 C3.5,3.448 3.948,3 4.5,3 C5.052,3 5.5,3.448 5.5,4 Z" fill="#FFF"/></svg>`,
+        Chilenos: `<svg width="22" height="16" viewBox="0 0 22 16"><rect width="22" height="16" fill="#D52B1E"/><rect width="11" height="8" fill="#FFF"/><rect width="5.5" height="8" fill="#0039A6"/><path d="M5.5,4 C5.5,4.552 5.052,5 4.5,5 C3.948,5 3.5,4.552 3.5,4 C3.5,3.448 3.948,3 4.5,3 C5.052,3 5.5,3.448 5.5,4 Z" fill="#FFF"/></svg>`,
+      };
+
+      // Translation mappings
+      const roomTranslations = {
+        // Shopping & Daily Life
+        "Shopping & Deals": { es: "Compras y Ofertas" },
+        "Lost & Found": { es: "Objetos Perdidos" },
+        "New arrivals": { es: "Recién llegados" },
+
+        // Fitness & Sports
+        "Gym & Fitness": { es: "Gimnasio y Fitness" },
+        "Running & Marathons": { es: "Running y Maratones" },
+        "Calisthenics / Streets": { es: "Calistenia / Calles" },
+        "Tennis / Padel": { es: "Tenis / Pádel" },
+        Surf: { es: "Surf" },
+
+        // Hobbies
+        "Gamers & Tech": { es: "Jugadores y Tecnología" },
+        "Movies & Series": { es: "Películas y Series" },
+        Photography: { es: "Fotografía" },
+        "Art & Design": { es: "Arte y Diseño" },
+        Weed: { es: "Marihuana" },
+
+        // General - Basic Rooms
+        General: { es: "General" },
+        "General Chat": { es: "Chat General" },
+        "Help & Support": { es: "Ayuda y Soporte" },
+        Housing: { es: "Vivienda" },
+        Jobs: { es: "Trabajos" },
+        Entrepreneur: { es: "Emprendedores" },
+        "Buy & Sell": { es: "Compra y Venta" },
+        Suggestions: { es: "Sugerencias" },
+        "Off-Topic": { es: "Fuera de Tema" },
+        "More Communities": { es: "Más Comunidades" },
+        "Visas and Docs": { es: "Visas y Documentos" },
+        "Rides and Transport": { es: "Viajes y Transporte" },
+
+        // Social & Meetups
+        Football: { es: "Fútbol" },
+        Meetups: { es: "Reuniones" },
+        "BBQ Meetups": { es: "BBQ Reuniones" },
+        "Mate lovers": { es: "Amantes del Mate" },
+        "Let's go to the beach": { es: "Vamos a la playa" },
+        "Music & Dance": { es: "Música y Baile" },
+        "Latinas United": { es: "Latinas Unidas" },
+
+        // Countries
+        Argentinians: { es: "Argentinos" },
+        Mexicans: { es: "Mexicanos" },
+        Colombians: { es: "Colombianos" },
+        Peruvians: { es: "Peruanos" },
+        Spanish: { es: "Spanish" },
+        Brazilians: { es: "Brasileños" },
+        Chileans: { es: "Chilenos" },
+      };
+
+      // Reverse lookup for Spanish to English
+      const reverseTranslations = {};
+      Object.keys(roomTranslations).forEach((en) => {
+        const es = roomTranslations[en].es;
+        // Don't create reverse translation for Spanish (keeps it same in both languages)
+        if (es !== "Spanish") {
+          reverseTranslations[es] = en;
+        }
+      });
+
+      // Translation function
+      function translateRoomName(roomName) {
+        // First, replace Spaniards with Spanish
+        if (roomName === "Spaniards") {
+          roomName = "Spanish";
+        }
+
+        if (currentLanguage === "es") {
+          // English to Spanish
+          return roomTranslations[roomName]?.es || roomName;
+        } else {
+          // Spanish to English
+          return reverseTranslations[roomName] || roomName;
+        }
+      }
+
+      // Get country flag SVG for a room name
+      function getCountryFlag(roomName) {
+        for (const country in countryFlags) {
+          if (roomName.includes(country)) {
+            return countryFlags[country];
+          }
+        }
+        return null;
+      }
+
       // Check authentication on page load
       document.addEventListener("DOMContentLoaded", function () {
         if (!currentState) {
@@ -206,12 +323,10 @@
           const authenticated = await isAuthenticated();
 
           if (authenticated) {
-            // Initialize user preferences first
             await fetch("init_user_prefs.php");
-
             document.getElementById("mainContent").style.display = "block";
-            await loadStateInfo(); // Wait for state info to load
-            loadRooms(); // Then load rooms
+            await loadStateInfo();
+            loadRooms();
           } else {
             document.getElementById("loginRequired").style.display = "block";
             localStorage.setItem("redirectAfterLogin", window.location.href);
@@ -223,18 +338,15 @@
       }
 
       function setupEventListeners() {
-        // Language toggle
         document.querySelector(".chip-lang").addEventListener("click", () => {
           const newLang = currentLanguage === "en" ? "es" : "en";
           setLanguage(newLang);
         });
 
-        // Back button
         document.querySelector(".chip-back").addEventListener("click", () => {
           window.location.href = "chat-directory.html";
         });
 
-        // Search input
         document
           .getElementById("searchInput")
           .addEventListener("input", (e) => {
@@ -242,7 +354,6 @@
             filterAndDisplayRooms();
           });
 
-        // Category tabs
         document.querySelectorAll(".tab").forEach((tab) => {
           tab.addEventListener("click", () => {
             setActiveCategory(tab.dataset.cat);
@@ -255,22 +366,18 @@
         localStorage.setItem("chat_language", lang);
         updateLanguage(lang);
 
-        // Update language preference in database
         try {
           await fetch("update_language.php", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: `language=${lang}`,
           });
         } catch (error) {
           console.error("Failed to update language preference:", error);
         }
 
-        // Reload state info and rooms with new language
         await loadStateInfo();
-        loadRooms();
+        filterAndDisplayRooms(); // Just re-display, don't reload from server
       }
 
       function updateLanguage(lang) {
@@ -285,19 +392,12 @@
           lang === "en" ? "Search rooms" : "Buscar salas";
 
         const titles = {
-          en: {
-            title: "Chat Rooms",
-            subtitle: "Choose a room to start chatting",
-          },
-          es: {
-            title: "Salas de Chat",
-            subtitle: "Elige una sala para comenzar a chatear",
-          },
+          en: { title: "Chat Rooms" },
+          es: { title: "Salas de Chat" },
         };
 
         document.getElementById("pageTitle").textContent = titles[lang].title;
 
-        // Update tab labels
         const tabLabels = {
           en: {
             all: "All",
@@ -384,7 +484,6 @@
       function filterAndDisplayRooms() {
         let filteredRooms = allRooms;
 
-        // Filter by category
         if (currentCategory !== "all") {
           const categoryMapping = {
             social: ["general", "off_topic", "more"],
@@ -399,7 +498,6 @@
           );
         }
 
-        // Filter by search
         if (currentSearch) {
           filteredRooms = filteredRooms.filter((room) =>
             room.name.toLowerCase().includes(currentSearch)
@@ -413,7 +511,6 @@
         const container = document.getElementById("roomsContainer");
         container.innerHTML = "";
 
-        // Fallback emojis and colors for rooms without DB values
         const fallbackEmojis = {
           general: "💬",
           help: "🆘",
@@ -433,7 +530,14 @@
           const card = document.createElement("div");
           card.className = `card ${room.type}`;
 
-          const chosenEmoji = room.emoji || fallbackEmojis[room.type] || "💬";
+          // TRANSLATE THE ROOM NAME HERE
+          const translatedName = translateRoomName(room.name);
+
+          const countryFlag = getCountryFlag(translatedName);
+          const chosenEmoji = countryFlag
+            ? `<div class="flag-container">${countryFlag}</div>`
+            : room.emoji || fallbackEmojis[room.type] || "💬";
+
           const chosenColor =
             room.color || fallbackColors[room.type] || "#00e5ff";
 
@@ -441,44 +545,24 @@
           card.style.borderColor = chosenColor;
           card.onclick = () => enterRoom(room.identifier);
 
-          let roomTypeText =
-            currentLanguage === "es"
-              ? room.type.replace(/_/g, " ")
-              : room.type.replace(/_/g, " ");
-
-          if (room.type === "daily_static") {
-            roomTypeText = "Daily";
-          } else if (room.type === "fitness_static") {
-            roomTypeText = "Fitness";
-          } else if (room.type === "hobbies_static") {
-            roomTypeText = "Hobbies";
-          } else if (room.type === "work") {
-            roomTypeText = "Work";
-          } else if (room.type === "hobbies") {
-            roomTypeText = "Hobbies";
-          }
-
           card.innerHTML = `
-                    <div class="card-title">
-                        <span>${chosenEmoji}</span>
-                        <span>${room.name}</span>
-                    </div>
-                    <div class="meta">${roomTypeText}</div>
-                `;
+            <div class="card-title">
+              ${chosenEmoji}
+              <span>${translatedName}</span>
+            </div>
+          `;
 
           container.appendChild(card);
         });
       }
 
       function enterRoom(roomName) {
-        // Navigate to the chat room
         window.location.href = `general-chat.html?state=${currentState}&city=${currentCity}&room=${encodeURIComponent(
           roomName
         )}`;
       }
     </script>
 
-    <!-- Load the navigation bar -->
     <script src="nav-loader.js"></script>
   </body>
 </html>

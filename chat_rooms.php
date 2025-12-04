@@ -56,7 +56,11 @@ try {
 
     // Format response based on language
     $formatted_rooms = array_map(function($room) use ($lang) {
-        $display_name = $room['display_name'] ?? ($lang === 'es' ? $room['room_name_es'] : $room['room_name']);
+        if ($lang === 'es') {
+            $display_name = $room['room_name_es'];
+        } else {
+            $display_name = $room['display_name'] ?: $room['room_name'];
+        }
         return [
             'name' => $display_name,
             'type' => $room['room_type'],

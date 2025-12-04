@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>General Chat - Live in Oz</title>
-    <link rel="stylesheet" href="global.css" />
-    <link rel="stylesheet" href="html/chatroom-styles.css" />
+    <!-- <link rel="stylesheet" href="global.css" /> -->
+    <!-- <link rel="stylesheet" href="html/chatroom-styles.css" />
     <link rel="stylesheet" href="chat-map.css" />
-    <link rel="stylesheet" href="chat-buttons.css" />
+    <link rel="stylesheet" href="chat-buttons.css" /> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="auth-php.js"></script>
     <style>
@@ -26,11 +26,25 @@
         height: 100%;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background: linear-gradient(
-          180deg,
-          #0a1628 0%,
-          #1a0b2e 50%,
-          #2d1b4e 100%
-        );
+            180deg,
+            #0a1628 0%,
+            #1a0b2e 50%,
+            #2d1b4e 100%
+          ),
+          repeating-linear-gradient(
+            0deg,
+            rgba(0, 238, 255, 0.03) 0px,
+            rgba(0, 238, 255, 0.03) 1px,
+            transparent 1px,
+            transparent 40px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            rgba(0, 238, 255, 0.03) 0px,
+            rgba(0, 238, 255, 0.03) 1px,
+            transparent 1px,
+            transparent 40px
+          );
         color: #fff;
         overflow: hidden;
       }
@@ -42,11 +56,10 @@
         height: 98vh;
         max-width: 1800px;
         margin: 0 auto;
-        background: linear-gradient(
-          180deg,
-          rgba(10, 22, 40, 0.95) 0%,
-          rgba(26, 11, 46, 0.95) 100%
-        );
+        background: url(images/chat-back.png);
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
         border: 3px solid #00eeff;
         border-radius: 30px;
         padding: 20px;
@@ -179,6 +192,35 @@
         align-items: flex-end;
         gap: 15px;
         animation: messageSlideIn 0.3s ease-out;
+        position: relative;
+      }
+
+      .message-row::before {
+        display: none;
+        content: "";
+
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(0, 238, 255, 0.08) 0%,
+          transparent 70%
+        );
+        border-radius: 30px;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .message-row.mine::before {
+        display: none;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(255, 107, 157, 0.08) 0%,
+          transparent 70%
+        );
       }
 
       @keyframes messageSlideIn {
@@ -237,11 +279,12 @@
       /* Message Bubble */
       .message-bubble {
         max-width: 65%;
-        padding: 18px 24px;
+        padding: 12px 16px;
         border-radius: 25px;
         background: rgba(0, 238, 255, 0.1);
         border: 2px solid #00eeff;
-        box-shadow: 0 4px 15px rgba(0, 238, 255, 0.2);
+        box-shadow: 0 0 20px rgba(0, 238, 255, 0.6),
+          0 0 40px rgba(0, 238, 255, 0.4), 0 0 60px rgba(0, 238, 255, 0.2);
         backdrop-filter: blur(10px);
         position: relative;
         transition: all 0.3s ease;
@@ -249,17 +292,20 @@
 
       .message-bubble:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 25px rgba(0, 238, 255, 0.4);
+        box-shadow: 0 0 30px rgba(0, 238, 255, 0.8),
+          0 0 50px rgba(0, 238, 255, 0.6), 0 0 80px rgba(0, 238, 255, 0.3);
       }
 
       .message-bubble.mine {
         background: rgba(255, 107, 157, 0.15);
         border-color: #ff6b9d;
-        box-shadow: 0 4px 15px rgba(255, 107, 157, 0.2);
+        box-shadow: 0 0 20px rgba(255, 107, 157, 0.6),
+          0 0 40px rgba(255, 107, 157, 0.4), 0 0 60px rgba(255, 107, 157, 0.2);
       }
 
       .message-bubble.mine:hover {
-        box-shadow: 0 6px 25px rgba(255, 107, 157, 0.4);
+        box-shadow: 0 0 30px rgba(255, 107, 157, 0.8),
+          0 0 50px rgba(255, 107, 157, 0.6), 0 0 80px rgba(255, 107, 157, 0.3);
       }
 
       /* Message Name */
@@ -288,7 +334,7 @@
 
       /* Message Text */
       .message-text {
-        font-size: 1.05em;
+        font-size: 0.9em;
         line-height: 1.6;
         color: #e0e0e0;
         word-wrap: break-word;
@@ -374,6 +420,7 @@
         flex-direction: column;
         gap: 15px;
         z-index: 999;
+        margin-bottom: 300px;
       }
 
       .dm-bubble {
@@ -1414,8 +1461,30 @@
           bubble.onclick = () => openDMThread(thread.thread_id);
 
           const avatar = document.createElement("div");
-          avatar.className = "dm-avatar placeholder";
-          avatar.textContent = thread.other_user_name.charAt(0).toUpperCase();
+          avatar.className = "dm-avatar";
+          if (thread.other_user_profile_picture) {
+            // Display profile picture
+            avatar.classList.add("has-image");
+            const img = document.createElement("img");
+            img.src = thread.other_user_profile_picture;
+            img.alt = thread.other_user_name;
+            img.style.width = "100%";
+            img.style.height = "100%";
+            img.style.borderRadius = "50%";
+            img.style.objectFit = "cover";
+            img.onerror = function () {
+              // If image fails to load, show placeholder
+              avatar.classList.remove("has-image");
+              avatar.innerHTML = "";
+              avatar.textContent = thread.other_user_name
+                .charAt(0)
+                .toUpperCase();
+            };
+            avatar.appendChild(img);
+          } else {
+            // Display placeholder initial
+            avatar.textContent = thread.other_user_name.charAt(0).toUpperCase();
+          }
           bubble.appendChild(avatar);
 
           if (thread.unread_count > 0) {

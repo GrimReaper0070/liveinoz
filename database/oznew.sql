@@ -32,7 +32,8 @@ CREATE TABLE `bad_words` (
   `word` varchar(100) NOT NULL,
   `severity` enum('low','medium','high') DEFAULT 'medium',
   `is_active` tinyint(1) DEFAULT 1,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -67,7 +68,8 @@ CREATE TABLE `blog_posts` (
   `author_id` int(11) NOT NULL,
   `status` enum('draft','published') DEFAULT 'draft',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -95,7 +97,8 @@ CREATE TABLE `boosts` (
   `activated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `expires_at` timestamp NULL DEFAULT NULL,
   `status` enum('active','expired','canceled') DEFAULT 'active',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -118,7 +121,9 @@ CREATE TABLE `chat_messages` (
   `state` varchar(10) NOT NULL,
   `message` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `expires_at` timestamp NULL DEFAULT NULL
+  `expires_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -188,7 +193,9 @@ CREATE TABLE `chat_rooms` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `color` varchar(20) DEFAULT NULL,
   `emoji` varchar(50) DEFAULT NULL,
-  `display_name` varchar(100) DEFAULT NULL
+  `display_name` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -505,7 +512,8 @@ CREATE TABLE `cities` (
   `name` varchar(100) NOT NULL,
   `name_es` varchar(100) NOT NULL,
   `is_main_city` tinyint(1) DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -536,7 +544,8 @@ CREATE TABLE `contact_messages` (
   `message` text NOT NULL,
   `status` enum('unread','read','responded') DEFAULT 'unread',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -570,7 +579,8 @@ CREATE TABLE `dm_messages` (
   `mime_type` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `expires_at` timestamp NULL DEFAULT NULL,
-  `is_read` tinyint(1) DEFAULT 0
+  `is_read` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -610,7 +620,8 @@ CREATE TABLE `dm_requests` (
   `to_user_id` int(11) NOT NULL,
   `status` enum('pending','accepted','declined') DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `responded_at` timestamp NULL DEFAULT NULL
+  `responded_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -638,7 +649,8 @@ CREATE TABLE `dm_threads` (
   `participant2_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `last_message_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `is_active` tinyint(1) DEFAULT 1
+  `is_active` tinyint(1) DEFAULT 1,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -678,7 +690,8 @@ CREATE TABLE `events` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `approved_at` timestamp NULL DEFAULT NULL,
   `approved_by` int(11) DEFAULT NULL,
-  `expires_at` timestamp NULL DEFAULT NULL
+  `expires_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -705,7 +718,8 @@ CREATE TABLE `event_photos` (
   `photo_order` tinyint(4) DEFAULT 1,
   `file_size` int(11) DEFAULT NULL,
   `mime_type` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -724,7 +738,8 @@ CREATE TABLE `file_attachments` (
   `mime_type` varchar(100) NOT NULL,
   `uploaded_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `expires_at` timestamp NULL DEFAULT NULL
+  `expires_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -750,7 +765,8 @@ CREATE TABLE `jobs` (
   `phone` varchar(50) NOT NULL,
   `description` text NOT NULL,
   `posted_by` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -776,7 +792,8 @@ CREATE TABLE `marketplace_inquiries` (
   `message` text DEFAULT NULL,
   `inquiry_type` enum('question','offer','chat_request') DEFAULT 'question',
   `status` enum('pending','responded','closed') DEFAULT 'pending',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -806,7 +823,8 @@ CREATE TABLE `marketplace_items` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `approved_at` timestamp NULL DEFAULT NULL,
   `approved_by` int(11) DEFAULT NULL,
-  `expires_at` timestamp NULL DEFAULT NULL
+  `expires_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -834,7 +852,8 @@ CREATE TABLE `marketplace_photos` (
   `photo_order` tinyint(4) DEFAULT 1,
   `file_size` int(11) DEFAULT NULL,
   `mime_type` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -882,7 +901,8 @@ INSERT INTO `marketplace_photos` (`id`, `item_id`, `photo_path`, `photo_order`, 
 CREATE TABLE `message_rate_limits` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -920,7 +940,8 @@ CREATE TABLE `payments` (
   `stripe_session_id` varchar(255) DEFAULT NULL,
   `metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`metadata`)),
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -972,7 +993,8 @@ CREATE TABLE `reports` (
   `status` enum('pending','reviewed','resolved') DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `reviewed_at` timestamp NULL DEFAULT NULL,
-  `reviewed_by` int(11) DEFAULT NULL
+  `reviewed_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1009,7 +1031,8 @@ CREATE TABLE `rooms` (
   `expires_at` timestamp NULL DEFAULT NULL,
   `is_boosted` tinyint(1) DEFAULT 0,
   `boost_expires_at` timestamp NULL DEFAULT NULL,
-  `boost_cost` decimal(10,2) DEFAULT NULL
+  `boost_cost` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1034,7 +1057,8 @@ CREATE TABLE `states` (
   `name` varchar(100) NOT NULL,
   `name_es` varchar(100) NOT NULL,
   `main_city` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1068,7 +1092,8 @@ CREATE TABLE `subscriptions` (
   `amount` decimal(10,2) NOT NULL,
   `currency` varchar(3) DEFAULT 'USD',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1104,7 +1129,8 @@ CREATE TABLE `users` (
   `plan_type` enum('free','basic','premium') DEFAULT 'free',
   `plan_expires_at` timestamp NULL DEFAULT NULL,
   `active_listings_limit` int(11) DEFAULT 1,
-  `boost_credits` int(11) DEFAULT 1
+  `boost_credits` int(11) DEFAULT 1,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1131,7 +1157,8 @@ CREATE TABLE `user_blocks` (
   `blocker_id` int(11) NOT NULL,
   `blocked_id` int(11) NOT NULL,
   `reason` text DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1147,7 +1174,8 @@ CREATE TABLE `user_preferences` (
   `timezone` varchar(50) DEFAULT 'UTC',
   `notifications_enabled` tinyint(1) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1179,7 +1207,8 @@ CREATE TABLE `whatsapp_groups` (
   `is_active` tinyint(1) DEFAULT 1,
   `created_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1191,572 +1220,3 @@ INSERT INTO `whatsapp_groups` (`id`, `name`, `description`, `image`, `whatsapp_l
 (2, 'Live in Brisbane 2', '📍 Find your place, live your vibe! ✨🏠🌇', 'uploads/whatsapp/whatsapp_68ea5c5f22a5d.png', 'https://chat.whatsapp.com/JnLJUf7FVQc8SvWAP2XaAy?mode=r_t', 'ACT', '', 1, 2, '2025-10-11 13:32:15', '2025-10-11 13:32:15'),
 (3, 'st🧉🚬', '🧉 Vení, mateá y fumate uno con la mejor onda. 🔥🇦🇷🎶', 'uploads/whatsapp/whatsapp_68ea5ca341688.png', 'https://chat.whatsapp.com/BzKsnOHiea1AAFkDqM6wLY?mode=r_t', 'ACT', '', 1, 2, '2025-10-11 13:33:23', '2025-10-11 15:28:51');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `bad_words`
---
-ALTER TABLE `bad_words`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `word` (`word`),
-  ADD KEY `idx_severity` (`severity`),
-  ADD KEY `idx_active` (`is_active`);
-
---
--- Indexes for table `blog_posts`
---
-ALTER TABLE `blog_posts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `author_id` (`author_id`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `idx_created_at` (`created_at`);
-
---
--- Indexes for table `boosts`
---
-ALTER TABLE `boosts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `room_id` (`room_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `idx_city_expires` (`city`,`expires_at`),
-  ADD KEY `idx_status_active` (`status`,`expires_at`);
-
---
--- Indexes for table `chat_messages`
---
-ALTER TABLE `chat_messages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `idx_room_state` (`room`,`state`),
-  ADD KEY `idx_created_at` (`created_at`);
-
---
--- Indexes for table `chat_rooms`
---
-ALTER TABLE `chat_rooms`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_room` (`state_code`,`city_name`,`room_name`),
-  ADD KEY `idx_state_city` (`state_code`,`city_name`),
-  ADD KEY `idx_room_type` (`room_type`);
-
---
--- Indexes for table `cities`
---
-ALTER TABLE `cities`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_state_code` (`state_code`);
-
---
--- Indexes for table `contact_messages`
---
-ALTER TABLE `contact_messages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `idx_created_at` (`created_at`);
-
---
--- Indexes for table `dm_messages`
---
-ALTER TABLE `dm_messages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_thread` (`thread_id`),
-  ADD KEY `idx_sender` (`sender_id`),
-  ADD KEY `idx_created_at` (`created_at`),
-  ADD KEY `idx_expires_at` (`expires_at`);
-
---
--- Indexes for table `dm_requests`
---
-ALTER TABLE `dm_requests`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `to_user_id` (`to_user_id`),
-  ADD KEY `idx_from_to` (`from_user_id`,`to_user_id`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `idx_created_at` (`created_at`);
-
---
--- Indexes for table `dm_threads`
---
-ALTER TABLE `dm_threads`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `thread_id` (`thread_id`),
-  ADD KEY `participant2_id` (`participant2_id`),
-  ADD KEY `idx_participants` (`participant1_id`,`participant2_id`),
-  ADD KEY `idx_last_message` (`last_message_at`);
-
---
--- Indexes for table `events`
---
-ALTER TABLE `events`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `idx_status_city` (`status`,`city`),
-  ADD KEY `idx_event_date` (`event_date`),
-  ADD KEY `idx_created_at` (`created_at`),
-  ADD KEY `approved_by` (`approved_by`),
-  ADD KEY `idx_events_featured` (`is_featured`,`status`,`created_at`);
-
---
--- Indexes for table `event_photos`
---
-ALTER TABLE `event_photos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `event_id` (`event_id`),
-  ADD KEY `idx_event_order` (`event_id`,`photo_order`);
-
---
--- Indexes for table `file_attachments`
---
-ALTER TABLE `file_attachments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `message_id` (`message_id`),
-  ADD KEY `dm_message_id` (`dm_message_id`),
-  ADD KEY `idx_uploaded_by` (`uploaded_by`),
-  ADD KEY `idx_expires_at` (`expires_at`);
-
---
--- Indexes for table `jobs`
---
-ALTER TABLE `jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `posted_by` (`posted_by`);
-
---
--- Indexes for table `marketplace_inquiries`
---
-ALTER TABLE `marketplace_inquiries`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `item_id` (`item_id`),
-  ADD KEY `inquirer_id` (`inquirer_id`),
-  ADD KEY `idx_status` (`status`);
-
---
--- Indexes for table `marketplace_items`
---
-ALTER TABLE `marketplace_items`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `idx_status_city` (`status`,`city`),
-  ADD KEY `idx_category` (`category`),
-  ADD KEY `idx_created_at` (`created_at`),
-  ADD KEY `approved_by` (`approved_by`),
-  ADD KEY `idx_marketplace_featured` (`is_featured`,`status`,`created_at`),
-  ADD KEY `idx_marketplace_price` (`is_free`,`price`);
-
---
--- Indexes for table `marketplace_photos`
---
-ALTER TABLE `marketplace_photos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `item_id` (`item_id`),
-  ADD KEY `idx_item_order` (`item_id`,`photo_order`);
-
---
--- Indexes for table `message_rate_limits`
---
-ALTER TABLE `message_rate_limits`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_user_time` (`user_id`,`created_at`);
-
---
--- Indexes for table `payments`
---
-ALTER TABLE `payments`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `stripe_payment_id` (`stripe_payment_id`),
-  ADD KEY `idx_payments_user_id` (`user_id`),
-  ADD KEY `idx_payments_status` (`status`),
-  ADD KEY `idx_payments_created_at` (`created_at`);
-
---
--- Indexes for table `reports`
---
-ALTER TABLE `reports`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `reporter_id` (`reporter_id`),
-  ADD KEY `reported_user_id` (`reported_user_id`),
-  ADD KEY `message_id` (`message_id`),
-  ADD KEY `dm_message_id` (`dm_message_id`),
-  ADD KEY `reviewed_by` (`reviewed_by`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `idx_created_at` (`created_at`);
-
---
--- Indexes for table `rooms`
---
-ALTER TABLE `rooms`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `states`
---
-ALTER TABLE `states`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `code` (`code`);
-
---
--- Indexes for table `subscriptions`
---
-ALTER TABLE `subscriptions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `stripe_subscription_id` (`stripe_subscription_id`),
-  ADD KEY `idx_user_status` (`user_id`,`status`),
-  ADD KEY `idx_stripe_id` (`stripe_subscription_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `idx_email_users` (`email`);
-
---
--- Indexes for table `user_blocks`
---
-ALTER TABLE `user_blocks`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_block` (`blocker_id`,`blocked_id`),
-  ADD KEY `idx_blocker` (`blocker_id`),
-  ADD KEY `idx_blocked` (`blocked_id`);
-
---
--- Indexes for table `user_preferences`
---
-ALTER TABLE `user_preferences`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_id` (`user_id`);
-
---
--- Indexes for table `whatsapp_groups`
---
-ALTER TABLE `whatsapp_groups`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_state_city` (`state_code`,`city_name`),
-  ADD KEY `idx_created_by` (`created_by`),
-  ADD KEY `idx_active` (`is_active`),
-  ADD KEY `idx_state_code` (`state_code`),
-  ADD KEY `idx_created_at` (`created_at`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `bad_words`
---
-ALTER TABLE `bad_words`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT for table `blog_posts`
---
-ALTER TABLE `blog_posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `boosts`
---
-ALTER TABLE `boosts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `chat_messages`
---
-ALTER TABLE `chat_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
-
---
--- AUTO_INCREMENT for table `chat_rooms`
---
-ALTER TABLE `chat_rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1124;
-
---
--- AUTO_INCREMENT for table `cities`
---
-ALTER TABLE `cities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT for table `contact_messages`
---
-ALTER TABLE `contact_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `dm_messages`
---
-ALTER TABLE `dm_messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
--- AUTO_INCREMENT for table `dm_requests`
---
-ALTER TABLE `dm_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT for table `dm_threads`
---
-ALTER TABLE `dm_threads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `events`
---
-ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `event_photos`
---
-ALTER TABLE `event_photos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `file_attachments`
---
-ALTER TABLE `file_attachments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `jobs`
---
-ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT for table `marketplace_inquiries`
---
-ALTER TABLE `marketplace_inquiries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `marketplace_items`
---
-ALTER TABLE `marketplace_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
-
---
--- AUTO_INCREMENT for table `marketplace_photos`
---
-ALTER TABLE `marketplace_photos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
-
---
--- AUTO_INCREMENT for table `message_rate_limits`
---
-ALTER TABLE `message_rate_limits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
-
---
--- AUTO_INCREMENT for table `payments`
---
-ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
-
---
--- AUTO_INCREMENT for table `reports`
---
-ALTER TABLE `reports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `rooms`
---
-ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
-
---
--- AUTO_INCREMENT for table `states`
---
-ALTER TABLE `states`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `subscriptions`
---
-ALTER TABLE `subscriptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-
---
--- AUTO_INCREMENT for table `user_blocks`
---
-ALTER TABLE `user_blocks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `user_preferences`
---
-ALTER TABLE `user_preferences`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
-
---
--- AUTO_INCREMENT for table `whatsapp_groups`
---
-ALTER TABLE `whatsapp_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `blog_posts`
---
-ALTER TABLE `blog_posts`
-  ADD CONSTRAINT `blog_posts_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `boosts`
---
-ALTER TABLE `boosts`
-  ADD CONSTRAINT `boosts_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `boosts_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `chat_messages`
---
-ALTER TABLE `chat_messages`
-  ADD CONSTRAINT `chat_messages_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `chat_rooms`
---
-ALTER TABLE `chat_rooms`
-  ADD CONSTRAINT `chat_rooms_ibfk_1` FOREIGN KEY (`state_code`) REFERENCES `states` (`code`) ON DELETE CASCADE;
-
---
--- Constraints for table `cities`
---
-ALTER TABLE `cities`
-  ADD CONSTRAINT `cities_ibfk_1` FOREIGN KEY (`state_code`) REFERENCES `states` (`code`) ON DELETE CASCADE;
-
---
--- Constraints for table `dm_messages`
---
-ALTER TABLE `dm_messages`
-  ADD CONSTRAINT `dm_messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `dm_requests`
---
-ALTER TABLE `dm_requests`
-  ADD CONSTRAINT `dm_requests_ibfk_1` FOREIGN KEY (`from_user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `dm_requests_ibfk_2` FOREIGN KEY (`to_user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `dm_threads`
---
-ALTER TABLE `dm_threads`
-  ADD CONSTRAINT `dm_threads_ibfk_1` FOREIGN KEY (`participant1_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `dm_threads_ibfk_2` FOREIGN KEY (`participant2_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `events`
---
-ALTER TABLE `events`
-  ADD CONSTRAINT `events_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `events_ibfk_2` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `event_photos`
---
-ALTER TABLE `event_photos`
-  ADD CONSTRAINT `event_photos_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `file_attachments`
---
-ALTER TABLE `file_attachments`
-  ADD CONSTRAINT `file_attachments_ibfk_1` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `file_attachments_ibfk_2` FOREIGN KEY (`message_id`) REFERENCES `chat_messages` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `file_attachments_ibfk_3` FOREIGN KEY (`dm_message_id`) REFERENCES `dm_messages` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `jobs`
---
-ALTER TABLE `jobs`
-  ADD CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`posted_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `marketplace_inquiries`
---
-ALTER TABLE `marketplace_inquiries`
-  ADD CONSTRAINT `marketplace_inquiries_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `marketplace_items` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `marketplace_inquiries_ibfk_2` FOREIGN KEY (`inquirer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `marketplace_items`
---
-ALTER TABLE `marketplace_items`
-  ADD CONSTRAINT `marketplace_items_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `marketplace_items_ibfk_2` FOREIGN KEY (`approved_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `marketplace_photos`
---
-ALTER TABLE `marketplace_photos`
-  ADD CONSTRAINT `marketplace_photos_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `marketplace_items` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `message_rate_limits`
---
-ALTER TABLE `message_rate_limits`
-  ADD CONSTRAINT `message_rate_limits_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `payments`
---
-ALTER TABLE `payments`
-  ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `reports`
---
-ALTER TABLE `reports`
-  ADD CONSTRAINT `reports_ibfk_1` FOREIGN KEY (`reporter_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `reports_ibfk_2` FOREIGN KEY (`reported_user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `reports_ibfk_3` FOREIGN KEY (`message_id`) REFERENCES `chat_messages` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `reports_ibfk_4` FOREIGN KEY (`dm_message_id`) REFERENCES `dm_messages` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `reports_ibfk_5` FOREIGN KEY (`reviewed_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `subscriptions`
---
-ALTER TABLE `subscriptions`
-  ADD CONSTRAINT `subscriptions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `user_blocks`
---
-ALTER TABLE `user_blocks`
-  ADD CONSTRAINT `user_blocks_ibfk_1` FOREIGN KEY (`blocker_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `user_blocks_ibfk_2` FOREIGN KEY (`blocked_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `user_preferences`
---
-ALTER TABLE `user_preferences`
-  ADD CONSTRAINT `user_preferences_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `whatsapp_groups`
---
-ALTER TABLE `whatsapp_groups`
-  ADD CONSTRAINT `whatsapp_groups_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `whatsapp_groups_ibfk_2` FOREIGN KEY (`state_code`) REFERENCES `states` (`code`) ON DELETE SET NULL;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
