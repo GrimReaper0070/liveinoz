@@ -1,23 +1,24 @@
 <?php
-// Database configuration
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+// Database configuration for DigitalOcean Managed MySQL
+define('DB_HOST', 'db-mysql-sgp1-25636-do-user-27734141-0.i.db.ondigitalocean.com');
+define('DB_PORT', '25060');
 define('DB_NAME', 'oznew');
+define('DB_USER', 'doadmin');
+define('DB_PASS', getenv('DB_PASSWORD'));  // instead of hardcoding
 
 // Create connection
 function getDBConnection() {
     try {
-        // First try to connect to MySQL without specifying database
-        $pdo = new PDO("mysql:host=" . DB_HOST . ";charset=utf8mb4", DB_USER, DB_PASS);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $options = [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4",
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::MYSQL_ATTR_SSL_CA => __DIR__ . '/ca-certificate.crt', // DigitalOcean SSL certificate
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+        ];
 
-        // Create database if it doesn't exist
-        $pdo->exec("CREATE DATABASE IF NOT EXISTS " . DB_NAME . " CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+        $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
 
-        // Now connect to the specific database
-        $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4", DB_USER, DB_PASS);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     } catch(PDOException $e) {
         error_log("DB Connection failed: " . $e->getMessage());
@@ -27,14 +28,13 @@ function getDBConnection() {
 
 // Configure session - only start if not already started
 if (session_status() === PHP_SESSION_NONE) {
-    // Set session cookie parameters to work across localhost ports
     session_set_cookie_params([
-        'lifetime' => 0,        // Session cookie
-        'path' => '/',          // Available site-wide
-        'domain' => 'localhost', // Allow across localhost ports
-        'secure' => false,      // Allow HTTP (for localhost)
-        'httponly' => false,    // Allow JavaScript access if needed
-        'samesite' => 'Lax'     // Allow some cross-origin requests
+        'lifetime' => 0,
+        'path' => '/',
+        'domain' => '', // leave empty for now, works across domains automatically
+        'secure' => false,
+        'httponly' => false,
+        'samesite' => 'Lax'
     ]);
     session_start();
 }
