@@ -4,7 +4,7 @@ define('DB_HOST', 'db-mysql-sgp1-25636-do-user-27734141-0.i.db.ondigitalocean.co
 define('DB_PORT', '25060');
 define('DB_NAME', 'oznew');
 define('DB_USER', 'doadmin');
-define('DB_PASS', getenv('DB_PASSWORD'));  // keep secure!
+define('DB_PASS', 'AVNS_SV5hVi1hdf_luUGro2R'); // keep secure!
 
 // Create connection
 function getDBConnection() {
